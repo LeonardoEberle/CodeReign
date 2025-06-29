@@ -1,445 +1,359 @@
-// cards.js - Sistema de Cartas-Chave e Consequências
+// cards.js - O Mundo dos Objetos - Narrativa de Programação
+
+// ========================================
+// CARTAS INTRODUTÓRIAS DO CAPÍTULO 1
+// ========================================
+
+const INTRO_CARDS = [
+    {
+        id: "awakening",
+        character: "😴",
+        title: "O Despertar",
+        text: "Você acorda em um lugar estranho que lembra muito a idade média. Suas roupas modernas contrastam com o ambiente ao redor. Onde você está?",
+        leftChoice: "Levantar",
+        rightChoice: "Olhar em volta",
+        leftEffect: {},
+        rightEffect: {},
+        leftHiddenEffects: { curiosity: 2 },
+        rightHiddenEffects: { observation: 3 },
+        isIntro: true
+    },
+    {
+        id: "the_call",
+        character: "👩‍🦰",
+        title: "O Chamado",
+        text: "Uma garota o observa atentamente. Ela diz que seu nome é Siren e que você acabou de chegar de outro mundo. Seus olhos brilham com conhecimento antigo.",
+        leftChoice: "Se apresentar",
+        rightChoice: "Perguntar onde está",
+        leftEffect: {},
+        rightEffect: {},
+        leftHiddenEffects: { politeness: 3, trust: 2 },
+        rightHiddenEffects: { curiosity: 3, anxiety: 1 },
+        isIntro: true
+    },
+    {
+        id: "the_mission",
+        character: "⚔️",
+        title: "A Missão",
+        text: "Siren lhe informa que você está preso no Mundo dos Objetos e para voltar ao seu mundo você precisa derrotar O Grande Programador, mestre dos Cavaleiros da Orientação a Objetos.",
+        leftChoice: "Recusar",
+        rightChoice: "Confirmar a missão",
+        leftEffect: {},
+        rightEffect: {},
+        leftHiddenEffects: { gameOver: true },
+        rightHiddenEffects: { determination: 5, mission_accepted: 1 },
+        isIntro: true
+    },
+    {
+        id: "preparation",
+        character: "🤖",
+        title: "A Preparação",
+        text: "Siren lhe entrega um pequeno boneco que diz ser um robô ancestral programável. 'Este será seu primeiro companheiro', ela diz com um sorriso misterioso.",
+        leftChoice: "O que faço com isso?",
+        rightChoice: "Entendido",
+        leftEffect: {},
+        rightEffect: {},
+        leftHiddenEffects: { need_explanation: 1 },
+        rightHiddenEffects: { quick_learner: 2 },
+        isIntro: true
+    },
+    {
+        id: "context",
+        character: "📜",
+        title: "Contexto",
+        text: "Siren explica que neste mundo você pode alterar o código-fonte desses robôs e usá-los para derrotar O Grande Programador que guarda as portas para seu mundo.",
+        leftChoice: "Entendido",
+        rightChoice: "Entendido",
+        leftEffect: {},
+        rightEffect: {},
+        leftHiddenEffects: { programming_knowledge: 2 },
+        rightHiddenEffects: { programming_knowledge: 2 },
+        isIntro: true
+    }
+];
 
 // ========================================
 // CARTAS-CHAVE POR CAPÍTULO (Obrigatórias)
 // ========================================
 
 const CHAPTER_KEY_CARDS = {
-    1: [ // CAPÍTULO 1: Fundação do Reino
+    1: [ // CAPÍTULO 1: Descobrindo o Mundo dos Objetos
         {
-            id: "coronation",
-            character: "👑",
-            title: "O Coroamento",
-            text: "Acabaste de ser coroado rei! Teu primeiro conselheiro se aproxima com um olhar preocupado. 'Majestade, herdaste um reino em crise. Como desejais começar vosso reinado?'",
-            leftChoice: "Ser humilde e cauteloso",
-            rightChoice: "Mostrar força e autoridade",
-            leftEffect: { people: 15, church: 10, treasury: -5 },
-            rightEffect: { army: 15, treasury: 5, people: -10 },
-            leftHiddenEffects: { churchSatisfaction: 5, peopleTrust: 10 },
-            rightHiddenEffects: { militaryLoyalty: 10, nobleSupport: 5 }
+            id: "first_robot_programming",
+            character: "💻",
+            title: "Primeira Programação",
+            text: "Você examina o código do robô ancestral. É uma linguagem estranha, mas familiar. Como você quer modificar seus algoritmos de combate?",
+            leftChoice: "Focar em defesa",
+            rightChoice: "Focar em ataque",
+            leftEffect: { robots: 10, energy: -5, knowledge: 5 },
+            rightEffect: { robots: 5, energy: -10, knowledge: 10 },
+            leftHiddenEffects: { defensive_programming: 8, safety_first: 5 },
+            rightHiddenEffects: { aggressive_programming: 8, risk_taking: 5 }
         },
         {
-            id: "first_tax_decision", 
-            character: "👨‍⚖️",
-            title: "A Primeira Tributação",
-            text: "Vosso conselheiro real vos informa: 'Majestade, os cofres estão quase vazios, mas o povo já sofre com os impostos. Como procedereis?'",
-            leftChoice: "Manter impostos baixos",
-            rightChoice: "Aumentar impostos",
-            leftEffect: { people: 15, treasury: -10 },
-            rightEffect: { people: -20, treasury: 20, army: 5 },
-            leftHiddenEffects: { peopleTrust: 10, economicStability: -5 },
-            rightHiddenEffects: { peopleTrust: -15, economicStability: 10, nobleSupport: 5 }
-        },
-        {
-            id: "church_position",
-            character: "⛪",
-            title: "Posição da Igreja",
-            text: "O Alto Clérigo vos procura: 'Sire, a igreja sempre apoiou a coroa. Mas o povo questiona nossa fé. Qual será vossa posição?'",
-            leftChoice: "Manter neutralidade religiosa",
-            rightChoice: "Apoiar fortemente a igreja",
-            leftEffect: { church: -10, people: 10, treasury: 5 },
-            rightEffect: { church: 25, treasury: -15, people: -5 },
-            leftHiddenEffects: { churchSatisfaction: -10, religiousConflict: 5 },
-            rightHiddenEffects: { churchSatisfaction: 15, religiousConflict: -5 }
-        },
-        {
-            id: "military_stance",
-            character: "⚔️",
-            title: "Doutrina Militar", 
-            text: "Vosso general questiona: 'Majestade, qual será nossa postura militar? Diplomacia ou preparação para guerra?'",
-            leftChoice: "Priorizar diplomacia",
-            rightChoice: "Fortalecer o exército",
-            leftEffect: { army: -10, people: 10, treasury: 5 },
-            rightEffect: { army: 20, treasury: -20, people: -5 },
-            leftHiddenEffects: { foreignRelations: 10, militaryLoyalty: -5 },
-            rightHiddenEffects: { foreignRelations: -5, militaryLoyalty: 15 }
-        },
-        {
-            id: "economic_policy",
-            character: "💰",
-            title: "Política Econômica",
-            text: "Vosso tesoureiro apresenta planos: 'Majestade, como devemos gerenciar a economia do reino? Investimento ou poupança?'",
-            leftChoice: "Guardar recursos",
-            rightChoice: "Investir no crescimento",
-            leftEffect: { treasury: 15, people: -10 },
-            rightEffect: { treasury: -15, people: 15, army: 5 },
-            leftHiddenEffects: { economicStability: 10, tradeRelations: -5 },
-            rightHiddenEffects: { economicStability: -5, tradeRelations: 10 }
-        }
-    ],
-    
-    2: [ // CAPÍTULO 2: Primeiros Desafios
-        {
-            id: "great_famine",
-            character: "🌾",
-            title: "A Grande Fome",
-            text: "Um camponês desesperado implora: 'Majestade! A colheita falhou! As crianças choram de fome! Como respondereis?'",
-            leftChoice: "Reservar recursos",
-            rightChoice: "Distribuir tudo disponível",
-            leftEffect: { people: -25, treasury: 10 },
-            rightEffect: { people: 20, treasury: -20, church: 10 },
-            leftHiddenEffects: { peopleTrust: -20, socialUnrest: 15 },
-            rightHiddenEffects: { peopleTrust: 15, socialUnrest: -10 }
-        },
-        {
-            id: "bandit_crisis",
-            character: "🗡️",
-            title: "A Crise dos Bandidos",
-            text: "Bandidos tomaram as estradas principais! O comércio parou e o povo vive em terror. Qual será vossa resposta?",
-            leftChoice: "Negociar com os bandidos",
-            rightChoice: "Exterminá-los com força",
-            leftEffect: { people: -10, treasury: -10, army: -5 },
-            rightEffect: { people: 15, army: -15, treasury: 5 },
-            leftHiddenEffects: { lawAndOrder: -15, corruption: 10 },
-            rightHiddenEffects: { lawAndOrder: 15, militaryLoyalty: 5 }
-        },
-        {
-            id: "foreign_threat",
-            character: "🏰",
-            title: "Ameaça Estrangeira",
-            text: "Espiões reportam tropas inimigas na fronteira! A guerra pode estar próxima. Como vos preparareis?",
-            leftChoice: "Buscar aliados diplomáticos",
-            rightChoice: "Mobilização militar total",
-            leftEffect: { army: -5, treasury: -5, church: 5 },
-            rightEffect: { army: 25, treasury: -25, people: -10 },
-            leftHiddenEffects: { foreignRelations: 15, warPreparation: -5 },
-            rightHiddenEffects: { foreignRelations: -10, warPreparation: 20 }
-        },
-        {
-            id: "noble_rebellion",
-            character: "👑",
-            title: "Rebelião dos Nobres",
-            text: "Alguns nobres questionam vossa autoridade! Sussurros de traição ecoam na corte. Como reagireis?",
-            leftChoice: "Fazer concessões aos nobres",
-            rightChoice: "Punir severamente os traidores",
-            leftEffect: { treasury: -15, army: -10, church: 5 },
-            rightEffect: { people: -15, army: 10, treasury: 5 },
-            leftHiddenEffects: { nobleSupport: 10, royalAuthority: -10 },
-            rightHiddenEffects: { nobleSupport: -15, royalAuthority: 15 }
-        },
-        {
-            id: "plague_outbreak",
-            character: "💀",
-            title: "Surto de Peste",
-            text: "Uma doença misteriosa se espalha pelo reino! O povo clama por ação. Como combatereis este mal?",
-            leftChoice: "Quarentena rigorosa",
-            rightChoice: "Buscar cura através da fé",
-            leftEffect: { people: -20, treasury: -10, army: -5 },
-            rightEffect: { church: 15, people: -10, treasury: -5 },
-            leftHiddenEffects: { diseaseControl: 15, socialUnrest: 10 },
-            rightHiddenEffects: { diseaseControl: 5, churchSatisfaction: 10 }
-        }
-    ],
-    
-    3: [ // CAPÍTULO 3: Consolidação
-        {
-            id: "capital_fortification",
+            id: "code_structure_choice",
             character: "🏗️",
-            title: "Fortificação da Capital",
-            text: "Com as ameaças crescentes, vossa capital precisa de defesas. Mas o custo será enorme. Vale o investimento?",
-            leftChoice: "Construir defesas básicas",
-            rightChoice: "Criar fortaleza impenetrável",
-            leftEffect: { army: 10, treasury: -15 },
-            rightEffect: { army: 25, treasury: -35, people: -10 },
-            leftHiddenEffects: { capitalDefense: 10, economicStability: -5 },
-            rightHiddenEffects: { capitalDefense: 25, economicStability: -15 }
+            title: "Estrutura do Código",
+            text: "Siren observa seu trabalho: 'Vejo que você entende de programação. Que arquitetura usará para seus robôs?'",
+            leftChoice: "Programação orientada a objetos",
+            rightChoice: "Programação funcional",
+            leftEffect: { knowledge: 15, resources: -5 },
+            rightEffect: { energy: 10, knowledge: 5, resources: -10 },
+            leftHiddenEffects: { oop_mastery: 10, structured_thinking: 8 },
+            rightHiddenEffects: { functional_thinking: 8, innovation: 6 }
         },
         {
-            id: "education_system",
-            character: "📚",
-            title: "Sistema de Educação",
-            text: "Um erudito propõe: 'Majestade, precisamos educar o povo para prosperar. Uma universidade mudaria tudo!'",
-            leftChoice: "Educação básica para todos",
-            rightChoice: "Universidade de elite",
-            leftEffect: { people: 15, treasury: -10, church: -5 },
-            rightEffect: { treasury: -25, army: 5, church: 10 },
-            leftHiddenEffects: { education: 15, socialMobility: 10 },
-            rightHiddenEffects: { education: 25, socialMobility: -5, nobleSupport: 5 }
-        },
-        {
-            id: "trade_expansion",
-            character: "🚢",
-            title: "Expansão Comercial",
-            text: "Mercadores propõem rotas comerciais arriscadas mas lucrativas. O investimento vale o risco?",
-            leftChoice: "Rotas comerciais seguras",
-            rightChoice: "Explorar novos mercados",
-            leftEffect: { treasury: 10, people: 5 },
-            rightEffect: { treasury: 20, people: -5, army: -5 },
-            leftHiddenEffects: { tradeRelations: 5, economicStability: 10 },
-            rightHiddenEffects: { tradeRelations: 15, economicStability: -5 }
-        },
-        {
-            id: "cultural_development",
-            character: "🎭",
-            title: "Desenvolvimento Cultural",
-            text: "Artistas pedem apoio real para criar obras magníficas. A cultura eleva o reino, mas custa caro.",
-            leftChoice: "Apoio modesto às artes",
-            rightChoice: "Patronato real grandioso",
-            leftEffect: { people: 10, treasury: -5 },
-            rightEffect: { people: 20, treasury: -20, church: 5 },
-            leftHiddenEffects: { culturalInfluence: 5, royalPrestige: 5 },
-            rightHiddenEffects: { culturalInfluence: 15, royalPrestige: 10 }
-        },
-        {
-            id: "succession_planning",
-            character: "👶",
-            title: "Planejamento Sucessório",
-            text: "Conselheiros sussurram sobre sucessão. Como garantireis a continuidade de vossa linhagem?",
-            leftChoice: "Buscar casamento político",
-            rightChoice: "Fortalecer legitimidade atual",
-            leftEffect: { army: 5, treasury: -10, church: 10 },
-            rightEffect: { people: 15, treasury: -5, army: -5 },
-            leftHiddenEffects: { foreignRelations: 10, dynasticSecurity: 5 },
-            rightHiddenEffects: { royalAuthority: 10, dynasticSecurity: 10 }
-        }
-    ],
-    
-    4: [ // CAPÍTULO 4: Legado Final
-        {
-            id: "final_war",
+            id: "first_enemy_encounter",
             character: "⚔️",
-            title: "A Guerra Final",
-            text: "O conflito que se aproximava finalmente chegou! Como liderareis vosso reino nesta hora decisiva?",
-            leftChoice: "Estratégia defensiva",
-            rightChoice: "Ataque preventivo",
-            leftEffect: { army: -10, people: 10, treasury: -5 },
-            rightEffect: { army: 15, people: -15, treasury: -15 },
-            leftHiddenEffects: { warPreparation: 5, casualties: -10 },
-            rightHiddenEffects: { warPreparation: 15, casualties: 5 }
+            title: "Primeiro Confronto",
+            text: "Um Cavaleiro da Orientação a Objetos aparece! 'Método toString() está deprecado!', ele grita. Como você responde?",
+            leftChoice: "Usar polimorfismo",
+            rightChoice: "Atacar com herança",
+            leftEffect: { robots: 5, knowledge: 10, energy: -15 },
+            rightEffect: { robots: -5, knowledge: 5, energy: -5 },
+            leftHiddenEffects: { combat_strategy: 10, oop_battle_experience: 8 },
+            rightHiddenEffects: { aggressive_coding: 6, battle_confidence: 5 }
         },
         {
-            id: "economic_crisis",
-            character: "💸",
-            title: "A Grande Crise Econômica",
-            text: "Os cofres estão vazios e o povo sofre! Esta é a maior prova de vossa capacidade de liderança.",
-            leftChoice: "Medidas de austeridade",
-            rightChoice: "Investimento arriscado",
-            leftEffect: { people: -20, treasury: 15 },
-            rightEffect: { treasury: -20, people: 15, army: 10 },
-            leftHiddenEffects: { economicStability: 15, socialUnrest: 10 },
-            rightHiddenEffects: { economicStability: -10, socialUnrest: -5 }
+            id: "debug_crisis",
+            character: "🐛",
+            title: "Crise de Debug",
+            text: "Seus robôs começam a apresentar bugs! Stack overflow everywhere! Como você resolve essa crise?",
+            leftChoice: "Debug sistemático",
+            rightChoice: "Refatoração completa",
+            leftEffect: { robots: 15, energy: -20, knowledge: 10 },
+            rightEffect: { robots: -10, energy: -10, knowledge: 20 },
+            leftHiddenEffects: { debugging_skills: 12, patience: 8 },
+            rightHiddenEffects: { refactoring_skills: 10, bold_decisions: 6 }
         },
         {
-            id: "religious_schism",
-            character: "⛪",
-            title: "O Grande Cisma",
-            text: "A igreja se divide! Vossa posição determinará o futuro espiritual do reino para sempre.",
-            leftChoice: "Apoiar tradição",
-            rightChoice: "Abraçar reformas",
-            leftEffect: { church: 20, people: -10, treasury: -5 },
-            rightEffect: { church: -15, people: 20, treasury: 5 },
-            leftHiddenEffects: { religiousConflict: -10, churchSatisfaction: 15 },
-            rightHiddenEffects: { religiousConflict: 15, churchSatisfaction: -20 }
-        },
-        {
-            id: "peoples_uprising",
-            character: "🔥",
-            title: "O Levante Popular",
-            text: "O povo se levanta! Todas as vossas decisões anteriores levaram a este momento crucial.",
-            leftChoice: "Negociar com os revoltosos",
-            rightChoice: "Suprimir com força",
-            leftEffect: { people: 15, army: -20, treasury: -10 },
-            rightEffect: { people: -25, army: 10, treasury: 5 },
-            leftHiddenEffects: { socialUnrest: -15, royalAuthority: -10 },
-            rightHiddenEffects: { socialUnrest: 5, royalAuthority: 15 }
-        },
-        {
-            id: "legacy_decision",
-            character: "📜",
-            title: "A Decisão do Legado",
-            text: "Chegou a hora de definir como sereis lembrado pela história. Qual será vosso último grande ato?",
-            leftChoice: "Abdicar em favor da paz",
-            rightChoice: "Reinar até o fim",
-            leftEffect: { people: 20, church: 15, army: -15 },
-            rightEffect: { army: 15, treasury: 10, people: -10 },
-            leftHiddenEffects: { royalAuthority: -20, peacefulTransition: 20 },
-            rightHiddenEffects: { royalAuthority: 15, peacefulTransition: -10 }
+            id: "algorithm_optimization",
+            character: "⚡",
+            title: "Otimização de Algoritmos",
+            text: "Siren sugere: 'Seus robôs estão lentos. Que técnica de otimização você aplicará?'",
+            leftChoice: "Otimizar complexidade de tempo",
+            rightChoice: "Otimizar uso de memória",
+            leftEffect: { energy: 15, robots: 10, resources: -15 },
+            rightEffect: { resources: 20, robots: 5, energy: -5 },
+            leftHiddenEffects: { algorithm_optimization: 10, performance_focus: 8 },
+            rightHiddenEffects: { memory_management: 12, resource_efficiency: 6 }
         }
     ]
 };
 
 // ========================================
-// CARTAS DE CONSEQUÊNCIA (Aleatórias baseadas em status ocultos)
+// CARTAS DE CONSEQUÊNCIA (Baseadas em status ocultos)
 // ========================================
 
 const CONSEQUENCE_CARDS = [
-    // CONSEQUÊNCIAS DE BAIXA SATISFAÇÃO DA IGREJA
+    // CONSEQUÊNCIAS DE PROGRAMAÇÃO DEFENSIVA
     {
-        id: "church_revolt_1",
-        character: "⛪",
-        title: "Revolta do Clero",
-        text: "Sacerdotes se recusam a realizar cerimônias! 'O rei perdeu a benção divina', dizem.",
-        leftChoice: "Tentar reconciliação",
-        rightChoice: "Impor autoridade real",
-        leftEffect: { church: 15, treasury: -10 },
-        rightEffect: { church: -10, army: 5, people: -5 },
-        triggerConditions: { churchSatisfaction: { min: -Infinity, max: -10 } },
+        id: "over_defensive_code",
+        character: "🛡️",
+        title: "Código Muito Defensivo",
+        text: "Seus robôs estão muito cautelosos! Eles validam tudo três vezes antes de atacar.",
+        leftChoice: "Manter segurança",
+        rightChoice: "Adicionar agressividade",
+        leftEffect: { robots: 5, energy: -10 },
+        rightEffect: { robots: 15, energy: 5, knowledge: -5 },
+        triggerConditions: { defensive_programming: { min: 15, max: Infinity } },
         weight: 3
     },
     {
-        id: "heresy_accusations",
-        character: "🔥",
-        title: "Acusações de Heresia",
-        text: "Rumores se espalham de que sois um herege! A fé do povo vacila.",
-        leftChoice: "Demonstrar piedade pública",
-        rightChoice: "Ignorar as acusações",
-        leftEffect: { church: 20, treasury: -15, people: 5 },
-        rightEffect: { church: -15, people: -10 },
-        triggerConditions: { churchSatisfaction: { min: -Infinity, max: -15 } },
+        id: "security_vulnerability",
+        character: "🔓",
+        title: "Vulnerabilidade de Segurança",
+        text: "Um hacker ancestral encontrou uma falha em seus robôs! Como você corrige?",
+        leftChoice: "Patch rápido",
+        rightChoice: "Reescrever módulo",
+        leftEffect: { robots: 10, energy: -5 },
+        rightEffect: { robots: -10, energy: -15, knowledge: 20 },
+        triggerConditions: { safety_first: { min: -Infinity, max: 5 } },
         weight: 2
     },
 
-    // CONSEQUÊNCIAS DE BAIXA CONFIANÇA DO POVO
+    // CONSEQUÊNCIAS DE PROGRAMAÇÃO AGRESSIVA
     {
-        id: "tax_revolt",
-        character: "💸",
-        title: "Revolta dos Impostos",
-        text: "O povo se recusa a pagar mais tributos! 'Morte aos tiranos!' gritam nas ruas.",
-        leftChoice: "Reduzir impostos temporariamente",
-        rightChoice: "Usar força para coletar",
-        leftEffect: { people: 15, treasury: -20 },
-        rightEffect: { people: -20, army: -5, treasury: 10 },
-        triggerConditions: { peopleTrust: { min: -Infinity, max: -15 } },
+        id: "robots_crashing",
+        character: "💥",
+        title: "Robôs Travando",
+        text: "Seus robôs estão fazendo muitas operações arriscadas! Alguns estão crashando com segmentation fault.",
+        leftChoice: "Adicionar try-catch",
+        rightChoice: "Aceitar o risco",
+        leftEffect: { robots: 10, energy: -10, knowledge: 5 },
+        rightEffect: { robots: -15, energy: 10 },
+        triggerConditions: { aggressive_programming: { min: 10, max: Infinity } },
         weight: 3
     },
     {
-        id: "bread_riots",
-        character: "🍞",
-        title: "Motins do Pão",
-        text: "Multidões famintas atacam padarias! O desespero se espalha como fogo.",
-        leftChoice: "Distribuir comida dos celeiros",
-        rightChoice: "Enviar guardas para manter ordem",
-        leftEffect: { people: 20, treasury: -15 },
-        rightEffect: { people: -15, army: -10 },
-        triggerConditions: { peopleTrust: { min: -Infinity, max: -10 } },
+        id: "performance_boost",
+        character: "🚀",
+        title: "Boost de Performance",
+        text: "Seus robôs agressivos descobriram uma otimização! Eles estão executando 300% mais rápido!",
+        leftChoice: "Manter otimização",
+        rightChoice: "Estudar como funciona",
+        leftEffect: { robots: 20, energy: 15 },
+        rightEffect: { robots: 10, knowledge: 25 },
+        triggerConditions: { risk_taking: { min: 8, max: Infinity } },
+        weight: 1
+    },
+
+    // CONSEQUÊNCIAS DE CONHECIMENTO BAIXO
+    {
+        id: "syntax_error_chaos",
+        character: "❌",
+        title: "Caos de Syntax Error",
+        text: "Você cometeu vários erros de sintaxe! Seus robôs não conseguem nem compilar.",
+        leftChoice: "Pedir ajuda à Siren",
+        rightChoice: "Tentar sozinho",
+        leftEffect: { robots: 15, knowledge: 10, energy: -5 },
+        rightEffect: { robots: -10, knowledge: 15, energy: -15 },
+        triggerConditions: { programming_knowledge: { min: -Infinity, max: 5 } },
+        weight: 3
+    },
+    {
+        id: "stackoverflow_consultation",
+        character: "🌐",
+        title: "Consulta ao StackOverflow Ancestral",
+        text: "Você encontra ruínas de um antigo StackOverflow! Há respostas para seus problemas de código.",
+        leftChoice: "Copiar solução diretamente",
+        rightChoice: "Entender e adaptar",
+        leftEffect: { robots: 20, knowledge: -5 },
+        rightEffect: { robots: 10, knowledge: 20, energy: -10 },
+        triggerConditions: { programming_knowledge: { min: -Infinity, max: 10 } },
         weight: 2
     },
 
-    // CONSEQUÊNCIAS DE BAIXA LEALDADE MILITAR
+    // CONSEQUÊNCIAS DE RECURSOS BAIXOS
     {
-        id: "desertion_crisis",
-        character: "🏃",
-        title: "Crise de Deserção",
-        text: "Soldados abandonam seus postos! 'Não morreremos por um rei covarde!'",
-        leftChoice: "Melhorar condições militares",
-        rightChoice: "Punir desertores severamente",
-        leftEffect: { army: 15, treasury: -20 },
-        rightEffect: { army: -15, people: -10 },
-        triggerConditions: { militaryLoyalty: { min: -Infinity, max: -10 } },
+        id: "memory_leak",
+        character: "🕳️",
+        title: "Memory Leak Crítico",
+        text: "Seus robôs estão consumindo toda a memória disponível! O sistema está ficando lento.",
+        leftChoice: "Garbage collection manual",
+        rightChoice: "Reiniciar sistema",
+        leftEffect: { robots: 10, energy: -20, resources: 10 },
+        rightEffect: { robots: -15, energy: 5, resources: 15 },
+        triggerConditions: { memory_management: { min: -Infinity, max: 5 } },
         weight: 3
     },
     {
-        id: "officer_conspiracy",
-        character: "🗡️",
-        title: "Conspiração de Oficiais",
-        text: "Oficiais sussurram sobre substituir vossa liderança militar.",
-        leftChoice: "Confrontar os conspiradores",
-        rightChoice: "Fingir ignorância e investigar",
-        leftEffect: { army: -10, people: 5 },
-        rightEffect: { army: 10, treasury: -5 },
-        triggerConditions: { militaryLoyalty: { min: -Infinity, max: -15 } },
-        weight: 2
-    },
-
-    // CONSEQUÊNCIAS DE INSTABILIDADE ECONÔMICA
-    {
-        id: "merchant_boycott",
-        character: "🏪",
-        title: "Boicote dos Mercadores",
-        text: "Comerciantes se recusam a negociar! O comércio para e os preços sobem.",
-        leftChoice: "Oferecer incentivos comerciais",
-        rightChoice: "Forçar comércio por decreto",
-        leftEffect: { treasury: -15, people: 10 },
-        rightEffect: { treasury: 5, people: -15 },
-        triggerConditions: { economicStability: { min: -Infinity, max: -10 } },
-        weight: 2
-    },
-    {
-        id: "currency_crisis",
-        character: "💰",
-        title: "Crise Monetária",
-        text: "As moedas do reino perdem valor! Ninguém confia no tesouro real.",
-        leftChoice: "Reformar sistema monetário",
-        rightChoice: "Voltar ao escambo",
-        leftEffect: { treasury: -20, people: -5 },
-        rightEffect: { treasury: 5, people: -10, army: -5 },
-        triggerConditions: { economicStability: { min: -Infinity, max: -15 } },
-        weight: 3
+        id: "resource_optimization",
+        character: "⚙️",
+        title: "Otimização de Recursos",
+        text: "Você descobriu como reutilizar componentes! Seus robôs estão compartilhando recursos eficientemente.",
+        leftChoice: "Implementar factory pattern",
+        rightChoice: "Usar singleton pattern",
+        leftEffect: { robots: 15, resources: 20, knowledge: 10 },
+        rightEffect: { robots: 10, resources: 25, energy: 5 },
+        triggerConditions: { resource_efficiency: { min: 8, max: Infinity } },
+        weight: 1
     },
 
     // CONSEQUÊNCIAS NEUTRAS/POSITIVAS
     {
-        id: "foreign_diplomat",
-        character: "🎩",
-        title: "Diplomata Estrangeiro",
-        text: "Um embaixador oferece uma aliança vantajosa, mas há condições.",
-        leftChoice: "Aceitar a aliança",
-        rightChoice: "Manter independência",
-        leftEffect: { army: 10, treasury: 10, people: -5 },
-        rightEffect: { people: 10, army: -5 },
+        id: "ancient_library",
+        character: "📚",
+        title: "Biblioteca Ancestral",
+        text: "Você encontra uma biblioteca de códigos antigos! Há algoritmos perdidos aqui.",
+        leftChoice: "Estudar algoritmos de ordenação",
+        rightChoice: "Estudar estruturas de dados",
+        leftEffect: { knowledge: 15, energy: -10 },
+        rightEffect: { knowledge: 10, robots: 10, energy: -5 },
         triggerConditions: {},
         weight: 1
     },
     {
-        id: "travelling_merchant",
-        character: "🎒",
-        title: "Mercador Viajante",
-        text: "Um comerciante oferece mercadorias exóticas por um preço especial.",
-        leftChoice: "Comprar para a corte",
-        rightChoice: "Comprar para o povo",
-        leftEffect: { church: 5, treasury: -10 },
-        rightEffect: { people: 15, treasury: -15 },
+        id: "helpful_npc_programmer",
+        character: "👨‍💻",
+        title: "Programador Amigável",
+        text: "Você encontra um programador local! Ele oferece dicas sobre o Mundo dos Objetos.",
+        leftChoice: "Pedir dicas de combat",
+        rightChoice: "Pedir dicas de otimização",
+        leftEffect: { robots: 15, knowledge: 5 },
+        rightEffect: { energy: 15, resources: 10 },
         triggerConditions: {},
         weight: 1
     },
     {
-        id: "harvest_festival",
-        character: "🌽",
-        title: "Festival da Colheita",
-        text: "É época de celebrar a colheita! Como participareis das festividades?",
-        leftChoice: "Festival simples e econômico",
-        rightChoice: "Grande celebração real",
-        leftEffect: { people: 10, treasury: -5 },
-        rightEffect: { people: 20, treasury: -15, church: 5 },
+        id: "code_review",
+        character: "👀",
+        title: "Code Review Espontâneo",
+        text: "Siren analisa seu código: 'Interessante abordagem... mas posso sugerir melhorias.'",
+        leftChoice: "Aceitar sugestões",
+        rightChoice: "Defender sua implementação",
+        leftEffect: { knowledge: 20, robots: 10, energy: -5 },
+        rightEffect: { robots: 5, energy: 10, resources: -5 },
+        triggerConditions: {},
+        weight: 1
+    },
+    {
+        id: "easter_egg_discovery",
+        character: "🥚",
+        title: "Easter Egg Descoberto",
+        text: "Você encontrou um easter egg no código do mundo! Há um comentário engraçado deixado por um desenvolvedor antigo.",
+        leftChoice: "Rir e continuar",
+        rightChoice: "Investigar mais profundamente",
+        leftEffect: { energy: 10, robots: 5 },
+        rightEffect: { knowledge: 15, energy: -5 },
         triggerConditions: {},
         weight: 1
     }
 ];
 
-// Status ocultos iniciais
+// Status ocultos iniciais (adaptados para programação)
 const INITIAL_HIDDEN_STATUS = {
-    churchSatisfaction: 0,
-    peopleTrust: 0,
-    militaryLoyalty: 0,
-    nobleSupport: 0,
-    economicStability: 0,
-    foreignRelations: 0,
-    lawAndOrder: 0,
-    corruption: 0,
-    religiousConflict: 0,
-    socialUnrest: 0,
-    warPreparation: 0,
-    tradeRelations: 0,
-    education: 0,
-    culturalInfluence: 0,
-    royalAuthority: 0,
-    royalPrestige: 0,
-    dynasticSecurity: 0,
-    diseaseControl: 0,
-    socialMobility: 0,
-    capitalDefense: 0,
-    casualties: 0,
-    peacefulTransition: 0
+    // Estilos de programação
+    defensive_programming: 0,
+    aggressive_programming: 0,
+    oop_mastery: 0,
+    functional_thinking: 0,
+    
+    // Habilidades técnicas
+    debugging_skills: 0,
+    algorithm_optimization: 0,
+    memory_management: 0,
+    refactoring_skills: 0,
+    performance_focus: 0,
+    resource_efficiency: 0,
+    
+    // Características pessoais
+    programming_knowledge: 0,
+    curiosity: 0,
+    determination: 0,
+    patience: 0,
+    innovation: 0,
+    risk_taking: 0,
+    safety_first: 0,
+    
+    // Status de combate/mundo
+    combat_strategy: 0,
+    oop_battle_experience: 0,
+    battle_confidence: 0,
+    structured_thinking: 0,
+    
+    // Status especiais
+    mission_accepted: 0,
+    quick_learner: 0,
+    politeness: 0,
+    trust: 0,
+    anxiety: 0,
+    observation: 0,
+    need_explanation: 0,
+    bold_decisions: 0,
+    aggressive_coding: 0
 };
 
 // Exportar para compatibilidade
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
+        INTRO_CARDS,
         CHAPTER_KEY_CARDS,
         CONSEQUENCE_CARDS,
         INITIAL_HIDDEN_STATUS
     };
 } else if (typeof window !== 'undefined') {
+    window.INTRO_CARDS = INTRO_CARDS;
     window.CHAPTER_KEY_CARDS = CHAPTER_KEY_CARDS;
     window.CONSEQUENCE_CARDS = CONSEQUENCE_CARDS;
     window.INITIAL_HIDDEN_STATUS = INITIAL_HIDDEN_STATUS;

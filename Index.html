@@ -3,7 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reigns - A História do Reino</title>
+    <title>O Mundo dos Objetos - Aventura de Programação</title>
+    <style>
+        /* Adicionar estilos específicos para o tema de programação */
+        .stat-label {
+            font-size: 10px;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+
+        /* Estilo para cartas de introdução */
+        .card.intro-card {
+            background: linear-gradient(145deg, #e6f3ff, #cce7ff);
+            border: 2px solid #4a90e2;
+        }
+
+        .card-type-intro {
+            background: #4a90e2;
+            color: white;
+        }
+
+        /* Melhorar visual das barras de stats */
+        .stat-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            transition: all 0.5s ease;
+        }
+
+        /* Efeito hover nos botões */
+        .overlay-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Animação para cartas de programação */
+        @keyframes codeGlow {
+            from { box-shadow: 0 0 20px rgba(74, 144, 226, 0.3); }
+            to { box-shadow: 0 0 30px rgba(74, 144, 226, 0.6); }
+        }
+
+        .card.intro-card {
+            animation: codeGlow 3s ease-in-out infinite alternate;
+        }
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,34 +52,38 @@
         <!-- Stats Header -->
         <div class="stats-container">
             <div class="stat">
-                <div class="stat-icon">⛪</div>
+                <div class="stat-icon">🤖</div>
                 <div class="stat-bar">
-                    <div class="stat-fill" id="churchBar"></div>
+                    <div class="stat-fill" id="robotsBar"></div>
                 </div>
+                <div class="stat-label">Robôs</div>
             </div>
             <div class="stat">
-                <div class="stat-icon">👥</div>
+                <div class="stat-icon">⚡</div>
                 <div class="stat-bar">
-                    <div class="stat-fill" id="peopleBar"></div>
+                    <div class="stat-fill" id="energyBar"></div>
                 </div>
+                <div class="stat-label">Energia</div>
             </div>
             <div class="stat">
-                <div class="stat-icon">⚔️</div>
+                <div class="stat-icon">📚</div>
                 <div class="stat-bar">
-                    <div class="stat-fill" id="armyBar"></div>
+                    <div class="stat-fill" id="knowledgeBar"></div>
                 </div>
+                <div class="stat-label">Conhecimento</div>
             </div>
             <div class="stat">
-                <div class="stat-icon">💰</div>
+                <div class="stat-icon">💾</div>
                 <div class="stat-bar">
-                    <div class="stat-fill" id="treasuryBar"></div>
+                    <div class="stat-fill" id="resourcesBar"></div>
                 </div>
+                <div class="stat-label">Recursos</div>
             </div>
         </div>
 
         <!-- Progresso da História -->
         <div class="story-progress">
-            <div id="chapterCount">Cap. 1/4 | Chave: 0/5 | Total: 0/15</div>
+            <div id="chapterCount">Introdução: 1/5</div>
             <div class="progress-bar">
                 <div class="progress-fill" id="storyProgress"></div>
             </div>
@@ -47,9 +92,9 @@
         <!-- Card Area -->
         <div class="card-area">
             <div class="card" id="currentCard">
-                <div class="card-character" id="cardCharacter">👑</div>
-                <div class="card-title" id="cardTitle">Título da Carta</div>
-                <div class="card-text" id="cardText">Texto da carta aparece aqui...</div>
+                <div class="card-character" id="cardCharacter">😴</div>
+                <div class="card-title" id="cardTitle">O Despertar</div>
+                <div class="card-text" id="cardText">Você acorda em um lugar estranho...</div>
             </div>
 
             <!-- Choices overlay -->
@@ -68,7 +113,7 @@
         <!-- Bottom UI -->
         <div class="bottom-ui">
             <div class="turn-counter">
-                Decisão: <span id="turnCount">1</span>
+                Linha de Código: <span id="turnCount">1</span>
             </div>
             <button class="menu-button warning" id="pauseButton" onclick="togglePauseGame()">
                 <span>⏸️</span>
@@ -80,24 +125,25 @@
     <!-- Intro Overlay -->
     <div class="overlay" id="introOverlay">
         <div class="overlay-content">
-            <div class="overlay-title">⚜️ REIGNS: REINO AVANÇADO ⚜️</div>
+            <div class="overlay-title">💻 O MUNDO DOS OBJETOS 💻</div>
             <div class="overlay-text">
-                Bem-vindo ao reino! Você deve tomar decisões que moldarão o destino de seu povo através de 4 capítulos épicos.
+                Você é um estudante de engenharia de software que adormeceu estudando para a prova de POO (Programação Orientada a Objetos).
                 <br><br>
-                <strong>🔑 Sistema de Cartas:</strong><br>
-                • <span style="color: #FFD700;">Cartas-Chave</span>: Decisões principais da história<br>
-                • <span style="color: #87CEEB;">Cartas de Consequência</span>: Resultado de suas escolhas<br>
+                <strong>🌟 Sua Missão:</strong><br>
+                Despertar em um mundo medieval mágico onde você deve dominar robôs programáveis para derrotar os Cavaleiros da Orientação a Objetos e o Grande Programador!
+                <br><br>
+                <strong>🎮 Sistema de Jogo:</strong><br>
+                • <span style="color: #FFD700;">📜 Cartas de História</span>: Narrativa principal<br>
+                • <span style="color: #FFD700;">🔑 Cartas de Código</span>: Decisões de programação<br>
+                • <span style="color: #87CEEB;">⚡ Eventos</span>: Consequências de suas escolhas<br>
                 <br>
-                <strong>📊 Progresso por Capítulo:</strong><br>
-                5 cartas-chave + 10 cartas de consequência = 15 total
+                <strong>📊 Recursos:</strong><br>
+                🤖 Robôs • ⚡ Energia • 📚 Conhecimento • 💾 Recursos
                 <br><br>
-                <strong>🎮 Como jogar:</strong><br>
-                ← Esquerda | Direita →
-                <br><br>
-                <strong>⚠️ Cuidado:</strong> Suas decisões afetam status ocultos que influenciam eventos futuros!
+                <strong>⚠️ Atenção:</strong> Suas decisões de programação afetam eventos futuros!
             </div>
             <button class="overlay-button" onclick="startGameFromIntro()">
-                Iniciar Reinado Épico
+                Começar Aventura de Programação
             </button>
         </div>
     </div>
@@ -105,18 +151,18 @@
     <!-- Pause Overlay -->
     <div class="overlay" id="pauseOverlay" style="display: none;">
         <div class="overlay-content">
-            <div class="overlay-title">⏸️ PAUSADO</div>
+            <div class="overlay-title">⏸️ DEBUG MODE</div>
             <div class="overlay-text">
-                O reino aguarda vossa decisão...
+                O sistema está pausado. Seus robôs aguardam novos comandos...
             </div>
             <button class="overlay-button" onclick="togglePauseGame()">
-                Retomar Jogo
+                Retomar Execução
             </button>
             <button class="overlay-button secondary" onclick="restartGame()">
-                Reiniciar História
+                Restart do Sistema
             </button>
             <button class="overlay-button secondary" onclick="exitGame()">
-                Sair do Jogo
+                Sair da Matrix
             </button>
         </div>
     </div>
@@ -124,18 +170,18 @@
     <!-- Game Over Overlay -->
     <div class="overlay" id="gameOver" style="display: none;">
         <div class="overlay-content">
-            <div class="overlay-title">💀 FIM DO REINADO</div>
+            <div class="overlay-title">💀 SYSTEM CRASH</div>
             <div class="overlay-text" id="deathReason">
-                Razão da queda...
+                Erro fatal no sistema...
             </div>
             <div style="margin: 15px 0;">
-                Decisões tomadas: <strong id="finalTurns">0</strong>
+                Linhas de código executadas: <strong id="finalTurns">0</strong>
             </div>
             <button class="overlay-button" onclick="restartGame()">
-                Tentar Novamente
+                Debug e Restart
             </button>
             <button class="overlay-button secondary" onclick="exitGame()">
-                Sair
+                Encerrar Programa
             </button>
         </div>
     </div>
@@ -143,44 +189,44 @@
     <!-- Story Complete Overlay -->
     <div class="overlay" id="storyComplete" style="display: none;">
         <div class="overlay-content">
-            <div class="overlay-title" id="storyEndTitle">👑 REINO COMPLETO</div>
+            <div class="overlay-title" id="storyEndTitle">🎓 COMPILAÇÃO COMPLETA</div>
             <div class="overlay-text" id="storyEndText">
-                Vossa história chegou ao fim...
+                Sua jornada de programação chegou ao fim...
             </div>
             
             <div class="final-stats">
                 <div class="final-stat">
-                    <div class="final-stat-icon">⛪</div>
-                    <div>Igreja</div>
+                    <div class="final-stat-icon">🤖</div>
+                    <div>Robôs</div>
                     <div class="final-stat-value" id="finalChurch">50</div>
                 </div>
                 <div class="final-stat">
-                    <div class="final-stat-icon">👥</div>
-                    <div>Povo</div>
+                    <div class="final-stat-icon">⚡</div>
+                    <div>Energia</div>
                     <div class="final-stat-value" id="finalPeople">50</div>
                 </div>
                 <div class="final-stat">
-                    <div class="final-stat-icon">⚔️</div>
-                    <div>Exército</div>
+                    <div class="final-stat-icon">📚</div>
+                    <div>Conhecimento</div>
                     <div class="final-stat-value" id="finalArmy">50</div>
                 </div>
                 <div class="final-stat">
-                    <div class="final-stat-icon">💰</div>
-                    <div>Tesouro</div>
+                    <div class="final-stat-icon">💾</div>
+                    <div>Recursos</div>
                     <div class="final-stat-value" id="finalTreasury">50</div>
                 </div>
             </div>
             
             <div style="margin: 15px 0;">
-                <div>Decisões tomadas: <strong id="finalTurns">0</strong></div>
-                <div>Pontuação: <strong id="finalScore">0</strong></div>
+                <div>Linhas de código: <strong id="finalTurns">0</strong></div>
+                <div>Pontuação final: <strong id="finalScore">0</strong></div>
             </div>
             
             <button class="overlay-button" onclick="restartGame()">
-                Nova História
+                Nova Aventura de Programação
             </button>
             <button class="overlay-button secondary" onclick="exitGame()">
-                Sair
+                Voltar ao Mundo Real
             </button>
         </div>
     </div>
