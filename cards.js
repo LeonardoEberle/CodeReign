@@ -1,4 +1,4 @@
-// cards.js - O Mundo dos Objetos - Narrativa de Programação
+// cards.js - O Mundo dos Objetos - Sistema Atualizado
 
 // ========================================
 // CARTAS INTRODUTÓRIAS DO CAPÍTULO 1
@@ -14,8 +14,8 @@ const INTRO_CARDS = [
         rightChoice: "Olhar em volta",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { curiosity: 2 },
-        rightHiddenEffects: { observation: 3 },
+        leftHiddenEffects: { player_felicidade: 2 },
+        rightHiddenEffects: { player_conhecimento: 3 },
         isIntro: true
     },
     {
@@ -27,8 +27,8 @@ const INTRO_CARDS = [
         rightChoice: "Perguntar onde está",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { politeness: 3, trust: 2 },
-        rightHiddenEffects: { curiosity: 3, anxiety: 1 },
+        leftHiddenEffects: { npc_felicidade: 3, npc_gratitude: 2 },
+        rightHiddenEffects: { player_conhecimento: 3, player_felicidade: -1 },
         isIntro: true
     },
     {
@@ -41,7 +41,7 @@ const INTRO_CARDS = [
         leftEffect: {},
         rightEffect: {},
         leftHiddenEffects: { gameOver: true },
-        rightHiddenEffects: { determination: 5, mission_accepted: 1 },
+        rightHiddenEffects: { player_felicidade: 5, npc_gratitude: 5 },
         isIntro: true
     },
     {
@@ -53,8 +53,21 @@ const INTRO_CARDS = [
         rightChoice: "Entendido",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { need_explanation: 1 },
-        rightHiddenEffects: { quick_learner: 2 },
+        leftHiddenEffects: { player_conhecimento: -1, robo_felicidade: -2 },
+        rightHiddenEffects: { player_conhecimento: 2, robo_felicidade: 3 },
+        isIntro: true
+    },
+    {
+        id: "modifier_intro",
+        character: "💻",
+        title: "Modificador",
+        text: "Siren lhe entrega também um laptop para que você possa acessar e modificar seu robô. 'Com isso você pode alterar o código-fonte dele', ela explica.",
+        leftChoice: "Confirmar",
+        rightChoice: "Pegar o laptop",
+        leftEffect: {},
+        rightEffect: {},
+        leftHiddenEffects: { player_conhecimento: 2, robo_ataque: 1 },
+        rightHiddenEffects: { player_conhecimento: 3, player_felicidade: 2 },
         isIntro: true
     },
     {
@@ -66,77 +79,77 @@ const INTRO_CARDS = [
         rightChoice: "Entendido",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { programming_knowledge: 2 },
-        rightHiddenEffects: { programming_knowledge: 2 },
+        leftHiddenEffects: { player_conhecimento: 2 },
+        rightHiddenEffects: { player_conhecimento: 2 },
         isIntro: true
     }
 ];
 
 // ========================================
-// CARTAS-CHAVE POR CAPÍTULO (Obrigatórias)
+// CARTAS-CHAVE POR CAPÍTULO (Sequência Fixa)
 // ========================================
 
 const CHAPTER_KEY_CARDS = {
-    1: [ // CAPÍTULO 1: Descobrindo o Mundo dos Objetos
+    1: [ // CAPÍTULO 1: Fundamentos de POO - Sequência Fixa
         {
-            id: "first_robot_programming",
-            character: "💻",
-            title: "Primeira Programação",
-            text: "Você examina o código do robô ancestral. É uma linguagem estranha, mas familiar. Como você quer modificar seus algoritmos de combate?",
-            leftChoice: "Focar em defesa",
-            rightChoice: "Focar em ataque",
-            leftEffect: { robots: 10, energy: -5, knowledge: 5 },
-            rightEffect: { robots: 5, energy: -10, knowledge: 10 },
-            leftHiddenEffects: { defensive_programming: 8, safety_first: 5 },
-            rightHiddenEffects: { aggressive_programming: 8, risk_taking: 5 }
-        },
-        {
-            id: "code_structure_choice",
+            id: "classe_e_objeto",
             character: "🏗️",
-            title: "Estrutura do Código",
-            text: "Siren observa seu trabalho: 'Vejo que você entende de programação. Que arquitetura usará para seus robôs?'",
-            leftChoice: "Programação orientada a objetos",
-            rightChoice: "Programação funcional",
-            leftEffect: { knowledge: 15, resources: -5 },
-            rightEffect: { energy: 10, knowledge: 5, resources: -10 },
-            leftHiddenEffects: { oop_mastery: 10, structured_thinking: 8 },
-            rightHiddenEffects: { functional_thinking: 8, innovation: 6 }
+            title: "Classe e Objeto",
+            text: "Uma classe nada mais é do que um projeto para criação de um objeto tangível, seu robô tem como classe 'RoboCombatente'.",
+            leftChoice: "Não fazer nada",
+            rightChoice: "Acessar classe",
+            leftEffect: { robots: -10, energy: 10 },
+            rightEffect: { robots: 15, energy: -5 },
+            leftHiddenEffects: { robo_felicidade: -3, player_conhecimento: 1 },
+            rightHiddenEffects: { robo_felicidade: 2, player_conhecimento: 5, robo_ataque: 2 }
         },
         {
-            id: "first_enemy_encounter",
-            character: "⚔️",
-            title: "Primeiro Confronto",
-            text: "Um Cavaleiro da Orientação a Objetos aparece! 'Método toString() está deprecado!', ele grita. Como você responde?",
-            leftChoice: "Usar polimorfismo",
-            rightChoice: "Atacar com herança",
-            leftEffect: { robots: 5, knowledge: 10, energy: -15 },
-            rightEffect: { robots: -5, knowledge: 5, energy: -5 },
-            leftHiddenEffects: { combat_strategy: 10, oop_battle_experience: 8 },
-            rightHiddenEffects: { aggressive_coding: 6, battle_confidence: 5 }
+            id: "atributos",
+            character: "📊",
+            title: "Atributos",
+            text: "Atributos são aqueles que definem quem é o seu robô. Atribuir ataque e defesa para o robô?",
+            leftChoice: "Definir ataque e defesa como string de valor 15",
+            rightChoice: "Definir ataque e defesa como valores inteiros de valor 15",
+            leftEffect: { robots: -5, knowledge: 5, resources: -10 },
+            rightEffect: { robots: 10, knowledge: 15, resources: 5 },
+            leftHiddenEffects: { robo_vulnerabilidade: 8, player_conhecimento: 2 },
+            rightHiddenEffects: { robo_ataque: 5, robo_defesa: 5, player_conhecimento: 8 }
         },
         {
-            id: "debug_crisis",
-            character: "🐛",
-            title: "Crise de Debug",
-            text: "Seus robôs começam a apresentar bugs! Stack overflow everywhere! Como você resolve essa crise?",
-            leftChoice: "Debug sistemático",
-            rightChoice: "Refatoração completa",
-            leftEffect: { robots: 15, energy: -20, knowledge: 10 },
-            rightEffect: { robots: -10, energy: -10, knowledge: 20 },
-            leftHiddenEffects: { debugging_skills: 12, patience: 8 },
-            rightHiddenEffects: { refactoring_skills: 10, bold_decisions: 6 }
+            id: "metodos",
+            character: "⚙️",
+            title: "Métodos",
+            text: "Métodos definem o comportamento de um objeto. Definir método de ataque?",
+            leftChoice: "Sim",
+            rightChoice: "Não",
+            leftEffect: { robots: 20, energy: -15, knowledge: 10 },
+            rightEffect: { robots: -10, energy: 5, knowledge: -5 },
+            leftHiddenEffects: { robo_ataque: 10, robo_felicidade: 5, player_conhecimento: 6 },
+            rightHiddenEffects: { robo_vulnerabilidade: 5, robo_felicidade: -3, player_conhecimento: -2 }
         },
         {
-            id: "algorithm_optimization",
-            character: "⚡",
-            title: "Otimização de Algoritmos",
-            text: "Siren sugere: 'Seus robôs estão lentos. Que técnica de otimização você aplicará?'",
-            leftChoice: "Otimizar complexidade de tempo",
-            rightChoice: "Otimizar uso de memória",
-            leftEffect: { energy: 15, robots: 10, resources: -15 },
-            rightEffect: { resources: 20, robots: 5, energy: -5 },
-            leftHiddenEffects: { algorithm_optimization: 10, performance_focus: 8 },
-            rightHiddenEffects: { memory_management: 12, resource_efficiency: 6 }
+            id: "encapsulamento",
+            character: "🔒",
+            title: "Encapsulamento",
+            text: "É importante proteger sua classe de acessos externos. Você pode usar 'public' que fica acessível para todos ou 'private' que só pode ser alterado dentro da própria classe.",
+            leftChoice: "Private",
+            rightChoice: "Public",
+            leftEffect: { robots: 5, knowledge: 15, resources: -5 },
+            rightEffect: { robots: -5, knowledge: 5, resources: 10 },
+            leftHiddenEffects: { robo_defesa: 10, robo_vulnerabilidade: -5, player_conhecimento: 8 },
+            rightHiddenEffects: { robo_vulnerabilidade: 8, robo_ataque: 3, player_conhecimento: 3 }
+        },
+        {
+            id: "construtor",
+            character: "🏭",
+            title: "Construtor",
+            text: "O construtor define quais os atributos necessários para instanciar um objeto. Deseja instanciar seu Companheiro?",
+            leftChoice: "Não instanciar",
+            rightChoice: "Sim",
+            leftEffect: { robots: -15, energy: 10, knowledge: -10 },
+            rightEffect: { robots: 25, energy: -20, knowledge: 20 },
+            leftHiddenEffects: { robo_felicidade: -8, player_conhecimento: -3 },
+            rightHiddenEffects: { robo_felicidade: 10, robo_ataque: 5, robo_defesa: 5, player_conhecimento: 10, player_felicidade: 8 }
         }
     ]
 };
@@ -146,202 +159,218 @@ const CHAPTER_KEY_CARDS = {
 // ========================================
 
 const CONSEQUENCE_CARDS = [
-    // CONSEQUÊNCIAS DE PROGRAMAÇÃO DEFENSIVA
+    // CONSEQUÊNCIAS DE FELICIDADE DO PLAYER
     {
-        id: "over_defensive_code",
-        character: "🛡️",
-        title: "Código Muito Defensivo",
-        text: "Seus robôs estão muito cautelosos! Eles validam tudo três vezes antes de atacar.",
-        leftChoice: "Manter segurança",
-        rightChoice: "Adicionar agressividade",
-        leftEffect: { robots: 5, energy: -10 },
-        rightEffect: { robots: 15, energy: 5, knowledge: -5 },
-        triggerConditions: { defensive_programming: { min: 15, max: Infinity } },
-        weight: 3
-    },
-    {
-        id: "security_vulnerability",
-        character: "🔓",
-        title: "Vulnerabilidade de Segurança",
-        text: "Um hacker ancestral encontrou uma falha em seus robôs! Como você corrige?",
-        leftChoice: "Patch rápido",
-        rightChoice: "Reescrever módulo",
-        leftEffect: { robots: 10, energy: -5 },
-        rightEffect: { robots: -10, energy: -15, knowledge: 20 },
-        triggerConditions: { safety_first: { min: -Infinity, max: 5 } },
+        id: "player_motivado",
+        character: "😊",
+        title: "Motivação em Alta",
+        text: "Você está se sentindo confiante! Sua motivação está impulsionando seu aprendizado de programação.",
+        leftChoice: "Focar nos estudos",
+        rightChoice: "Relaxar um pouco",
+        leftEffect: { knowledge: 15, energy: -10 },
+        rightEffect: { energy: 10, robots: 5 },
+        triggerConditions: { player_felicidade: { min: 8, max: Infinity } },
         weight: 2
     },
-
-    // CONSEQUÊNCIAS DE PROGRAMAÇÃO AGRESSIVA
     {
-        id: "robots_crashing",
-        character: "💥",
-        title: "Robôs Travando",
-        text: "Seus robôs estão fazendo muitas operações arriscadas! Alguns estão crashando com segmentation fault.",
-        leftChoice: "Adicionar try-catch",
-        rightChoice: "Aceitar o risco",
-        leftEffect: { robots: 10, energy: -10, knowledge: 5 },
-        rightEffect: { robots: -15, energy: 10 },
-        triggerConditions: { aggressive_programming: { min: 10, max: Infinity } },
-        weight: 3
-    },
-    {
-        id: "performance_boost",
-        character: "🚀",
-        title: "Boost de Performance",
-        text: "Seus robôs agressivos descobriram uma otimização! Eles estão executando 300% mais rápido!",
-        leftChoice: "Manter otimização",
-        rightChoice: "Estudar como funciona",
-        leftEffect: { robots: 20, energy: 15 },
-        rightEffect: { robots: 10, knowledge: 25 },
-        triggerConditions: { risk_taking: { min: 8, max: Infinity } },
-        weight: 1
-    },
-
-    // CONSEQUÊNCIAS DE CONHECIMENTO BAIXO
-    {
-        id: "syntax_error_chaos",
-        character: "❌",
-        title: "Caos de Syntax Error",
-        text: "Você cometeu vários erros de sintaxe! Seus robôs não conseguem nem compilar.",
-        leftChoice: "Pedir ajuda à Siren",
+        id: "player_desanimado",
+        character: "😞",
+        title: "Desânimo Crescente",
+        text: "Você está se sentindo desmotivado... Talvez seja hora de encontrar inspiração.",
+        leftChoice: "Conversar com Siren",
         rightChoice: "Tentar sozinho",
-        leftEffect: { robots: 15, knowledge: 10, energy: -5 },
-        rightEffect: { robots: -10, knowledge: 15, energy: -15 },
-        triggerConditions: { programming_knowledge: { min: -Infinity, max: 5 } },
+        leftEffect: { knowledge: 10, energy: 5, robots: -5 },
+        rightEffect: { knowledge: -5, energy: -10, robots: -10 },
+        triggerConditions: { player_felicidade: { min: -Infinity, max: -5 } },
         weight: 3
     },
+
+    // CONSEQUÊNCIAS DE CONHECIMENTO DO PLAYER
     {
-        id: "stackoverflow_consultation",
-        character: "🌐",
-        title: "Consulta ao StackOverflow Ancestral",
-        text: "Você encontra ruínas de um antigo StackOverflow! Há respostas para seus problemas de código.",
-        leftChoice: "Copiar solução diretamente",
-        rightChoice: "Entender e adaptar",
-        leftEffect: { robots: 20, knowledge: -5 },
-        rightEffect: { robots: 10, knowledge: 20, energy: -10 },
-        triggerConditions: { programming_knowledge: { min: -Infinity, max: 10 } },
+        id: "insight_programming",
+        character: "💡",
+        title: "Insight de Programação",
+        text: "Você teve uma epifania! Conceitos de POO estão fazendo sentido agora.",
+        leftChoice: "Aplicar nos robôs",
+        rightChoice: "Estudar mais teoria",
+        leftEffect: { robots: 20, knowledge: 10, energy: -5 },
+        rightEffect: { knowledge: 25, energy: -10 },
+        triggerConditions: { player_conhecimento: { min: 12, max: Infinity } },
+        weight: 2
+    },
+    {
+        id: "confusion_concepts",
+        character: "❓",
+        title: "Confusão Conceitual",
+        text: "Você está confuso com tantos conceitos novos... Classes, objetos, métodos...",
+        leftChoice: "Revisar fundamentos",
+        rightChoice: "Pedir ajuda à Siren",
+        leftEffect: { knowledge: 10, energy: -15, robots: -5 },
+        rightEffect: { knowledge: 15, energy: -5, robots: 5 },
+        triggerConditions: { player_conhecimento: { min: -Infinity, max: 3 } },
+        weight: 3
+    },
+
+    // CONSEQUÊNCIAS DE FELICIDADE DO ROBÔ
+    {
+        id: "robo_loyal",
+        character: "🤖💙",
+        title: "Robô Leal",
+        text: "Seu robô demonstra lealdade! Ele está executando comandos com mais eficiência.",
+        leftChoice: "Elogiar o robô",
+        rightChoice: "Dar upgrade",
+        leftEffect: { robots: 15, energy: 5 },
+        rightEffect: { robots: 20, energy: -10, resources: -5 },
+        triggerConditions: { robo_felicidade: { min: 8, max: Infinity } },
+        weight: 2
+    },
+    {
+        id: "robo_rebellion",
+        character: "🤖😠",
+        title: "Rebelião do Robô",
+        text: "Seu robô está resistindo aos comandos! Parece que ele não está feliz com suas modificações.",
+        leftChoice: "Forçar obediência",
+        rightChoice: "Tentar entender o problema",
+        leftEffect: { robots: -10, energy: -5, resources: 5 },
+        rightEffect: { robots: 5, energy: -10, knowledge: 10 },
+        triggerConditions: { robo_felicidade: { min: -Infinity, max: -5 } },
+        weight: 3
+    },
+
+    // CONSEQUÊNCIAS DE ATAQUE DO ROBÔ
+    {
+        id: "robo_powerful",
+        character: "🤖⚔️",
+        title: "Robô Poderoso",
+        text: "Seu robô desenvolveu capacidades de combate impressionantes! Outros robôs o respeitam.",
+        leftChoice: "Treinar mais",
+        rightChoice: "Ensinar outros robôs",
+        leftEffect: { robots: 25, energy: -15 },
+        rightEffect: { robots: 15, knowledge: 10, energy: -10 },
+        triggerConditions: { robo_ataque: { min: 12, max: Infinity } },
+        weight: 2
+    },
+    {
+        id: "robo_weak_attack",
+        character: "🤖💤",
+        title: "Ataque Fraco",
+        text: "Seu robô está com dificuldades em combate. Talvez precise de melhorias em seus algoritmos de ataque.",
+        leftChoice: "Otimizar algoritmos",
+        rightChoice: "Treinar fundamentos",
+        leftEffect: { robots: 10, knowledge: 15, energy: -20 },
+        rightEffect: { robots: 5, knowledge: 10, energy: -10 },
+        triggerConditions: { robo_ataque: { min: -Infinity, max: 3 } },
+        weight: 3
+    },
+
+    // CONSEQUÊNCIAS DE VULNERABILIDADE DO ROBÔ
+    {
+        id: "security_breach",
+        character: "🔓",
+        title: "Brecha de Segurança",
+        text: "Inimigos descobriram vulnerabilidades em seu robô! Urgente: corrigir falhas de segurança.",
+        leftChoice: "Patch de emergência",
+        rightChoice: "Reescrever código de segurança",
+        leftEffect: { robots: 10, energy: -10, resources: -5 },
+        rightEffect: { robots: -5, knowledge: 20, energy: -25 },
+        triggerConditions: { robo_vulnerabilidade: { min: 10, max: Infinity } },
+        weight: 4
+    },
+
+    // CONSEQUÊNCIAS DE DEFESA DO ROBÔ
+    {
+        id: "fortress_mode",
+        character: "🛡️",
+        title: "Modo Fortaleza",
+        text: "Seu robô ativou protocolos de defesa avançados! Ele está quase impenetrável.",
+        leftChoice: "Manter defesa alta",
+        rightChoice: "Balancear com ataque",
+        leftEffect: { robots: 20, energy: -5 },
+        rightEffect: { robots: 15, energy: -10, knowledge: 5 },
+        triggerConditions: { robo_defesa: { min: 12, max: Infinity } },
         weight: 2
     },
 
-    // CONSEQUÊNCIAS DE RECURSOS BAIXOS
+    // CONSEQUÊNCIAS DE GRATIDÃO DOS NPCs
     {
-        id: "memory_leak",
-        character: "🕳️",
-        title: "Memory Leak Crítico",
-        text: "Seus robôs estão consumindo toda a memória disponível! O sistema está ficando lento.",
-        leftChoice: "Garbage collection manual",
-        rightChoice: "Reiniciar sistema",
-        leftEffect: { robots: 10, energy: -20, resources: 10 },
-        rightEffect: { robots: -15, energy: 5, resources: 15 },
-        triggerConditions: { memory_management: { min: -Infinity, max: 5 } },
-        weight: 3
+        id: "siren_gift",
+        character: "👩‍🦰🎁",
+        title: "Presente da Siren",
+        text: "Siren fica impressionada com seu progresso! Ela oferece recursos extras para ajudar.",
+        leftChoice: "Aceitar recursos",
+        rightChoice: "Pedir conhecimento",
+        leftEffect: { resources: 20, energy: 10 },
+        rightEffect: { knowledge: 20, robots: 10 },
+        triggerConditions: { npc_gratitude: { min: 8, max: Infinity } },
+        weight: 1
     },
     {
-        id: "resource_optimization",
-        character: "⚙️",
-        title: "Otimização de Recursos",
-        text: "Você descobriu como reutilizar componentes! Seus robôs estão compartilhando recursos eficientemente.",
-        leftChoice: "Implementar factory pattern",
-        rightChoice: "Usar singleton pattern",
-        leftEffect: { robots: 15, resources: 20, knowledge: 10 },
-        rightEffect: { robots: 10, resources: 25, energy: 5 },
-        triggerConditions: { resource_efficiency: { min: 8, max: Infinity } },
-        weight: 1
+        id: "npc_concerns",
+        character: "👥😟",
+        title: "Preocupações dos NPCs",
+        text: "Os habitantes locais estão preocupados com seus métodos. Talvez você devesse ser mais cuidadoso.",
+        leftChoice: "Ignorar preocupações",
+        rightChoice: "Ouvir conselhos",
+        leftEffect: { robots: 10, energy: -5, knowledge: -5 },
+        rightEffect: { robots: 5, knowledge: 15, energy: -10 },
+        triggerConditions: { npc_felicidade: { min: -Infinity, max: -3 } },
+        weight: 2
     },
 
     // CONSEQUÊNCIAS NEUTRAS/POSITIVAS
     {
-        id: "ancient_library",
+        id: "ancient_code_library",
         character: "📚",
-        title: "Biblioteca Ancestral",
-        text: "Você encontra uma biblioteca de códigos antigos! Há algoritmos perdidos aqui.",
-        leftChoice: "Estudar algoritmos de ordenação",
-        rightChoice: "Estudar estruturas de dados",
+        title: "Biblioteca de Códigos Antigos",
+        text: "Você encontra uma biblioteca com algoritmos perdidos! Há padrões de design aqui.",
+        leftChoice: "Estudar padrões de design",
+        rightChoice: "Focar em algoritmos",
         leftEffect: { knowledge: 15, energy: -10 },
-        rightEffect: { knowledge: 10, robots: 10, energy: -5 },
+        rightEffect: { robots: 15, energy: -5 },
         triggerConditions: {},
         weight: 1
     },
     {
-        id: "helpful_npc_programmer",
+        id: "fellow_programmer",
         character: "👨‍💻",
-        title: "Programador Amigável",
-        text: "Você encontra um programador local! Ele oferece dicas sobre o Mundo dos Objetos.",
-        leftChoice: "Pedir dicas de combat",
-        rightChoice: "Pedir dicas de otimização",
-        leftEffect: { robots: 15, knowledge: 5 },
-        rightEffect: { energy: 15, resources: 10 },
+        title: "Programador Companheiro",
+        text: "Você encontra outro programador perdido! Ele oferece trocar conhecimentos.",
+        leftChoice: "Trocar dicas de POO",
+        rightChoice: "Trocar recursos",
+        leftEffect: { knowledge: 20, robots: 5 },
+        rightEffect: { resources: 15, energy: 10 },
         triggerConditions: {},
         weight: 1
     },
     {
-        id: "code_review",
-        character: "👀",
-        title: "Code Review Espontâneo",
-        text: "Siren analisa seu código: 'Interessante abordagem... mas posso sugerir melhorias.'",
-        leftChoice: "Aceitar sugestões",
-        rightChoice: "Defender sua implementação",
-        leftEffect: { knowledge: 20, robots: 10, energy: -5 },
-        rightEffect: { robots: 5, energy: 10, resources: -5 },
-        triggerConditions: {},
-        weight: 1
-    },
-    {
-        id: "easter_egg_discovery",
-        character: "🥚",
-        title: "Easter Egg Descoberto",
-        text: "Você encontrou um easter egg no código do mundo! Há um comentário engraçado deixado por um desenvolvedor antigo.",
-        leftChoice: "Rir e continuar",
-        rightChoice: "Investigar mais profundamente",
-        leftEffect: { energy: 10, robots: 5 },
-        rightEffect: { knowledge: 15, energy: -5 },
+        id: "debug_session",
+        character: "🐛",
+        title: "Sessão de Debug",
+        text: "Hora de debug! Você encontra alguns bugs interessantes no código do mundo.",
+        leftChoice: "Corrigir bugs",
+        rightChoice: "Explorar bugs",
+        leftEffect: { knowledge: 15, robots: 10, energy: -15 },
+        rightEffect: { knowledge: 5, robots: -5, energy: 5 },
         triggerConditions: {},
         weight: 1
     }
 ];
 
-// Status ocultos iniciais (adaptados para programação)
+// Status ocultos iniciais (atualizados)
 const INITIAL_HIDDEN_STATUS = {
-    // Estilos de programação
-    defensive_programming: 0,
-    aggressive_programming: 0,
-    oop_mastery: 0,
-    functional_thinking: 0,
+    // Player
+    player_felicidade: 0,
+    player_conhecimento: 0,
     
-    // Habilidades técnicas
-    debugging_skills: 0,
-    algorithm_optimization: 0,
-    memory_management: 0,
-    refactoring_skills: 0,
-    performance_focus: 0,
-    resource_efficiency: 0,
+    // Robô
+    robo_felicidade: 0,
+    robo_ataque: 0,
+    robo_vulnerabilidade: 0,
+    robo_defesa: 0,
     
-    // Características pessoais
-    programming_knowledge: 0,
-    curiosity: 0,
-    determination: 0,
-    patience: 0,
-    innovation: 0,
-    risk_taking: 0,
-    safety_first: 0,
-    
-    // Status de combate/mundo
-    combat_strategy: 0,
-    oop_battle_experience: 0,
-    battle_confidence: 0,
-    structured_thinking: 0,
-    
-    // Status especiais
-    mission_accepted: 0,
-    quick_learner: 0,
-    politeness: 0,
-    trust: 0,
-    anxiety: 0,
-    observation: 0,
-    need_explanation: 0,
-    bold_decisions: 0,
-    aggressive_coding: 0
+    // NPCs
+    npc_felicidade: 0,
+    npc_gratitude: 0
 };
 
 // Exportar para compatibilidade

@@ -1,11 +1,11 @@
 class ProgrammingGame {
     constructor() {
-        // Stats do jogo adaptadas para programação
+        // Stats do jogo (mudança: knowledge -> intelligence)
         this.stats = {
-            robots: 25,      // Qualidade do robo
-            energy: 10,      // Energia para programar
-            knowledge: 10,   // Conhecimento de programação
-            resources: 10    // Recursos computacionais
+            robots: 50,       // Quantidade/qualidade dos robôs
+            energy: 50,       // Energia para programar
+            intelligence: 50, // Inteligência (antes era knowledge)
+            resources: 50     // Recursos computacionais
         };
         
         // Status ocultos que influenciam as cartas de consequência
@@ -13,20 +13,20 @@ class ProgrammingGame {
         
         // Sistema de capítulos
         this.currentChapter = 1;
-        this.maxChapters = 6; 
-        this.cardsPlayedInChapter = 0;
-        this.keyCardsPlayedInChapter = 0;
-        this.requiredKeyCards = 5;
-        this.requiredConsequenceCards = 10;
+        this.maxChapters = 6;
+        
+        // Novo sistema de intercalação
+        this.keyCardsQueue = [];           // Fila de cartas-chave em ordem
+        this.currentKeyCardIndex = 0;      // Índice da próxima carta-chave
+        this.cardsPlayedInChapter = 0;     // Total de cartas jogadas
+        this.keyCardsPlayedInChapter = 0;  // Cartas-chave jogadas
         
         // Sistema de introdução
         this.introPhase = true;
         this.introCardIndex = 0;
         this.introCards = INTRO_CARDS || [];
         
-        // Controle de cartas
-        this.keyCardsQueue = [];
-        this.playedKeyCards = new Set();
+        // Controle de cartas de consequência
         this.availableConsequenceCards = [];
         this.playedConsequenceCards = new Set();
         
@@ -75,7 +75,7 @@ class ProgrammingGame {
             return;
         }
         
-        // Verifica se o capítulo foi completado
+        // Verifica se o capítulo foi completado (todas as 5 cartas-chave foram jogadas)
         if (this.isChapterComplete()) {
             this.advanceChapter();
             return;
@@ -83,17 +83,30 @@ class ProgrammingGame {
         
         let cardToLoad = null;
         
-        // Prioriza cartas-chave se ainda precisamos delas
-        if (this.keyCardsPlayedInChapter < this.requiredKeyCards && this.keyCardsQueue.length > 0) {
-            cardToLoad = this.keyCardsQueue.shift();
-            cardToLoad.isKeyCard = true;
-            console.log(`🔑 Carregando carta-chave: ${cardToLoad.title}`);
-        }
-        // Caso contrário, carrega carta de consequência
-        else if (this.availableConsequenceCards.length > 0) {
-            cardToLoad = this.selectWeightedConsequenceCard();
-            cardToLoad.isKeyCard = false;
-            console.log(`⚡ Carregando carta de consequência: ${cardToLoad.title}`);
+        // Sistema de intercalação: Alterna entre cartas-chave e consequência
+        if (this.shouldLoadKeyCard()) {
+            // Carregar próxima carta-chave da sequência
+            if (this.currentKeyCardIndex < this.keyCardsQueue.length) {
+                cardToLoad = this.keyCardsQueue[this.currentKeyCardIndex];
+                cardToLoad.isKeyCard = true;
+                this.currentKeyCardIndex++;
+                console.log(`🔑 Carregando carta-chave ${this.currentKeyCardIndex}/${this.keyCardsQueue.length}: ${cardToLoad.title}`);
+            }
+        } else {
+            // Carregar carta de consequência
+            if (this.availableConsequenceCards.length > 0) {
+                cardToLoad = this.selectWeightedConsequenceCard();
+                cardToLoad.isKeyCard = false;
+                console.log(`⚡ Carregando carta de consequência: ${cardToLoad.title}`);
+            } else {
+                // Se não há consequências disponíveis, forçar próxima carta-chave
+                if (this.currentKeyCardIndex < this.keyCardsQueue.length) {
+                    cardToLoad = this.keyCardsQueue[this.currentKeyCardIndex];
+                    cardToLoad.isKeyCard = true;
+                    this.currentKeyCardIndex++;
+                    console.log(`🔑 Forçando carta-chave: ${cardToLoad.title}`);
+                }
+            }
         }
         
         if (!cardToLoad) {
@@ -107,19 +120,45 @@ class ProgrammingGame {
         this.updateChapterProgress();
     }
 
+    shouldLoadKeyCard() {
+        // Lógica para decidir se deve carregar carta-chave ou consequência
+        
+        // Se ainda não jogou nenhuma carta-chave, deve começar com uma
+        if (this.keyCardsPlayedInChapter === 0) {
+            return true;
+        }
+        
+        // Se já jogou todas as cartas-chave, só carrega consequências
+        if (this.currentKeyCardIndex >= this.keyCardsQueue.length) {
+            return false;
+        }
+        
+        // Padrão de intercalação: 
+        // Carta-chave -> 1-2 consequências -> Carta-chave -> 1-2 consequências...
+        const totalCardsPlayed = this.cardsPlayedInChapter;
+        const keyCardsPlayed = this.keyCardsPlayedInChapter;
+        
+        // Se a diferença entre total e chaves for >= 2, hora da próxima chave
+        if ((totalCardsPlayed - keyCardsPlayed) >= 2) {
+            return true;
+        }
+        
+        // Se a diferença for < 2, carrega consequência (com 70% de chance)
+        return Math.random() < 0.3; // 30% chance de carta-chave, 70% consequência
+    }
+
     setupChapter() {
         console.log(`🏰 Configurando Capítulo ${this.currentChapter}`);
         
         // Reset contadores do capítulo
         this.cardsPlayedInChapter = 0;
         this.keyCardsPlayedInChapter = 0;
-        this.playedKeyCards.clear();
+        this.currentKeyCardIndex = 0;
         this.playedConsequenceCards.clear();
         
-        // Configurar cartas-chave do capítulo atual
+        // Configurar cartas-chave do capítulo atual em ordem fixa (NÃO embaralhar)
         const chapterKeyCards = CHAPTER_KEY_CARDS[this.currentChapter] || [];
-        this.keyCardsQueue = [...chapterKeyCards];
-        this.shuffleArray(this.keyCardsQueue);
+        this.keyCardsQueue = [...chapterKeyCards]; // Manter ordem original
         
         // Configurar cartas de consequência disponíveis
         this.updateAvailableConsequenceCards();
@@ -209,7 +248,7 @@ class ProgrammingGame {
                 cardElement.classList.add('key-card');
                 const indicator = document.createElement('div');
                 indicator.className = 'card-type-indicator card-type-key';
-                indicator.textContent = '🔑 Chave';
+                indicator.textContent = '🔑 POO';
                 cardElement.appendChild(indicator);
             } else {
                 const indicator = document.createElement('div');
@@ -234,9 +273,13 @@ class ProgrammingGame {
         const hiddenEffect = direction === 'left' ? this.currentCard.leftHiddenEffects : this.currentCard.rightHiddenEffects;
         const choiceText = direction === 'left' ? this.currentCard.leftChoice : this.currentCard.rightChoice;
         
-        // Aplicar efeitos visíveis
+        // Aplicar efeitos visíveis (mudança: knowledge -> intelligence)
         for (let stat in effect) {
-            this.stats[stat] = Math.max(0, Math.min(100, this.stats[stat] + effect[stat]));
+            // Converter knowledge para intelligence se necessário
+            let statName = stat === 'knowledge' ? 'intelligence' : stat;
+            if (this.stats[statName] !== undefined) {
+                this.stats[statName] = Math.max(0, Math.min(100, this.stats[statName] + effect[stat]));
+            }
         }
         
         // Aplicar efeitos ocultos
@@ -250,7 +293,6 @@ class ProgrammingGame {
         // Registrar carta jogada
         if (this.currentCard.isKeyCard) {
             this.keyCardsPlayedInChapter++;
-            this.playedKeyCards.add(this.currentCard.id);
         } else {
             this.playedConsequenceCards.add(this.currentCard.id);
         }
@@ -356,11 +398,11 @@ class ProgrammingGame {
     }
 
     updateDisplay() {
-        // Atualizar barras de stats com cores baseadas no valor
+        // Atualizar barras de stats (mudança: knowledge -> intelligence)
         const statBars = {
             robots: document.getElementById('robotsBar'),
             energy: document.getElementById('energyBar'),
-            knowledge: document.getElementById('knowledgeBar'),
+            intelligence: document.getElementById('intelligenceBar'),
             resources: document.getElementById('resourcesBar')
         };
         
@@ -371,8 +413,8 @@ class ProgrammingGame {
         if (!statBars.energy) {
             statBars.energy = document.getElementById('peopleBar');
         }
-        if (!statBars.knowledge) {
-            statBars.knowledge = document.getElementById('armyBar');
+        if (!statBars.intelligence) {
+            statBars.intelligence = document.getElementById('armyBar') || document.getElementById('knowledgeBar');
         }
         if (!statBars.resources) {
             statBars.resources = document.getElementById('treasuryBar');
@@ -381,7 +423,7 @@ class ProgrammingGame {
         const statMapping = {
             robots: 'robots',
             energy: 'energy', 
-            knowledge: 'knowledge',
+            intelligence: 'intelligence',
             resources: 'resources'
         };
         
@@ -422,27 +464,27 @@ class ProgrammingGame {
     updateChapterProgress() {
         const progressElement = document.getElementById('storyProgress');
         if (progressElement) {
-            const totalRequired = this.requiredKeyCards + this.requiredConsequenceCards;
-            const progress = (this.cardsPlayedInChapter / totalRequired) * 100;
+            // Base o progresso nas cartas-chave jogadas (5 total)
+            const progress = (this.keyCardsPlayedInChapter / 5) * 100;
             progressElement.style.width = Math.min(100, progress) + '%';
         }
         
         const chapterElement = document.getElementById('chapterCount');
         if (chapterElement) {
-            const keyProgress = `${this.keyCardsPlayedInChapter}/${this.requiredKeyCards}`;
-            const totalProgress = `${this.cardsPlayedInChapter}/${this.requiredKeyCards + this.requiredConsequenceCards}`;
-            chapterElement.textContent = `Cap. ${this.currentChapter}/${this.maxChapters} | Código: ${keyProgress} | Total: ${totalProgress}`;
+            const keyProgress = `${this.keyCardsPlayedInChapter}/5`;
+            const totalProgress = `${this.cardsPlayedInChapter}`;
+            chapterElement.textContent = `Cap. ${this.currentChapter}/${this.maxChapters} | POO: ${keyProgress} | Total: ${totalProgress}`;
         }
         
         // Debug de status ocultos
         if (this.turn % 3 === 0) {
-            console.log('💻 Status de Programação:', this.hiddenStatus);
+            console.log('💻 Status Ocultos:', this.hiddenStatus);
         }
     }
 
     isChapterComplete() {
-        return (this.keyCardsPlayedInChapter >= this.requiredKeyCards && 
-                this.cardsPlayedInChapter >= (this.requiredKeyCards + this.requiredConsequenceCards));
+        // Capítulo completa quando todas as 5 cartas-chave foram jogadas
+        return this.keyCardsPlayedInChapter >= 5;
     }
 
     advanceChapter() {
@@ -482,11 +524,11 @@ class ProgrammingGame {
 
     getChapterDescription(chapter) {
         const descriptions = {
-            2: "Suas primeiras linhas de código foram escritas. Agora você deve dominar algoritmos mais complexos e enfrentar bugs mais desafiadores no Mundo dos Objetos.",
-            3: "Seus robôs estão evoluindo! É hora de aprender padrões de design avançados e otimizações que irão determinar seu sucesso contra os Cavaleiros da Orientação a Objetos.",
-            4: "O Grande Programador está próximo! Você deve reunir todo seu conhecimento e preparar seus robôs para os desafios finais que aguardam.",
-            5: "A batalha final se aproxima! Suas decisões determinarão se você conseguirá derrotar o Grande Programador e encontrar o caminho de volta para casa.",
-            6: "O confronto definitivo chegou! Tudo que você aprendeu sobre programação será testado nesta última fase épica."
+            2: "Você dominou os conceitos básicos de POO! Agora é hora de aprender sobre herança, polimorfismo e outros conceitos avançados.",
+            3: "Seus robôs estão evoluindo! Padrões de design e arquiteturas complexas aguardam sua implementação.",
+            4: "O Grande Programador está próximo! Você deve reunir todo seu conhecimento para os desafios finais.",
+            5: "A batalha final se aproxima! Suas habilidades de programação serão testadas ao limite.",
+            6: "O confronto definitivo chegou! Tudo que você aprendeu sobre POO será crucial nesta última fase."
         };
         return descriptions[chapter] || "Uma nova fase de sua jornada de programação começa...";
     }
@@ -509,7 +551,8 @@ class ProgrammingGame {
         const statNames = {
             robots: { icon: '🤖', name: 'Robôs' },
             energy: { icon: '⚡', name: 'Energia' },
-            knowledge: { icon: '📚', name: 'Conhecimento' },
+            intelligence: { icon: '🧠', name: 'Inteligência' },
+            knowledge: { icon: '🧠', name: 'Inteligência' }, // Fallback
             resources: { icon: '💾', name: 'Recursos' }
         };
         
@@ -520,7 +563,9 @@ class ProgrammingGame {
                 const effectItem = document.createElement('div');
                 effectItem.className = 'effect-item';
                 
-                const statInfo = statNames[stat];
+                // Converter knowledge para intelligence se necessário
+                const displayStat = stat === 'knowledge' ? 'intelligence' : stat;
+                const statInfo = statNames[displayStat] || statNames[stat];
                 const sign = value > 0 ? '+' : '';
                 const valueClass = value > 0 ? 'positive' : 'negative';
                 
@@ -537,15 +582,15 @@ class ProgrammingGame {
         }
         
         // Mostrar alguns efeitos ocultos importantes
-        const importantHiddenEffects = ['programming_knowledge', 'debugging_skills', 'oop_mastery', 'algorithm_optimization'];
+        const importantHiddenEffects = ['player_conhecimento', 'robo_ataque', 'robo_defesa', 'player_felicidade'];
         let hasImportantHiddenEffects = false;
         
         for (let status of importantHiddenEffects) {
-            if (hiddenEffects[status] && Math.abs(hiddenEffects[status]) >= 5) {
+            if (hiddenEffects[status] && Math.abs(hiddenEffects[status]) >= 3) {
                 if (!hasImportantHiddenEffects) {
                     const separator = document.createElement('div');
                     separator.style.cssText = 'border-top: 1px solid #666; margin: 10px 0 5px 0; padding-top: 5px; font-size: 12px; opacity: 0.7;';
-                    separator.textContent = 'Habilidades Desenvolvidas:';
+                    separator.textContent = 'Efeitos Ocultos:';
                     effectList.appendChild(separator);
                     hasImportantHiddenEffects = true;
                 }
@@ -560,15 +605,17 @@ class ProgrammingGame {
                 const valueClass = value > 0 ? 'positive' : 'negative';
                 
                 const statusNames = {
-                    programming_knowledge: 'Conhecimento de Programação',
-                    debugging_skills: 'Habilidades de Debug',
-                    oop_mastery: 'Domínio de POO',
-                    algorithm_optimization: 'Otimização de Algoritmos'
+                    player_conhecimento: 'Conhecimento do Player',
+                    player_felicidade: 'Felicidade do Player',
+                    robo_ataque: 'Ataque do Robô',
+                    robo_defesa: 'Defesa do Robô',
+                    robo_felicidade: 'Felicidade do Robô',
+                    npc_gratitude: 'Gratidão dos NPCs'
                 };
                 
                 effectItem.innerHTML = `
                     <div class="effect-stat">
-                        <span>💡</span>
+                        <span>🔮</span>
                         <span>${statusNames[status]}</span>
                     </div>
                     <span class="effect-value ${valueClass}">${sign}${value}</span>
@@ -614,10 +661,10 @@ class ProgrammingGame {
             reason = "Você está exausto demais para continuar programando. Seus olhos se fecham...";
         } else if (this.stats.energy >= 100) {
             reason = "Você está com tanta energia que não consegue se concentrar! Sua mente está muito agitada.";
-        } else if (this.stats.knowledge <= 0) {
+        } else if (this.stats.intelligence <= 0) {
             reason = "Você esqueceu tudo sobre programação! Não consegue mais escrever uma linha de código.";
-        } else if (this.stats.knowledge >= 100) {
-            reason = "Seu conhecimento transcendeu este mundo! Você se torna parte da matrix e desaparece.";
+        } else if (this.stats.intelligence >= 100) {
+            reason = "Sua inteligência transcendeu este mundo! Você se torna parte da matrix e desaparece.";
         } else if (this.stats.resources <= 0) {
             reason = "Sem recursos computacionais, seus programas não podem mais rodar. Tudo trava.";
         } else if (this.stats.resources >= 100) {
@@ -653,7 +700,7 @@ class ProgrammingGame {
         }
         
         // Bônus por habilidades desenvolvidas
-        const importantSkills = ['programming_knowledge', 'oop_mastery', 'debugging_skills', 'algorithm_optimization'];
+        const importantSkills = ['player_conhecimento', 'robo_ataque', 'robo_defesa', 'player_felicidade'];
         for (let skill of importantSkills) {
             if (this.hiddenStatus[skill] > 10) {
                 skillBonus += 25;
@@ -678,7 +725,7 @@ class ProgrammingGame {
             turns: document.getElementById('finalTurns'),
             robots: document.getElementById('finalChurch'),     // Reutilizando elementos
             energy: document.getElementById('finalPeople'),
-            knowledge: document.getElementById('finalArmy'),
+            intelligence: document.getElementById('finalArmy'),
             resources: document.getElementById('finalTreasury'),
             overlay: document.getElementById('storyComplete')
         };
@@ -689,12 +736,12 @@ class ProgrammingGame {
         if (elements.turns) elements.turns.textContent = this.turn - 1;
         if (elements.robots) elements.robots.textContent = this.stats.robots;
         if (elements.energy) elements.energy.textContent = this.stats.energy;
-        if (elements.knowledge) elements.knowledge.textContent = this.stats.knowledge;
+        if (elements.intelligence) elements.intelligence.textContent = this.stats.intelligence;
         if (elements.resources) elements.resources.textContent = this.stats.resources;
         if (elements.overlay) elements.overlay.style.display = 'flex';
     }
 
-    // Métodos de controle mantidos iguais
+    // Métodos de controle de interface
     setupEventListeners() {
         const card = document.getElementById('currentCard');
         if (!card) return;
@@ -811,10 +858,10 @@ class ProgrammingGame {
     }
 }
 
-// Variável global (mudando nome da classe)
+// Variável global do jogo
 let game;
 
-// Funções globais
+// Funções globais de controle
 function startGame() {
     game = new ProgrammingGame();
 }
@@ -832,6 +879,7 @@ function restartGame() {
         if (element) element.style.display = 'none';
     });
     
+    // Remove overlays de transição de capítulo se existirem
     const transitionOverlays = document.querySelectorAll('.overlay[style*="z-index: 1001"]');
     transitionOverlays.forEach(overlay => overlay.remove());
     
@@ -850,7 +898,13 @@ function exitGame() {
     }
 }
 
-// Inicialização
+// Inicialização do jogo
 window.onload = function() {
-    console.log('🎮 O Mundo dos Objetos carregado com sucesso!');
+    console.log('🎮 O Mundo dos Objetos - Versão Completa carregada!');
+    console.log('📝 Sistema de intercalação ativo');
+    console.log('🔮 Status ocultos implementados');
+    console.log('🧠 Knowledge → Intelligence atualizado');
+    console.log('📜 6 cartas de introdução prontas');
+    console.log('🔑 5 cartas-chave de POO sequenciais');
+    console.log('⚡ Sistema dinâmico de eventos');
 };
