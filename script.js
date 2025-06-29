@@ -1,14 +1,14 @@
 class ProgrammingGame {
     constructor() {
-        // Stats do jogo
+        //status/indicadores do jogo (acima da tela)
         this.stats = {
-            robots: 50,       // Quantidade/qualidade dos robôs
-            energy: 50,       // Energia para programar
-            intelligence: 50, // Inteligência
-            resources: 50     // Recursos computacionais
+            robots: 50,       // Qualidade dos robôs
+            energy: 50,       // Energia dos robos
+            intelligence: 50, // Inteligência do robo
+            resources: 50     // Recursos computacionais disponiveis
         };
         
-        // Status ocultos que influenciam as cartas de consequência
+        // recebe os status ocultos
         this.hiddenStatus = { ...INITIAL_HIDDEN_STATUS };
         
         // Sistema de capítulos
@@ -38,8 +38,9 @@ class ProgrammingGame {
         this.isPaused = false;
         this.gameCompleted = false;
         
-        // Sistema de menus
+        // Sistema de menus e UI
         this.menuSystem = null;
+        this.uiManager = null;
         
         this.init();
     }
@@ -47,25 +48,27 @@ class ProgrammingGame {
     init() {
         // Verifica se as cartas foram carregadas
         if (!CHAPTER_KEY_CARDS || !CONSEQUENCE_CARDS || !INTRO_CARDS) {
-            console.error('Erro: Cartas não foram carregadas! Verifique se o arquivo cards.js foi incluído.');
             return;
         }
         
-        // Inicializar sistema de menus
+        // Inicializar sistemas
         this.menuSystem = initializeMenuSystem(this);
+        this.uiManager = new UIManager(this);
         
-        console.log('🎮 Iniciando O Mundo dos Objetos...');
         this.updateDisplay();
         this.loadNextCard();
-        this.setupEventListeners();
+        this.setupDragHandlers();
         this.menuSystem.updatePauseButton();
     }
+
+    // ========================================
+    // SISTEMA DE CARTAS
+    // ========================================
 
     loadNextCard() {
         // Fase de introdução
         if (this.introPhase) {
             if (this.introCardIndex >= this.introCards.length) {
-                console.log('📜 Introdução completa, iniciando capítulo...');
                 this.introPhase = false;
                 this.setupChapter();
                 this.loadNextCard();
@@ -76,12 +79,12 @@ class ProgrammingGame {
             card.isKeyCard = false;
             card.isIntro = true;
             this.currentCard = card;
-            this.displayCard(card);
+            this.uiManager.displayCard(card);
             this.updateIntroProgress();
             return;
         }
         
-        // Verifica se o capítulo foi completado (todas as 5 cartas-chave foram jogadas)
+        // Verifica se o capítulo foi completado
         if (this.isChapterComplete()) {
             this.advanceChapter();
             return;
@@ -89,87 +92,68 @@ class ProgrammingGame {
         
         let cardToLoad = null;
         
-        // Sistema de intercalação: Alterna entre cartas-chave e consequência
+        // Sistema de intercalação
         if (this.shouldLoadKeyCard()) {
-            // Carregar próxima carta-chave da sequência
             if (this.currentKeyCardIndex < this.keyCardsQueue.length) {
                 cardToLoad = this.keyCardsQueue[this.currentKeyCardIndex];
                 cardToLoad.isKeyCard = true;
                 this.currentKeyCardIndex++;
-                console.log(`🔑 Carregando carta-chave ${this.currentKeyCardIndex}/${this.keyCardsQueue.length}: ${cardToLoad.title}`);
             }
         } else {
-            // Carregar carta de consequência
             if (this.availableConsequenceCards.length > 0) {
                 cardToLoad = this.selectWeightedConsequenceCard();
                 cardToLoad.isKeyCard = false;
-                console.log(`⚡ Carregando carta de consequência: ${cardToLoad.title}`);
             } else {
-                // Se não há consequências disponíveis, forçar próxima carta-chave
+                // Forçar próxima carta-chave se não há consequências
                 if (this.currentKeyCardIndex < this.keyCardsQueue.length) {
                     cardToLoad = this.keyCardsQueue[this.currentKeyCardIndex];
                     cardToLoad.isKeyCard = true;
                     this.currentKeyCardIndex++;
-                    console.log(`🔑 Forçando carta-chave: ${cardToLoad.title}`);
                 }
             }
         }
         
         if (!cardToLoad) {
-            console.log('❌ Nenhuma carta disponível - avançando capítulo');
             this.advanceChapter();
             return;
         }
         
         this.currentCard = cardToLoad;
-        this.displayCard(cardToLoad);
+        this.uiManager.displayCard(cardToLoad);
         this.updateChapterProgress();
     }
 
     shouldLoadKeyCard() {
-        // Lógica para decidir se deve carregar carta-chave ou consequência
-        
-        // Se ainda não jogou nenhuma carta-chave, deve começar com uma
         if (this.keyCardsPlayedInChapter === 0) {
             return true;
         }
         
-        // Se já jogou todas as cartas-chave, só carrega consequências
         if (this.currentKeyCardIndex >= this.keyCardsQueue.length) {
             return false;
         }
         
-        // Padrão de intercalação: 
-        // Carta-chave -> 1-2 consequências -> Carta-chave -> 1-2 consequências...
         const totalCardsPlayed = this.cardsPlayedInChapter;
         const keyCardsPlayed = this.keyCardsPlayedInChapter;
         
-        // Se a diferença entre total e chaves for >= 2, hora da próxima chave
-        if ((totalCardsPlayed - keyCardsPlayed) >= 2) {
+        if ((totalCardsPlayed - keyCardsPlayed) >= 3) {
             return true;
         }
         
-        // Se a diferença for < 2, carrega consequência (com 70% de chance)
-        return Math.random() < 0.3; // 30% chance de carta-chave, 70% consequência
+        return Math.random() < 0.15; 
     }
 
     setupChapter() {
-        console.log(`🏰 Configurando Capítulo ${this.currentChapter}`);
-        
-        // Reset contadores do capítulo
+        // Reset do capítulo
         this.cardsPlayedInChapter = 0;
         this.keyCardsPlayedInChapter = 0;
         this.currentKeyCardIndex = 0;
         this.playedConsequenceCards.clear();
         
-        // Configurar cartas-chave do capítulo atual em ordem fixa (NÃO embaralhar)
+        // Configurar cartas do capítulo
         const chapterKeyCards = CHAPTER_KEY_CARDS[this.currentChapter] || [];
-        this.keyCardsQueue = [...chapterKeyCards]; // Manter ordem original
+        this.keyCardsQueue = [...chapterKeyCards];
         
-        // Configurar cartas de consequência disponíveis
         this.updateAvailableConsequenceCards();
-        
-        console.log(`📋 Cartas-chave: ${this.keyCardsQueue.length}, Consequências disponíveis: ${this.availableConsequenceCards.length}`);
     }
 
     updateAvailableConsequenceCards() {
@@ -214,57 +198,9 @@ class ProgrammingGame {
         return this.availableConsequenceCards.shift();
     }
 
-    displayCard(card) {
-        const elements = {
-            character: document.getElementById('cardCharacter'),
-            title: document.getElementById('cardTitle'),
-            text: document.getElementById('cardText'),
-            leftChoice: document.getElementById('leftChoice'),
-            rightChoice: document.getElementById('rightChoice')
-        };
-        
-        if (elements.character) elements.character.textContent = card.character;
-        if (elements.title) elements.title.textContent = card.title;
-        if (elements.text) elements.text.textContent = card.text;
-        if (elements.leftChoice) elements.leftChoice.textContent = card.leftChoice;
-        if (elements.rightChoice) elements.rightChoice.textContent = card.rightChoice;
-        
-        const cardElement = document.getElementById('currentCard');
-        const choices = document.getElementById('choices');
-        
-        if (cardElement) {
-            cardElement.style.transform = 'translateX(0px) rotate(0deg)';
-            cardElement.style.opacity = '1';
-            
-            // Remove classes anteriores
-            cardElement.classList.remove('key-card', 'intro-card');
-            
-            // Remove indicador anterior se existir
-            const existingIndicator = cardElement.querySelector('.card-type-indicator');
-            if (existingIndicator) existingIndicator.remove();
-            
-            // Adiciona estilo baseado no tipo de carta
-            if (card.isIntro) {
-                cardElement.classList.add('intro-card');
-                const indicator = document.createElement('div');
-                indicator.className = 'card-type-indicator card-type-intro';
-                indicator.textContent = '📜 História';
-                cardElement.appendChild(indicator);
-            } else if (card.isKeyCard) {
-                cardElement.classList.add('key-card');
-                const indicator = document.createElement('div');
-                indicator.className = 'card-type-indicator card-type-key';
-                indicator.textContent = '🔑 POO';
-                cardElement.appendChild(indicator);
-            } else {
-                const indicator = document.createElement('div');
-                indicator.className = 'card-type-indicator card-type-consequence';
-                indicator.textContent = '⚡ Evento';
-                cardElement.appendChild(indicator);
-            }
-        }
-        if (choices) choices.classList.remove('visible');
-    }
+    // ========================================
+    // SISTEMA DE ESCOLHAS
+    // ========================================
 
     makeChoice(direction) {
         if (!this.currentCard) return;
@@ -279,22 +215,8 @@ class ProgrammingGame {
         const hiddenEffect = direction === 'left' ? this.currentCard.leftHiddenEffects : this.currentCard.rightHiddenEffects;
         const choiceText = direction === 'left' ? this.currentCard.leftChoice : this.currentCard.rightChoice;
         
-        // Aplicar efeitos visíveis
-        for (let stat in effect) {
-            // Converter knowledge para intelligence se necessário
-            let statName = stat === 'knowledge' ? 'intelligence' : stat;
-            if (this.stats[statName] !== undefined) {
-                this.stats[statName] = Math.max(0, Math.min(100, this.stats[statName] + effect[stat]));
-            }
-        }
-        
-        // Aplicar efeitos ocultos
-        if (hiddenEffect) {
-            for (let status in hiddenEffect) {
-                this.hiddenStatus[status] = (this.hiddenStatus[status] || 0) + hiddenEffect[status];
-                this.hiddenStatus[status] = Math.max(-100, Math.min(100, this.hiddenStatus[status]));
-            }
-        }
+        // Aplicar efeitos
+        this.applyEffects(effect, hiddenEffect);
         
         // Registrar carta jogada
         if (this.currentCard.isKeyCard) {
@@ -306,17 +228,11 @@ class ProgrammingGame {
         this.cardsPlayedInChapter++;
         this.updateAvailableConsequenceCards();
         
-        // Mostrar carta de efeito
-        this.showEffectCard(choiceText, effect, hiddenEffect);
+        // Mostrar efeitos e animar saída
+        this.uiManager.showEffectCard(choiceText, effect, hiddenEffect);
+        this.uiManager.animateCardExit(direction);
         
-        // Animar saída da carta
-        const card = document.getElementById('currentCard');
-        if (card) {
-            const exitX = direction === 'left' ? -400 : 400;
-            card.style.transform = `translateX(${exitX}px) rotate(${exitX/10}deg)`;
-            card.style.opacity = '0';
-        }
-        
+        // Processar próxima carta
         setTimeout(() => {
             this.turn++;
             this.updateDisplay();
@@ -325,7 +241,7 @@ class ProgrammingGame {
                 this.gameOver();
             } else {
                 setTimeout(() => {
-                    this.hideEffectCard();
+                    this.uiManager.hideEffectCard();
                     setTimeout(() => {
                         this.loadNextCard();
                     }, 400);
@@ -337,26 +253,21 @@ class ProgrammingGame {
     handleIntroChoice(direction) {
         const hiddenEffect = direction === 'left' ? this.currentCard.leftHiddenEffects : this.currentCard.rightHiddenEffects;
         
-        // Verificar se é game over (carta da missão)
+        // Verificar game over especial da introdução
         if (hiddenEffect && hiddenEffect.gameOver) {
             this.menuSystem.showIntroGameOver();
             return;
         }
         
-        // Aplicar efeitos ocultos da introdução
+        // Aplicar efeitos ocultos
         if (hiddenEffect) {
             for (let status in hiddenEffect) {
                 this.hiddenStatus[status] = (this.hiddenStatus[status] || 0) + hiddenEffect[status];
             }
         }
         
-        // Animar saída da carta
-        const card = document.getElementById('currentCard');
-        if (card) {
-            const exitX = direction === 'left' ? -400 : 400;
-            card.style.transform = `translateX(${exitX}px) rotate(${exitX/10}deg)`;
-            card.style.opacity = '0';
-        }
+        // Animar saída
+        this.uiManager.animateCardExit(direction);
         
         setTimeout(() => {
             this.introCardIndex++;
@@ -364,79 +275,44 @@ class ProgrammingGame {
         }, 300);
     }
 
-    restartIntro() {
-        this.introPhase = true;
-        this.introCardIndex = 0;
-        this.hiddenStatus = { ...INITIAL_HIDDEN_STATUS };
-        this.turn = 1;
-        this.updateDisplay();
-        this.loadNextCard();
-    }
-
-    updateDisplay() {
-        // Atualizar barras de stats
-        const statBars = {
-            robots: document.getElementById('robotsBar'),
-            energy: document.getElementById('energyBar'),
-            intelligence: document.getElementById('intelligenceBar'),
-            resources: document.getElementById('resourcesBar')
-        };
-        
-        const statMapping = {
-            robots: 'robots',
-            energy: 'energy', 
-            intelligence: 'intelligence',
-            resources: 'resources'
-        };
-        
-        for (let barName in statBars) {
-            const statName = statMapping[barName];
-            if (statBars[barName] && this.stats[statName] !== undefined) {
-                statBars[barName].style.width = this.stats[statName] + '%';
-                
-                // Cores baseadas no valor
-                if (this.stats[statName] <= 20 || this.stats[statName] >= 80) {
-                    statBars[barName].style.background = '#f44336'; // Vermelho - perigo
-                } else if (this.stats[statName] <= 40 || this.stats[statName] >= 60) {
-                    statBars[barName].style.background = '#FF9800'; // Laranja - cuidado
-                } else {
-                    statBars[barName].style.background = '#4CAF50'; // Verde - seguro
-                }
+    applyEffects(visibleEffects, hiddenEffects) {
+        // Aplicar efeitos visíveis
+        for (let stat in visibleEffects) {
+            let statName = stat === 'knowledge' ? 'intelligence' : stat;
+            if (this.stats[statName] !== undefined) {
+                this.stats[statName] = Math.max(0, Math.min(100, this.stats[statName] + visibleEffects[stat]));
             }
         }
         
-        // Atualizar contador de turnos
-        const turnElement = document.getElementById('turnCount');
-        if (turnElement) turnElement.textContent = this.turn;
+        // Aplicar efeitos ocultos
+        if (hiddenEffects) {
+            for (let status in hiddenEffects) {
+                this.hiddenStatus[status] = (this.hiddenStatus[status] || 0) + hiddenEffects[status];
+                this.hiddenStatus[status] = Math.max(-100, Math.min(100, this.hiddenStatus[status]));
+            }
+        }
+    }
+
+    // ========================================
+    // SISTEMA DE PROGRESSO
+    // ========================================
+
+    updateDisplay() {
+        this.uiManager.updateStats(this.stats);
+        this.uiManager.updateTurnCounter(this.turn);
     }
 
     updateIntroProgress() {
-        const chapterElement = document.getElementById('chapterCount');
-        if (chapterElement) {
-            chapterElement.textContent = `Introdução: ${this.introCardIndex + 1}/${this.introCards.length}`;
-        }
-        
-        const progressElement = document.getElementById('storyProgress');
-        if (progressElement) {
-            const progress = ((this.introCardIndex + 1) / this.introCards.length) * 100;
-            progressElement.style.width = progress + '%';
-        }
+        this.uiManager.updateIntroProgress(this.introCardIndex, this.introCards.length);
     }
 
     updateChapterProgress() {
-        const progressElement = document.getElementById('storyProgress');
-        if (progressElement) {
-            // Base o progresso nas cartas-chave jogadas (5 total)
-            const progress = (this.keyCardsPlayedInChapter / 5) * 100;
-            progressElement.style.width = Math.min(100, progress) + '%';
-        }
-        
-        const chapterElement = document.getElementById('chapterCount');
-        if (chapterElement) {
-            const keyProgress = `${this.keyCardsPlayedInChapter}/5`;
-            const totalProgress = `${this.cardsPlayedInChapter}`;
-            chapterElement.textContent = `Cap. ${this.currentChapter}/${this.maxChapters} | POO: ${keyProgress} | Total: ${totalProgress}`;
-        }
+        this.uiManager.updateChapterProgress(
+            this.currentChapter, 
+            this.maxChapters, 
+            this.keyCardsPlayedInChapter, 
+            this.cardsPlayedInChapter
+        );
         
         // Debug de status ocultos
         if (this.turn % 3 === 0) {
@@ -445,7 +321,6 @@ class ProgrammingGame {
     }
 
     isChapterComplete() {
-        // Capítulo completa quando todas as 5 cartas-chave foram jogadas
         return this.keyCardsPlayedInChapter >= 5;
     }
 
@@ -484,108 +359,9 @@ class ProgrammingGame {
         this.loadNextCard();
     }
 
-    showEffectCard(choiceText, effects, hiddenEffects = {}) {
-        const effectCard = document.getElementById('effectCard');
-        const effectTitle = document.getElementById('effectTitle');
-        const effectList = document.getElementById('effectList');
-        
-        if (!effectCard || !effectTitle || !effectList) return;
-        
-        effectTitle.textContent = `"${choiceText}"`;
-        effectList.innerHTML = '';
-        
-        const statNames = {
-            robots: { icon: '🤖', name: 'Robôs' },
-            energy: { icon: '⚡', name: 'Energia' },
-            intelligence: { icon: '🧠', name: 'Inteligência' },
-            knowledge: { icon: '🧠', name: 'Inteligência' }, // Fallback
-            resources: { icon: '💾', name: 'Recursos' }
-        };
-        
-        // Mostrar efeitos visíveis
-        for (let stat in effects) {
-            const value = effects[stat];
-            if (value !== 0) {
-                const effectItem = document.createElement('div');
-                effectItem.className = 'effect-item';
-                
-                // Converter knowledge para intelligence se necessário
-                const displayStat = stat === 'knowledge' ? 'intelligence' : stat;
-                const statInfo = statNames[displayStat] || statNames[stat];
-                const sign = value > 0 ? '+' : '';
-                const valueClass = value > 0 ? 'positive' : 'negative';
-                
-                effectItem.innerHTML = `
-                    <div class="effect-stat">
-                        <span>${statInfo.icon}</span>
-                        <span>${statInfo.name}</span>
-                    </div>
-                    <span class="effect-value ${valueClass}">${sign}${value}</span>
-                `;
-                
-                effectList.appendChild(effectItem);
-            }
-        }
-        
-        // Mostrar alguns efeitos ocultos importantes
-        const importantHiddenEffects = ['player_conhecimento', 'robo_ataque', 'robo_defesa', 'player_felicidade'];
-        let hasImportantHiddenEffects = false;
-        
-        for (let status of importantHiddenEffects) {
-            if (hiddenEffects[status] && Math.abs(hiddenEffects[status]) >= 3) {
-                if (!hasImportantHiddenEffects) {
-                    const separator = document.createElement('div');
-                    separator.style.cssText = 'border-top: 1px solid #666; margin: 10px 0 5px 0; padding-top: 5px; font-size: 12px; opacity: 0.7;';
-                    separator.textContent = 'Efeitos Ocultos:';
-                    effectList.appendChild(separator);
-                    hasImportantHiddenEffects = true;
-                }
-                
-                const effectItem = document.createElement('div');
-                effectItem.className = 'effect-item';
-                effectItem.style.opacity = '0.8';
-                effectItem.style.fontSize = '12px';
-                
-                const value = hiddenEffects[status];
-                const sign = value > 0 ? '+' : '';
-                const valueClass = value > 0 ? 'positive' : 'negative';
-                
-                const statusNames = {
-                    player_conhecimento: 'Conhecimento do Player',
-                    player_felicidade: 'Felicidade do Player',
-                    robo_ataque: 'Ataque do Robô',
-                    robo_defesa: 'Defesa do Robô',
-                    robo_felicidade: 'Felicidade do Robô',
-                    npc_gratitude: 'Gratidão dos NPCs'
-                };
-                
-                effectItem.innerHTML = `
-                    <div class="effect-stat">
-                        <span>🔮</span>
-                        <span>${statusNames[status]}</span>
-                    </div>
-                    <span class="effect-value ${valueClass}">${sign}${value}</span>
-                `;
-                
-                effectList.appendChild(effectItem);
-            }
-        }
-        
-        effectCard.style.display = 'block';
-        setTimeout(() => {
-            effectCard.classList.add('show');
-        }, 50);
-    }
-
-    hideEffectCard() {
-        const effectCard = document.getElementById('effectCard');
-        if (effectCard) {
-            effectCard.classList.remove('show');
-            setTimeout(() => {
-                effectCard.style.display = 'none';
-            }, 400);
-        }
-    }
+    // ========================================
+    // SISTEMA DE GAME OVER E VITÓRIA
+    // ========================================
 
     checkGameOver() {
         for (let stat in this.stats) {
@@ -630,7 +406,6 @@ class ProgrammingGame {
         
         score = Math.round((this.turn * 8) + balanceBonus + skillBonus + 300);
         
-        // Final da história
         const ending = {
             title: "🎓 O Despertar Final",
             text: "Você derrotou o Grande Programador e dominou completamente a Orientação a Objetos! Uma luz brilhante te envolve... Você acorda em seu quarto, na frente do computador. Seu livro de POO está aberto na mesa. 'Que sonho incrível!' você pensa, percebendo que agora entende perfeitamente todos os conceitos. A prova será moleza!"
@@ -639,24 +414,28 @@ class ProgrammingGame {
         this.menuSystem.showStoryComplete(score, ending);
     }
 
-    // Métodos de controle de interface
-    setupEventListeners() {
-        const card = document.getElementById('currentCard');
-        if (!card) return;
+    restartIntro() {
+        this.introPhase = true;
+        this.introCardIndex = 0;
+        this.hiddenStatus = { ...INITIAL_HIDDEN_STATUS };
+        this.turn = 1;
+        this.updateDisplay();
+        this.loadNextCard();
+    }
+
+    // ========================================
+    // SISTEMA DE DRAG AND DROP
+    // ========================================
+
+    setupDragHandlers() {
+        const handlers = {
+            onDragStart: (x) => this.startDrag(x),
+            onDragMove: (x) => this.handleDrag(x),
+            onDragEnd: () => this.endDrag(),
+            isDragging: () => this.isDragging
+        };
         
-        card.addEventListener('mousedown', (e) => this.startDrag(e.clientX));
-        document.addEventListener('mousemove', (e) => this.handleDrag(e.clientX));
-        document.addEventListener('mouseup', () => this.endDrag());
-        
-        card.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.startDrag(e.touches[0].clientX);
-        });
-        document.addEventListener('touchmove', (e) => {
-            if (this.isDragging) e.preventDefault();
-            this.handleDrag(e.touches[0].clientX);
-        });
-        document.addEventListener('touchend', () => this.endDrag());
+        this.uiManager.setupDragListeners(handlers);
     }
 
     startDrag(x) {
@@ -665,53 +444,36 @@ class ProgrammingGame {
         this.isDragging = true;
         this.dragStartX = x;
         
-        const card = document.getElementById('currentCard');
-        const choices = document.getElementById('choices');
-        
-        if (card) card.classList.add('dragging');
-        if (choices) choices.classList.add('visible');
+        this.uiManager.setCardDragging(true);
+        this.uiManager.showChoices();
     }
 
     handleDrag(x) {
         if (!this.isDragging || this.isPaused || this.gameCompleted) return;
         
         const deltaX = x - this.dragStartX;
-        const card = document.getElementById('currentCard');
-        if (!card) return;
-        
-        const rotation = deltaX * 0.1;
-        card.style.transform = `translateX(${deltaX}px) rotate(${rotation}deg)`;
-        
-        if (Math.abs(deltaX) > 50) {
-            card.style.opacity = Math.max(0.5, 1 - Math.abs(deltaX) / 200);
-        } else {
-            card.style.opacity = '1';
-        }
+        this.uiManager.updateCardPosition(deltaX);
     }
 
     endDrag() {
         if (!this.isDragging || this.isPaused || this.gameCompleted) return;
         
-        const card = document.getElementById('currentCard');
-        const choices = document.getElementById('choices');
-        
-        if (!card) return;
-        
-        const currentTransform = card.style.transform;
-        const translateX = currentTransform.match(/translateX\(([^)]+)\)/);
-        const deltaX = translateX ? parseFloat(translateX[1]) : 0;
+        const deltaX = this.uiManager.getCardDeltaX();
         
         if (Math.abs(deltaX) > 100) {
             this.makeChoice(deltaX > 0 ? 'right' : 'left');
         } else {
-            card.style.transform = 'translateX(0px) rotate(0deg)';
-            card.style.opacity = '1';
-            if (choices) choices.classList.remove('visible');
+            this.uiManager.resetCardPosition();
+            this.uiManager.hideChoices();
         }
         
         this.isDragging = false;
-        if (card) card.classList.remove('dragging');
+        this.uiManager.setCardDragging(false);
     }
+
+    // ========================================
+    // MÉTODOS DE CONTROLE
+    // ========================================
 
     togglePause() {
         this.menuSystem.togglePause();
@@ -724,31 +486,21 @@ class ProgrammingGame {
     resume() {
         this.menuSystem.resume();
     }
-
-    shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
 }
 
-// Variável global do jogo
+// ========================================
+// INICIALIZAÇÃO GLOBAL
+// ========================================
+
 let game;
 
-// Funções globais de controle
 function startGame() {
     game = new ProgrammingGame();
 }
 
-// Inicialização do jogo
 window.onload = function() {
-    console.log('🎮 O Mundo dos Objetos - Versão Completa carregada!');
-    console.log('📝 Sistema de intercalação ativo');
-    console.log('🔮 Status ocultos implementados');
-    console.log('🧠 Knowledge → Intelligence atualizado');
-    console.log('📜 6 cartas de introdução prontas');
-    console.log('🔑 5 cartas-chave de POO sequenciais');
-    console.log('⚡ Sistema dinâmico de eventos');
-    console.log('📋 Sistema de menus modularizado');
+    console.log('🎮 O Mundo dos Objetos - Versão Modular');
+    console.log('📋 Sistema de menus: menu.js');
+    console.log('🎨 Sistema de UI: ui.js');
+    console.log('🎯 Lógica do jogo: script.js');
 };
