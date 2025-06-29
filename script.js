@@ -497,10 +497,3 @@ let game;
 function startGame() {
     game = new ProgrammingGame();
 }
-
-window.onload = function() {
-    console.log('🎮 O Mundo dos Objetos - Versão Modular');
-    console.log('📋 Sistema de menus: menu.js');
-    console.log('🎨 Sistema de UI: ui.js');
-    console.log('🎯 Lógica do jogo: script.js');
-};
