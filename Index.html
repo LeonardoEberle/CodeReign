@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reino Digital - Jogo Estilo Reigns</title>
+          <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+    <div class="game-container">
+        <!-- Stats Header -->
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-icon">⛪</div>
+                <div class="stat-bar">
+                    <div class="stat-fill" id="churchBar"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">👥</div>
+                <div class="stat-bar">
+                    <div class="stat-fill" id="peopleBar"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">⚔️</div>
+                <div class="stat-bar">
+                    <div class="stat-fill" id="armyBar"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">💰</div>
+                <div class="stat-bar">
+                    <div class="stat-fill" id="treasuryBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progresso da História -->
+        <div class="story-progress">
+            <div id="chapterCount">Capítulo 1/4</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="storyProgress"></div>
+            </div>
+        </div>
+
+        <!-- Card Area -->
+        <div class="card-area">
+            <div class="card" id="currentCard">
+                <div class="card-character" id="cardCharacter">👑</div>
+                <div class="card-title" id="cardTitle">Título da Carta</div>
+                <div class="card-text" id="cardText">Texto da carta aparece aqui...</div>
+            </div>
+
+            <!-- Choices overlay -->
+            <div class="choices" id="choices">
+                <div class="choice left" id="leftChoice">Escolha Esquerda</div>
+                <div class="choice right" id="rightChoice">Escolha Direita</div>
+            </div>
+
+            <!-- Effect Card -->
+            <div class="effect-card" id="effectCard">
+                <div class="effect-title" id="effectTitle">Efeito</div>
+                <div id="effectList"></div>
+            </div>
+        </div>
+
+        <!-- Bottom UI -->
+        <div class="bottom-ui">
+            <div class="turn-counter">
+                Decisão: <span id="turnCount">1</span>
+            </div>
+            <button class="menu-button warning" id="pauseButton" onclick="togglePauseGame()">
+                <span>⏸️</span>
+                <span>Pausar</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Intro Overlay -->
+    <div class="overlay" id="introOverlay">
+        <div class="overlay-content">
+            <div class="overlay-title">⚜️ REIGNS ⚜️</div>
+            <div class="overlay-text">
+                Bem-vindo ao reino! Você acaba de herdar a coroa e deve tomar decisões que irão moldar o destino de seu povo.
+                <br><br>
+                <strong>Deslize as cartas para escolher:</strong><br>
+                ← Esquerda | Direita →
+                <br><br>
+                Mantenha o equilíbrio entre Igreja, Povo, Exército e Tesouro. Se qualquer stat chegar a 0 ou 100, seu reinado chegará ao fim!
+            </div>
+            <button class="overlay-button" onclick="startGameFromIntro()">
+                Começar Reinado
+            </button>
+        </div>
+    </div>
+
+    <!-- Pause Overlay -->
+    <div class="overlay" id="pauseOverlay" style="display: none;">
+        <div class="overlay-content">
+            <div class="overlay-title">⏸️ PAUSADO</div>
+            <div class="overlay-text">
+                O reino aguarda vossa decisão...
+            </div>
+            <button class="overlay-button" onclick="togglePauseGame()">
+                Retomar Jogo
+            </button>
+            <button class="overlay-button secondary" onclick="restartGame()">
+                Reiniciar História
+            </button>
+            <button class="overlay-button secondary" onclick="exitGame()">
+                Sair do Jogo
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div class="overlay" id="gameOver" style="display: none;">
+        <div class="overlay-content">
+            <div class="overlay-title">💀 FIM DO REINADO</div>
+            <div class="overlay-text" id="deathReason">
+                Razão da queda...
+            </div>
+            <div style="margin: 15px 0;">
+                Decisões tomadas: <strong id="finalTurns">0</strong>
+            </div>
+            <button class="overlay-button" onclick="restartGame()">
+                Tentar Novamente
+            </button>
+            <button class="overlay-button secondary" onclick="exitGame()">
+                Sair
+            </button>
+        </div>
+    </div>
+
+    <!-- Story Complete Overlay -->
+    <div class="overlay" id="storyComplete" style="display: none;">
+        <div class="overlay-content">
+            <div class="overlay-title" id="storyEndTitle">👑 REINO COMPLETO</div>
+            <div class="overlay-text" id="storyEndText">
+                Vossa história chegou ao fim...
+            </div>
+            
+            <div class="final-stats">
+                <div class="final-stat">
+                    <div class="final-stat-icon">⛪</div>
+                    <div>Igreja</div>
+                    <div class="final-stat-value" id="finalChurch">50</div>
+                </div>
+                <div class="final-stat">
+                    <div class="final-stat-icon">👥</div>
+                    <div>Povo</div>
+                    <div class="final-stat-value" id="finalPeople">50</div>
+                </div>
+                <div class="final-stat">
+                    <div class="final-stat-icon">⚔️</div>
+                    <div>Exército</div>
+                    <div class="final-stat-value" id="finalArmy">50</div>
+                </div>
+                <div class="final-stat">
+                    <div class="final-stat-icon">💰</div>
+                    <div>Tesouro</div>
+                    <div class="final-stat-value" id="finalTreasury">50</div>
+                </div>
+            </div>
+            
+            <div style="margin: 15px 0;">
+                <div>Decisões tomadas: <strong id="finalTurns">0</strong></div>
+                <div>Pontuação: <strong id="finalScore">0</strong></div>
+            </div>
+            
+            <button class="overlay-button" onclick="restartGame()">
+                Nova História
+            </button>
+            <button class="overlay-button secondary" onclick="exitGame()">
+                Sair
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="cards.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
