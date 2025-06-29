@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reino Digital - Jogo Estilo Reigns</title>
-          <link rel="stylesheet" type="text/css" href="style.css">
-
+    <title>Reigns - A História do Reino</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
@@ -39,7 +38,7 @@
 
         <!-- Progresso da História -->
         <div class="story-progress">
-            <div id="chapterCount">Capítulo 1/4</div>
+            <div id="chapterCount">Cap. 1/4 | Chave: 0/5 | Total: 0/15</div>
             <div class="progress-bar">
                 <div class="progress-fill" id="storyProgress"></div>
             </div>
@@ -81,17 +80,24 @@
     <!-- Intro Overlay -->
     <div class="overlay" id="introOverlay">
         <div class="overlay-content">
-            <div class="overlay-title">⚜️ REIGNS ⚜️</div>
+            <div class="overlay-title">⚜️ REIGNS: REINO AVANÇADO ⚜️</div>
             <div class="overlay-text">
-                Bem-vindo ao reino! Você acaba de herdar a coroa e deve tomar decisões que irão moldar o destino de seu povo.
+                Bem-vindo ao reino! Você deve tomar decisões que moldarão o destino de seu povo através de 4 capítulos épicos.
                 <br><br>
-                <strong>Deslize as cartas para escolher:</strong><br>
+                <strong>🔑 Sistema de Cartas:</strong><br>
+                • <span style="color: #FFD700;">Cartas-Chave</span>: Decisões principais da história<br>
+                • <span style="color: #87CEEB;">Cartas de Consequência</span>: Resultado de suas escolhas<br>
+                <br>
+                <strong>📊 Progresso por Capítulo:</strong><br>
+                5 cartas-chave + 10 cartas de consequência = 15 total
+                <br><br>
+                <strong>🎮 Como jogar:</strong><br>
                 ← Esquerda | Direita →
                 <br><br>
-                Mantenha o equilíbrio entre Igreja, Povo, Exército e Tesouro. Se qualquer stat chegar a 0 ou 100, seu reinado chegará ao fim!
+                <strong>⚠️ Cuidado:</strong> Suas decisões afetam status ocultos que influenciam eventos futuros!
             </div>
             <button class="overlay-button" onclick="startGameFromIntro()">
-                Começar Reinado
+                Iniciar Reinado Épico
             </button>
         </div>
     </div>
