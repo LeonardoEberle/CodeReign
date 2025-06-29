@@ -1,10 +1,10 @@
 class ProgrammingGame {
     constructor() {
-        // Stats do jogo (mudança: knowledge -> intelligence)
+        // Stats do jogo
         this.stats = {
             robots: 50,       // Quantidade/qualidade dos robôs
             energy: 50,       // Energia para programar
-            intelligence: 50, // Inteligência (antes era knowledge)
+            intelligence: 50, // Inteligência
             resources: 50     // Recursos computacionais
         };
         
@@ -38,6 +38,9 @@ class ProgrammingGame {
         this.isPaused = false;
         this.gameCompleted = false;
         
+        // Sistema de menus
+        this.menuSystem = null;
+        
         this.init();
     }
 
@@ -48,11 +51,14 @@ class ProgrammingGame {
             return;
         }
         
+        // Inicializar sistema de menus
+        this.menuSystem = initializeMenuSystem(this);
+        
         console.log('🎮 Iniciando O Mundo dos Objetos...');
         this.updateDisplay();
         this.loadNextCard();
         this.setupEventListeners();
-        this.updatePauseButton();
+        this.menuSystem.updatePauseButton();
     }
 
     loadNextCard() {
@@ -273,7 +279,7 @@ class ProgrammingGame {
         const hiddenEffect = direction === 'left' ? this.currentCard.leftHiddenEffects : this.currentCard.rightHiddenEffects;
         const choiceText = direction === 'left' ? this.currentCard.leftChoice : this.currentCard.rightChoice;
         
-        // Aplicar efeitos visíveis (mudança: knowledge -> intelligence)
+        // Aplicar efeitos visíveis
         for (let stat in effect) {
             // Converter knowledge para intelligence se necessário
             let statName = stat === 'knowledge' ? 'intelligence' : stat;
@@ -333,7 +339,7 @@ class ProgrammingGame {
         
         // Verificar se é game over (carta da missão)
         if (hiddenEffect && hiddenEffect.gameOver) {
-            this.showIntroGameOver();
+            this.menuSystem.showIntroGameOver();
             return;
         }
         
@@ -358,36 +364,6 @@ class ProgrammingGame {
         }, 300);
     }
 
-    showIntroGameOver() {
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        overlay.style.zIndex = '1001';
-        
-        const content = document.createElement('div');
-        content.className = 'overlay-content';
-        content.innerHTML = `
-            <div class="overlay-title">😴 Volta ao Sono</div>
-            <div class="overlay-text">
-                Você recusou a missão e decide que tudo isso é muito estranho. 
-                Fechando os olhos, você sente o mundo ao redor desaparecer...
-                <br><br>
-                Você acorda em seu quarto, na frente do computador. 
-                Parece que adormeceu estudando para a prova de POO.
-                <br><br>
-                <em>"Que sonho mais bizarro..."</em> você pensa.
-            </div>
-            <button class="overlay-button" onclick="this.parentElement.parentElement.remove(); game.restartIntro()">
-                Tentar Novamente
-            </button>
-            <button class="overlay-button secondary" onclick="exitGame()">
-                Voltar ao Mundo Real
-            </button>
-        `;
-        
-        overlay.appendChild(content);
-        document.body.appendChild(overlay);
-    }
-
     restartIntro() {
         this.introPhase = true;
         this.introCardIndex = 0;
@@ -398,27 +374,13 @@ class ProgrammingGame {
     }
 
     updateDisplay() {
-        // Atualizar barras de stats (mudança: knowledge -> intelligence)
+        // Atualizar barras de stats
         const statBars = {
             robots: document.getElementById('robotsBar'),
             energy: document.getElementById('energyBar'),
             intelligence: document.getElementById('intelligenceBar'),
             resources: document.getElementById('resourcesBar')
         };
-        
-        // Fallback para nomes antigos se não encontrar os novos
-        if (!statBars.robots) {
-            statBars.robots = document.getElementById('churchBar');
-        }
-        if (!statBars.energy) {
-            statBars.energy = document.getElementById('peopleBar');
-        }
-        if (!statBars.intelligence) {
-            statBars.intelligence = document.getElementById('armyBar') || document.getElementById('knowledgeBar');
-        }
-        if (!statBars.resources) {
-            statBars.resources = document.getElementById('treasuryBar');
-        }
         
         const statMapping = {
             robots: 'robots',
@@ -502,24 +464,8 @@ class ProgrammingGame {
     }
 
     showChapterTransition() {
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        overlay.style.zIndex = '1001';
-        
-        const content = document.createElement('div');
-        content.className = 'overlay-content';
-        content.innerHTML = `
-            <div class="overlay-title">💻 Capítulo ${this.currentChapter}</div>
-            <div class="overlay-text">
-                ${this.getChapterDescription(this.currentChapter)}
-            </div>
-            <button class="overlay-button" onclick="this.parentElement.parentElement.remove(); game.continueToNextChapter()">
-                Continuar Programando
-            </button>
-        `;
-        
-        overlay.appendChild(content);
-        document.body.appendChild(overlay);
+        const description = this.getChapterDescription(this.currentChapter);
+        this.menuSystem.showChapterTransition(this.currentChapter, description);
     }
 
     getChapterDescription(chapter) {
@@ -651,35 +597,8 @@ class ProgrammingGame {
     }
 
     gameOver() {
-        let reason = "Sua jornada no Mundo dos Objetos chegou ao fim...";
-        
-        if (this.stats.robots <= 0) {
-            reason = "Todos os seus robôs foram destruídos! Sem eles, você não pode continuar sua missão.";
-        } else if (this.stats.robots >= 100) {
-            reason = "Seus robôs evoluíram além do controle! Eles se tornaram independentes e te abandonaram.";
-        } else if (this.stats.energy <= 0) {
-            reason = "Você está exausto demais para continuar programando. Seus olhos se fecham...";
-        } else if (this.stats.energy >= 100) {
-            reason = "Você está com tanta energia que não consegue se concentrar! Sua mente está muito agitada.";
-        } else if (this.stats.intelligence <= 0) {
-            reason = "Você esqueceu tudo sobre programação! Não consegue mais escrever uma linha de código.";
-        } else if (this.stats.intelligence >= 100) {
-            reason = "Sua inteligência transcendeu este mundo! Você se torna parte da matrix e desaparece.";
-        } else if (this.stats.resources <= 0) {
-            reason = "Sem recursos computacionais, seus programas não podem mais rodar. Tudo trava.";
-        } else if (this.stats.resources >= 100) {
-            reason = "Tanto poder computacional atraiu a atenção do Grande Programador! Ele te encontrou!";
-        }
-        
-        const elements = {
-            reason: document.getElementById('deathReason'),
-            turns: document.getElementById('finalTurns'),
-            overlay: document.getElementById('gameOver')
-        };
-        
-        if (elements.reason) elements.reason.textContent = reason;
-        if (elements.turns) elements.turns.textContent = this.turn - 1;
-        if (elements.overlay) elements.overlay.style.display = 'flex';
+        const reason = this.menuSystem.getGameOverReason();
+        this.menuSystem.showGameOver(reason);
     }
 
     storyComplete() {
@@ -717,28 +636,7 @@ class ProgrammingGame {
             text: "Você derrotou o Grande Programador e dominou completamente a Orientação a Objetos! Uma luz brilhante te envolve... Você acorda em seu quarto, na frente do computador. Seu livro de POO está aberto na mesa. 'Que sonho incrível!' você pensa, percebendo que agora entende perfeitamente todos os conceitos. A prova será moleza!"
         };
         
-        // Atualizar tela de fim usando os elementos existentes
-        const elements = {
-            title: document.getElementById('storyEndTitle'),
-            text: document.getElementById('storyEndText'),
-            score: document.getElementById('finalScore'),
-            turns: document.getElementById('finalTurns'),
-            robots: document.getElementById('finalChurch'),     // Reutilizando elementos
-            energy: document.getElementById('finalPeople'),
-            intelligence: document.getElementById('finalArmy'),
-            resources: document.getElementById('finalTreasury'),
-            overlay: document.getElementById('storyComplete')
-        };
-        
-        if (elements.title) elements.title.textContent = ending.title;
-        if (elements.text) elements.text.textContent = ending.text;
-        if (elements.score) elements.score.textContent = score;
-        if (elements.turns) elements.turns.textContent = this.turn - 1;
-        if (elements.robots) elements.robots.textContent = this.stats.robots;
-        if (elements.energy) elements.energy.textContent = this.stats.energy;
-        if (elements.intelligence) elements.intelligence.textContent = this.stats.intelligence;
-        if (elements.resources) elements.resources.textContent = this.stats.resources;
-        if (elements.overlay) elements.overlay.style.display = 'flex';
+        this.menuSystem.showStoryComplete(score, ending);
     }
 
     // Métodos de controle de interface
@@ -816,38 +714,15 @@ class ProgrammingGame {
     }
 
     togglePause() {
-        if (this.isPaused) {
-            this.resume();
-        } else {
-            this.pause();
-        }
+        this.menuSystem.togglePause();
     }
 
     pause() {
-        this.isPaused = true;
-        const overlay = document.getElementById('pauseOverlay');
-        if (overlay) overlay.style.display = 'flex';
-        this.updatePauseButton();
+        this.menuSystem.pause();
     }
 
     resume() {
-        this.isPaused = false;
-        const overlay = document.getElementById('pauseOverlay');
-        if (overlay) overlay.style.display = 'none';
-        this.updatePauseButton();
-    }
-
-    updatePauseButton() {
-        const pauseButton = document.getElementById('pauseButton');
-        if (pauseButton) {
-            if (this.isPaused) {
-                pauseButton.innerHTML = '<span>▶️</span><span>Retomar</span>';
-                pauseButton.className = 'menu-button success';
-            } else {
-                pauseButton.innerHTML = '<span>⏸️</span><span>Pausar</span>';
-                pauseButton.className = 'menu-button warning';
-            }
-        }
+        this.menuSystem.resume();
     }
 
     shuffleArray(array) {
@@ -866,38 +741,6 @@ function startGame() {
     game = new ProgrammingGame();
 }
 
-function startGameFromIntro() {
-    const intro = document.getElementById('introOverlay');
-    if (intro) intro.style.display = 'none';
-    startGame();
-}
-
-function restartGame() {
-    const overlays = ['gameOver', 'pauseOverlay', 'storyComplete'];
-    overlays.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.style.display = 'none';
-    });
-    
-    // Remove overlays de transição de capítulo se existirem
-    const transitionOverlays = document.querySelectorAll('.overlay[style*="z-index: 1001"]');
-    transitionOverlays.forEach(overlay => overlay.remove());
-    
-    startGame();
-}
-
-function togglePauseGame() {
-    if (game) {
-        game.togglePause();
-    }
-}
-
-function exitGame() {
-    if (confirm('Tem certeza que deseja sair do jogo?')) {
-        window.location.reload();
-    }
-}
-
 // Inicialização do jogo
 window.onload = function() {
     console.log('🎮 O Mundo dos Objetos - Versão Completa carregada!');
@@ -907,4 +750,5 @@ window.onload = function() {
     console.log('📜 6 cartas de introdução prontas');
     console.log('🔑 5 cartas-chave de POO sequenciais');
     console.log('⚡ Sistema dinâmico de eventos');
+    console.log('📋 Sistema de menus modularizado');
 };
