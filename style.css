@@ -1,470 +1,605 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #2c1810, #8b4513);
-            color: white;
-            overflow: hidden;
-            height: 100vh;
-        }
-
-        .game-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            max-width: 400px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        /* Header com stats */
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
-
-        .stat-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .stat-bar {
-            width: 60px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .stat-fill {
-            height: 100%;
-            background: #4CAF50;
-            transition: width 0.5s ease;
-        }
-
-        /* Progresso da história */
-        .story-progress {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            text-align: center;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            transition: width 0.5s ease;
-            width: 0%;
-        }
-
-        /* Card area */
-        .card-area {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px;
-        }
-
-        .card {
-            width: 300px;
-            height: 400px;
-            background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #333;
-            cursor: grab;
-            transition: transform 0.3s ease, opacity 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
-            user-select: none;
-            position: relative;
-        }
-
-        .card.dragging {
-            cursor: grabbing;
-        }
-
-        /* Indicador para cartas-chave */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 18px;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-
-        .card.key-card::before {
-            opacity: 1;
-        }
-
-        .card.key-card {
-            background: linear-gradient(145deg, #fff8dc, #f0e68c);
-            animation: keyCardGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes keyCardGlow {
-            from {
-                box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
-            }
-
-            to {
-                box-shadow: 0 8px 32px rgba(255, 215, 0, 0.6);
-            }
-        }
-
-        /* Indicador de tipo de carta */
-        .card-type-indicator {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .card-type-key {
-            background: #FFD700;
-            color: #2c1810;
-        }
-
-        .card-type-consequence {
-            background: #87CEEB;
-            color: #2c1810;
-        }
-
-        .card-character {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #2c1810;
-        }
-
-        .card-text {
-            font-size: 14px;
-            line-height: 1.4;
-            padding: 0 20px;
-            color: #444;
-        }
-
-        /* Choices */
-        .choices {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .choices.visible {
-            opacity: 1;
-        }
-
-        .choice {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            max-width: 120px;
-            text-align: center;
-        }
-
-        .choice.left {
-            background: rgba(255, 0, 0, 0.8);
-        }
-
-        .choice.right {
-            background: rgba(0, 255, 0, 0.8);
-        }
-
-        /* Effect card */
-        .effect-card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            opacity: 0;
-            transition: all 0.4s ease;
-            display: none;
-            min-width: 250px;
-        }
-
-        .effect-card.show {
-            display: block;
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .effect-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .effect-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .effect-stat {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .effect-value.positive {
-            color: #4CAF50;
-        }
-
-        .effect-value.negative {
-            color: #f44336;
-        }
-
-        /* Bottom UI */
-        .bottom-ui {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .turn-counter {
-            font-size: 14px;
-        }
-
-        .menu-button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: background 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .menu-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .menu-button.warning {
-            background: rgba(255, 193, 7, 0.3);
-        }
-
-        .menu-button.success {
-            background: rgba(76, 175, 80, 0.3);
-        }
-
-        /* Overlays */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .overlay-content {
-            background: linear-gradient(145deg, #2c1810, #8b4513);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 300px;
-            margin: 20px;
-        }
-
-        .overlay-title {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #FFD700;
-        }
-
-        .overlay-text {
-            font-size: 16px;
-            line-height: 1.4;
-            margin-bottom: 20px;
-        }
-
-        .overlay-button {
-            background: #FFD700;
-            color: #2c1810;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 5px;
-        }
-
-        .overlay-button:hover {
-            background: #FFA500;
-            transform: translateY(-2px);
-        }
-
-        .overlay-button.secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .overlay-button.secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Stats específicas para finais */
-        .final-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .final-stat {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .final-stat-icon {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .final-stat-value {
-            font-weight: bold;
-            color: #FFD700;
-        }
-
-        /* Responsividade */
-        @media (max-width: 480px) {
-            .game-container {
-                max-width: 100%;
-            }
-
-            .card {
-                width: 280px;
-                height: 380px;
-            }
-
-            .overlay-content {
-                margin: 10px;
-                padding: 20px;
-            }
-        }
-
-        /* Adicionar estilos específicos para o tema de programação */
-        .stat-label {
-            font-size: 10px;
-            margin-top: 2px;
-            opacity: 0.8;
-        }
-
-        /* Estilo para cartas de introdução */
-        .card.intro-card {
-            background: linear-gradient(145deg, #e6f3ff, #cce7ff);
-            border: 2px solid #4a90e2;
-        }
-
-        .card-type-intro {
-            background: #4a90e2;
-            color: white;
-        }
-
-        /* Melhorar visual das barras de stats */
-        .stat-fill {
-            background: linear-gradient(90deg, #4CAF50, #45a049);
-            transition: all 0.5s ease;
-        }
-
-        /* Efeito hover nos botões */
-        .overlay-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Animação para cartas de programação */
-        @keyframes codeGlow {
-            from {
-                box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
-            }
-
-            to {
-                box-shadow: 0 0 30px rgba(74, 144, 226, 0.6);
-            }
-        }
-
-        .card.intro-card {
-            animation: codeGlow 3s ease-in-out infinite alternate;
-        }
-
-        .card-image {
-            width: 90%;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(44, 24, 16, 0.8), rgba(139, 69, 19, 0.8));
+    z-index: -1;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px; /* Aumentado de 400px */
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Header com stats */
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 25px 40px; /* Aumentado padding */
+    background: rgba(0, 0, 0, 0.5);
+    gap: 30px; /* Espaço entre stats */
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 200px; /* Limitar largura máxima */
+}
+
+.stat-icon {
+    font-size: 36px; /* Aumentado de 24px */
+    margin-bottom: 8px;
+}
+
+.stat-bar {
+    width: 100%; /* Largura total do container */
+    height: 12px; /* Aumentado de 8px */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    transition: all 0.5s ease;
+}
+
+.stat-label {
+    font-size: 14px; /* Aumentado de 10px */
+    margin-top: 4px;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* Progresso da história */
+.story-progress {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px 40px; /* Aumentado padding */
+    text-align: center;
+    font-size: 16px; /* Aumentado tamanho da fonte */
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px; /* Aumentado de 6px */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 8px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+/* Card area */
+.card-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 40px; /* Aumentado de 20px */
+}
+
+.card {
+    width: 500px; /* Aumentado de 300px */
+    height: 600px; /* Aumentado de 400px */
+    background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    color: #333;
+    cursor: grab;
+    transition: transform 0.3s ease, opacity 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    position: relative;
+    padding: 25px; /* Padding interno */
+}
+
+.card.dragging {
+    cursor: grabbing;
+}
+
+/* Indicador para cartas-chave */
+.card::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 23px;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.card.key-card::before {
+    opacity: 1;
+}
+
+.card.key-card {
+    background: linear-gradient(145deg, #fff8dc, #f0e68c);
+    animation: keyCardGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes keyCardGlow {
+    from {
+        box-shadow: 0 12px 40px rgba(255, 215, 0, 0.3);
+    }
+    to {
+        box-shadow: 0 12px 40px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* Indicador de tipo de carta */
+.card-type-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-type-key {
+    background: #FFD700;
+    color: #2c1810;
+}
+
+.card-type-consequence {
+    background: #87CEEB;
+    color: #2c1810;
+}
+
+.card-type-intro {
+    background: #4a90e2;
+    color: white;
+}
+
+/* Imagem da carta */
+.card-image {
+    width: 100%;
+    max-width: 450px; /* Limitar largura máxima */
+    height: 250px; /* Aumentado de 150px */
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 24px; /* Aumentado de 18px */
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2c1810;
+}
+
+.card-text {
+    font-size: 16px; /* Aumentado de 14px */
+    line-height: 1.6; /* Melhor espaçamento */
+    padding: 0 20px;
+    color: #444;
+    max-height: 200px; /* Altura máxima para o texto */
+    overflow-y: auto; /* Scroll se necessário */
+    flex: 1; /* Preencher espaço disponível */
+}
+
+/* Estilizar scrollbar do texto */
+.card-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-text::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.card-text::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+/* Choices */
+.choices {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.choices.visible {
+    opacity: 1;
+}
+
+.choice {
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-size: 18px;
+    max-width: 250px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.choice.left {
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.9), rgba(200, 0, 0, 0.9));
+}
+
+.choice.right {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.9), rgba(0, 200, 0, 0.9));
+}
+
+/* Effect card */
+.effect-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: all 0.4s ease;
+    display: none;
+    min-width: 350px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.effect-card.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.effect-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.effect-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.effect-stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.effect-value.positive {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.effect-value.negative {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Bottom UI */
+.bottom-ui {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.turn-counter {
+    font-size: 18px;
+}
+
+.menu-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.menu-button.warning {
+    background: rgba(255, 193, 7, 0.3);
+}
+
+.menu-button.success {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+/* Overlays */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.overlay-content {
+    background: linear-gradient(145deg, #2c1810, #8b4513);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    margin: 20px auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.overlay-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #FFD700;
+}
+
+.overlay-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.overlay-button {
+    background: #FFD700;
+    color: #2c1810;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 8px;
+}
+
+.overlay-button:hover {
+    background: #FFA500;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.overlay-button.secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.overlay-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Stats específicas para finais */
+.final-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.final-stat {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.final-stat-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.final-stat-value {
+    font-weight: bold;
+    color: #FFD700;
+    font-size: 20px;
+}
+
+/* Estilo para cartas de introdução */
+.card.intro-card {
+    background: linear-gradient(145deg, #e6f3ff, #cce7ff);
+    border: 2px solid #4a90e2;
+}
+
+/* Animação para cartas de programação */
+@keyframes codeGlow {
+    from {
+        box-shadow: 0 0 30px rgba(74, 144, 226, 0.3);
+    }
+    to {
+        box-shadow: 0 0 40px rgba(74, 144, 226, 0.6);
+    }
+}
+
+.card.intro-card {
+    animation: codeGlow 3s ease-in-out infinite alternate;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 1400px) {
+    .game-container {
+        max-width: 900px;
+    }
+    
+    .card {
+        width: 450px;
+        height: 550px;
+    }
+    
+    .card-image {
+        height: 220px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .game-container {
+        max-width: 700px;
+    }
+    
+    .card {
+        width: 400px;
+        height: 500px;
+    }
+    
+    .card-image {
+        height: 200px;
+    }
+    
+    .card-title {
+        font-size: 20px;
+    }
+    
+    .card-text {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        max-width: 100%;
+    }
+    
+    .card {
+        width: 350px;
+        height: 480px;
+    }
+    
+    .card-image {
+        height: 180px;
+    }
+    
+    .stats-container {
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .stat-icon {
+        font-size: 28px;
+    }
+    
+    .overlay-content {
+        padding: 30px;
+        max-width: 400px;
+    }
+    
+    .overlay-title {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 280px;
+        height: 420px;
+    }
+    
+    .card-image {
+        height: 150px;
+    }
+    
+    .card-title {
+        font-size: 18px;
+    }
+    
+    .card-text {
+        font-size: 14px;
+        padding: 0 15px;
+    }
+    
+    .stats-container {
+        padding: 15px;
+    }
+    
+    .stat-bar {
+        width: 60px;
+        height: 8px;
+    }
+    
+    .stat-icon {
+        font-size: 24px;
+    }
+    
+    .choices {
+        padding: 0 20px;
+    }
+    
+    .choice {
+        padding: 15px 20px;
+        font-size: 14px;
+        max-width: 180px;
+    }
+}

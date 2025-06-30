@@ -89,17 +89,9 @@ class MenuSystem {
         const stats = this.game.stats;
 
         if (stats.robots <= 0) {
-            return "Todos os seus robôs foram destruídos! Sem eles, você não pode continuar sua missão.";
-        } else if (stats.robots >= 100) {
-            return "Seus robôs evoluíram além do controle! Eles se tornaram independentes e te abandonaram.";
-        } else if (stats.energy <= 0) {
-            return "Você está exausto demais para continuar programando. Seus olhos se fecham...";
-        } else if (stats.energy >= 100) {
-            return "Você está com tanta energia que não consegue se concentrar! Sua mente está muito agitada.";
-        } else if (stats.intelligence <= 0) {
+            return "Todos os seus gólens foram destruídos! Sem eles, você não pode continuar sua missão.";
+        } else if (stats.knowledge <= 0) {
             return "Você esqueceu tudo sobre programação! Não consegue mais escrever uma linha de código.";
-        } else if (stats.intelligence >= 100) {
-            return "Sua inteligência transcendeu este mundo! Você se torna parte da matrix e desaparece.";
         } else if (stats.resources <= 0) {
             return "Sem recursos computacionais, seus programas não podem mais rodar. Tudo trava.";
         } else if (stats.resources >= 100) {
@@ -120,8 +112,7 @@ class MenuSystem {
             score: document.getElementById('finalScore'),
             turns: document.getElementById('finalTurns'),
             robots: document.getElementById('finalChurch'),
-            energy: document.getElementById('finalPeople'),
-            intelligence: document.getElementById('finalArmy'),
+            knowledge: document.getElementById('finalArmy'),
             resources: document.getElementById('finalTreasury'),
             overlay: document.getElementById(this.overlays.storyComplete)
         };
@@ -131,8 +122,7 @@ class MenuSystem {
         if (elements.score) elements.score.textContent = score;
         if (elements.turns) elements.turns.textContent = this.game.turn - 1;
         if (elements.robots) elements.robots.textContent = this.game.stats.robots;
-        if (elements.energy) elements.energy.textContent = this.game.stats.energy;
-        if (elements.intelligence) elements.intelligence.textContent = this.game.stats.intelligence;
+        if (elements.knowledge) elements.knowledge.textContent = this.game.stats.knowledge;
         if (elements.resources) elements.resources.textContent = this.game.stats.resources;
         if (elements.overlay) elements.overlay.style.display = 'flex';
     }

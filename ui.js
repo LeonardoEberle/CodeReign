@@ -8,13 +8,12 @@ class UIManager {
         return {
             stats: {
                 robots: document.getElementById('robotsBar'),
-                energy: document.getElementById('energyBar'),
-                intelligence: document.getElementById('intelligenceBar'),
+                knowledge: document.getElementById('intelligenceBar'), // Mantém o ID antigo por compatibilidade
                 resources: document.getElementById('resourcesBar')
             },
             card: {
                 element: document.getElementById('currentCard'),
-                image: document.getElementById('cardImage'), // Alterado de character para image
+                image: document.getElementById('cardImage'),
                 title: document.getElementById('cardTitle'),
                 text: document.getElementById('cardText'),
                 leftChoice: document.getElementById('leftChoice'),
@@ -59,7 +58,6 @@ class UIManager {
     displayCard(card) {
         const elements = this.elements.card;
 
-        // Alteração aqui: de textContent para src
         if (elements.image) elements.image.src = card.image || ''; 
         if (elements.title) elements.title.textContent = card.title;
         if (elements.text) elements.text.textContent = card.text;
@@ -135,16 +133,24 @@ class UIManager {
 
     addVisibleEffects(list, effects) {
         const statNames = {
-            robots: { icon: '🤖', name: 'Gólem' },
-            energy: { icon: '⚡', name: 'Energia' },
-            intelligence: { icon: '🧠', name: 'Inteligência' },
-            knowledge: { icon: '🧠', name: 'Inteligência' },
+            robots: { icon: '🤖', name: 'Gólens' },
+            Golemts: { icon: '🤖', name: 'Gólens' }, // Correção do typo
+            knowledge: { icon: '🧠', name: 'Conhecimento' },
+            intelligence: { icon: '🧠', name: 'Conhecimento' }, // Fallback
             resources: { icon: '💾', name: 'Recursos' }
         };
+        
         for (let stat in effects) {
+            // Ignorar efeitos de energia
+            if (stat === 'energy') continue;
+            
             const value = effects[stat];
             if (value !== 0) {
-                const displayStat = stat === 'knowledge' ? 'intelligence' : stat;
+                // Converter nomes inconsistentes
+                let displayStat = stat;
+                if (stat === 'intelligence') displayStat = 'knowledge';
+                if (stat === 'Golemts') displayStat = 'robots';
+                
                 const statInfo = statNames[displayStat] || statNames[stat];
                 const effectItem = this.createEffectItem(statInfo.icon, statInfo.name, value);
                 list.appendChild(effectItem);
@@ -153,13 +159,13 @@ class UIManager {
     }
 
     addHiddenEffects(list, hiddenEffects) {
-        const importantHiddenEffects = ['player_conhecimento', 'robo_ataque', 'robo_defesa', 'player_felicidade'];
+        const importantHiddenEffects = ['player_conhecimento', 'golem_ataque', 'golem_defesa', 'player_felicidade'];
         const statusNames = {
             player_conhecimento: 'Conhecimento do Player',
             player_felicidade: 'Felicidade do Player',
-            robo_ataque: 'Ataque do Robô',
-            robo_defesa: 'Defesa do Robô',
-            robo_felicidade: 'Felicidade do Robô',
+            golem_ataque: 'Ataque do Gólem',
+            golem_defesa: 'Defesa do Gólem',
+            golem_felicidade: 'Felicidade do Gólem',
             npc_gratitude: 'Gratidão dos NPCs'
         };
         let hasImportantHiddenEffects = false;

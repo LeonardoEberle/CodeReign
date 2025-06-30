@@ -3,8 +3,7 @@ class ProgrammingGame {
         //status/indicadores do jogo (acima da tela)
         this.stats = {
             robots: 50,       // Qualidade dos robôs
-            energy: 50,       // Energia dos robos
-            intelligence: 50, // Inteligência do robo
+            knowledge: 50,    // Conhecimento do jogador
             resources: 50     // Recursos computacionais disponiveis
         };
 
@@ -138,8 +137,9 @@ class ProgrammingGame {
         if ((totalCardsPlayed - keyCardsPlayed) >= 2) {
             return true;
         }
-        //70% de chance de vir outra carta chave ao inves de uma carta evento
-        return Math.random() < 0.99;
+        
+        // Ajustado para melhor balanceamento
+        return Math.random() < 0.3; // 30% chance de carta-chave, 70% consequência
     }
 
     setupChapter() {
@@ -276,9 +276,17 @@ class ProgrammingGame {
     }
 
     applyEffects(visibleEffects, hiddenEffects) {
-        // Aplicar efeitos visíveis
+        // Aplicar efeitos visíveis (removendo referências a energy)
         for (let stat in visibleEffects) {
-            let statName = stat === 'knowledge' ? 'intelligence' : stat;
+            // Ignorar efeitos de energia
+            if (stat === 'energy') continue;
+            
+            // Converter intelligence para knowledge se necessário
+            let statName = stat === 'intelligence' ? 'knowledge' : stat;
+            
+            // Converter robots/Golemts para robots
+            if (stat === 'Golemts') statName = 'robots';
+            
             if (this.stats[statName] !== undefined) {
                 this.stats[statName] = Math.max(0, Math.min(100, this.stats[statName] + visibleEffects[stat]));
             }
@@ -337,7 +345,7 @@ class ProgrammingGame {
         this.menuSystem.showChapterTransition(this.currentChapter, description);
     }
 
-getChapterDescription(chapter) {
+    getChapterDescription(chapter) {
         const descriptions = {
             2: "Você deu vida à sua primeira classe. Agora, no Capítulo 2, você dominará os rituais de criação com os Construtores e protegerá a essência dos seus gólens com os segredos do Encapsulamento.",
             3: "Seus gólens são fortes, mas lutam sozinhos. No Capítulo 3, você forjará Alianças de Código, aprendendo a fazer seus objetos colaborarem para executar estratégias complexas e lutar como um exército unificado.",
@@ -356,11 +364,15 @@ getChapterDescription(chapter) {
     // ========================================
 
     checkGameOver() {
-        for (let stat in this.stats) {
-            if (this.stats[stat] <= 0 || this.stats[stat] >= 1000) {
-                return true;
-            }
+        // Gólens e Conhecimento podem chegar a 100 sem game over
+        if (this.stats.robots <= 0) return true;
+        if (this.stats.knowledge <= 0) return true;
+        
+        // Apenas recursos tem limite superior
+        if (this.stats.resources <= 0 || this.stats.resources >= 100) {
+            return true;
         }
+        
         return false;
     }
 
@@ -387,7 +399,7 @@ getChapterDescription(chapter) {
         }
 
         // Bônus por habilidades desenvolvidas
-        const importantSkills = ['player_conhecimento', 'robo_ataque', 'robo_defesa', 'player_felicidade'];
+        const importantSkills = ['player_conhecimento', 'golem_ataque', 'golem_defesa', 'player_felicidade'];
         for (let skill of importantSkills) {
             if (this.hiddenStatus[skill] > 10) {
                 skillBonus += 25;
