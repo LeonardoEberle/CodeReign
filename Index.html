@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Mundo dos Objetos - Aventura de Programação</title>
+    <title>Code Heroes</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="game-container">
         <!-- Stats Header -->
@@ -15,21 +17,21 @@
                 <div class="stat-bar">
                     <div class="stat-fill" id="robotsBar"></div>
                 </div>
-                <div class="stat-label">Robôs</div>
+                <div class="stat-label">Gólens</div>
             </div>
-            <div class="stat">
+            <!-- <div class="stat">
                 <div class="stat-icon">⚡</div>
                 <div class="stat-bar">
                     <div class="stat-fill" id="energyBar"></div>
                 </div>
                 <div class="stat-label">Energia</div>
-            </div>
+            </div> -->
             <div class="stat">
                 <div class="stat-icon">🧠</div>
                 <div class="stat-bar">
                     <div class="stat-fill" id="intelligenceBar"></div>
                 </div>
-                <div class="stat-label">Inteligência</div>
+                <div class="stat-label">Conhecimento</div>
             </div>
             <div class="stat">
                 <div class="stat-icon">💾</div>
@@ -84,22 +86,22 @@
     <!-- Intro Overlay -->
     <div class="overlay" id="introOverlay">
         <div class="overlay-content">
-            <div class="overlay-title">💻 O MUNDO DOS OBJETOS 💻</div>
+            <div class="overlay-title">Code Heroes</div>
             <div class="overlay-text">
-                Você é um estudante de engenharia de software que adormeceu estudando para a prova de POO (Programação Orientada a Objetos).
+                <strong> Sua Missão:</strong><br>
+                Dominar Gólens magicos para derrotar os Cavaleiros da Orientação a Objetos e o Grande Programador!
                 <br><br>
-                <strong>🌟 Sua Missão:</strong><br>
-                Despertar em um mundo medieval mágico onde você deve dominar robôs programáveis para derrotar os Cavaleiros da Orientação a Objetos e o Grande Programador!
-                <br><br>
-                <strong>🎮 Sistema de Jogo:</strong><br>
-                • <span style="color: #FFD700;">📜 Cartas de História</span>: Narrativa principal<br>
-                • <span style="color: #FFD700;">🔑 Cartas de Código</span>: Decisões de programação<br>
+                <strong>Sistema de Jogo:</strong><br>
+                • <span style="color: #FFD700;">📜 Cartas da Introdução</span>: Explicação do mundo<br>
+                • <span style="color: #FFD700;">🔑 Cartas de Historia</span>: Principais decisões<br>
                 • <span style="color: #87CEEB;">⚡ Eventos</span>: Consequências de suas escolhas<br>
                 <br>
-                <strong>📊 Recursos:</strong><br>
-                🤖 Robôs • ⚡ Energia • 🧠 Inteligência • 💾 Recursos
+                <strong>Recursos:</strong><br>
+                Gólens • Conhecimento • Recursos Computacionais
+                <br>
+                <strong>⚠️ Atenção:</strong>não deixe que cheguem a zero
                 <br><br>
-                <strong>⚠️ Atenção:</strong> Suas decisões de programação afetam eventos futuros!
+                Suas decisões afetam eventos futuros!
             </div>
             <button class="overlay-button" onclick="startGameFromIntro()">
                 Começar Aventura de Programação
@@ -112,7 +114,7 @@
         <div class="overlay-content">
             <div class="overlay-title">⏸️ DEBUG MODE</div>
             <div class="overlay-text">
-                O sistema está pausado. Seus robôs aguardam novos comandos...
+                O sistema está pausado. Seus Golens aguardam novos comandos...
             </div>
             <button class="overlay-button" onclick="togglePauseGame()">
                 Retomar Execução
@@ -134,7 +136,7 @@
                 Erro fatal no sistema...
             </div>
             <div style="margin: 15px 0;">
-                Linhas de código executadas: <strong id="finalTurns">0</strong>
+                ações tomadas executadas: <strong id="finalTurns">0</strong>
             </div>
             <button class="overlay-button" onclick="restartGame()">
                 Debug e Restart
@@ -152,11 +154,11 @@
             <div class="overlay-text" id="storyEndText">
                 Sua jornada de programação chegou ao fim...
             </div>
-            
+
             <div class="final-stats">
                 <div class="final-stat">
                     <div class="final-stat-icon">🤖</div>
-                    <div>Robôs</div>
+                    <div>Golens</div>
                     <div class="final-stat-value" id="finalChurch">50</div>
                 </div>
                 <div class="final-stat">
@@ -166,7 +168,7 @@
                 </div>
                 <div class="final-stat">
                     <div class="final-stat-icon">🧠</div>
-                    <div>Inteligência</div>
+                    <div>Conhecimento</div>
                     <div class="final-stat-value" id="finalArmy">50</div>
                 </div>
                 <div class="final-stat">
@@ -175,14 +177,14 @@
                     <div class="final-stat-value" id="finalTreasury">50</div>
                 </div>
             </div>
-            
+
             <div style="margin: 15px 0;">
-                <div>Linhas de código: <strong id="finalTurns">0</strong></div>
+                <div>Ações: <strong id="finalTurns">0</strong></div>
                 <div>Pontuação final: <strong id="finalScore">0</strong></div>
             </div>
-            
+
             <button class="overlay-button" onclick="restartGame()">
-                Nova Aventura de Programação
+                Nova Aventura
             </button>
             <button class="overlay-button secondary" onclick="exitGame()">
                 Voltar ao Mundo Real
@@ -196,4 +198,5 @@
     <script src="ui.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

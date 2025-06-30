@@ -7,29 +7,29 @@ class ProgrammingGame {
             intelligence: 50, // Inteligência do robo
             resources: 50     // Recursos computacionais disponiveis
         };
-        
+
         // recebe os status ocultos
         this.hiddenStatus = { ...INITIAL_HIDDEN_STATUS };
-        
+
         // Sistema de capítulos
         this.currentChapter = 1;
         this.maxChapters = 4;
-        
+
         // Novo sistema de intercalação
         this.keyCardsQueue = [];           // Fila de cartas-chave em ordem
         this.currentKeyCardIndex = 0;      // Índice da próxima carta-chave
         this.cardsPlayedInChapter = 0;     // Total de cartas jogadas
         this.keyCardsPlayedInChapter = 0;  // Cartas-chave jogadas
-        
+
         // Sistema de introdução
         this.introPhase = true;
         this.introCardIndex = 0;
         this.introCards = INTRO_CARDS || [];
-        
+
         // Controle de cartas de consequência
         this.availableConsequenceCards = [];
         this.playedConsequenceCards = new Set();
-        
+
         // Controle do jogo
         this.turn = 1;
         this.currentCard = null;
@@ -37,11 +37,11 @@ class ProgrammingGame {
         this.dragStartX = 0;
         this.isPaused = false;
         this.gameCompleted = false;
-        
+
         // Sistema de menus e UI
         this.menuSystem = null;
         this.uiManager = null;
-        
+
         this.init();
     }
 
@@ -50,11 +50,11 @@ class ProgrammingGame {
         if (!CHAPTER_KEY_CARDS || !CONSEQUENCE_CARDS || !INTRO_CARDS) {
             return;
         }
-        
+
         // Inicializar sistemas
         this.menuSystem = initializeMenuSystem(this);
         this.uiManager = new UIManager(this);
-        
+
         this.updateDisplay();
         this.loadNextCard();
         this.setupDragHandlers();
@@ -74,7 +74,7 @@ class ProgrammingGame {
                 this.loadNextCard();
                 return;
             }
-            
+
             const card = this.introCards[this.introCardIndex];
             card.isKeyCard = false;
             card.isIntro = true;
@@ -83,15 +83,15 @@ class ProgrammingGame {
             this.updateIntroProgress();
             return;
         }
-        
+
         // Verifica se o capítulo foi completado
         if (this.isChapterComplete()) {
             this.advanceChapter();
             return;
         }
-        
+
         let cardToLoad = null;
-        
+
         // Sistema de intercalação
         if (this.shouldLoadKeyCard()) {
             if (this.currentKeyCardIndex < this.keyCardsQueue.length) {
@@ -112,12 +112,12 @@ class ProgrammingGame {
                 }
             }
         }
-        
+
         if (!cardToLoad) {
             this.advanceChapter();
             return;
         }
-        
+
         this.currentCard = cardToLoad;
         this.uiManager.displayCard(cardToLoad);
         this.updateChapterProgress();
@@ -127,19 +127,19 @@ class ProgrammingGame {
         if (this.keyCardsPlayedInChapter === 0) {
             return true;
         }
-        
+
         if (this.currentKeyCardIndex >= this.keyCardsQueue.length) {
             return false;
         }
-        
+
         const totalCardsPlayed = this.cardsPlayedInChapter;
         const keyCardsPlayed = this.keyCardsPlayedInChapter;
-        
+
         if ((totalCardsPlayed - keyCardsPlayed) >= 2) {
             return true;
         }
         //70% de chance de vir outra carta chave ao inves de uma carta evento
-        return Math.random() < 0.99; 
+        return Math.random() < 0.99;
     }
 
     setupChapter() {
@@ -148,11 +148,11 @@ class ProgrammingGame {
         this.keyCardsPlayedInChapter = 0;
         this.currentKeyCardIndex = 0;
         this.playedConsequenceCards.clear();
-        
+
         // Configurar cartas do capítulo
         const chapterKeyCards = CHAPTER_KEY_CARDS[this.currentChapter] || [];
         this.keyCardsQueue = [...chapterKeyCards];
-        
+
         this.updateAvailableConsequenceCards();
     }
 
@@ -161,12 +161,12 @@ class ProgrammingGame {
             if (this.playedConsequenceCards.has(card.id)) {
                 return false;
             }
-            
+
             if (card.triggerConditions) {
                 for (let status in card.triggerConditions) {
                     const condition = card.triggerConditions[status];
                     const currentValue = this.hiddenStatus[status] || 0;
-                    
+
                     if (condition.min !== undefined && currentValue < condition.min) {
                         return false;
                     }
@@ -175,17 +175,17 @@ class ProgrammingGame {
                     }
                 }
             }
-            
+
             return true;
         });
-        
+
         this.availableConsequenceCards.sort((a, b) => (b.weight || 1) - (a.weight || 1));
     }
 
     selectWeightedConsequenceCard() {
         const totalWeight = this.availableConsequenceCards.reduce((sum, card) => sum + (card.weight || 1), 0);
         let random = Math.random() * totalWeight;
-        
+
         for (let card of this.availableConsequenceCards) {
             random -= (card.weight || 1);
             if (random <= 0) {
@@ -194,7 +194,7 @@ class ProgrammingGame {
                 return card;
             }
         }
-        
+
         return this.availableConsequenceCards.shift();
     }
 
@@ -204,39 +204,39 @@ class ProgrammingGame {
 
     makeChoice(direction) {
         if (!this.currentCard) return;
-        
+
         // Tratamento especial para cartas de introdução
         if (this.currentCard.isIntro) {
             this.handleIntroChoice(direction);
             return;
         }
-        
+
         const effect = direction === 'left' ? this.currentCard.leftEffect : this.currentCard.rightEffect;
         const hiddenEffect = direction === 'left' ? this.currentCard.leftHiddenEffects : this.currentCard.rightHiddenEffects;
         const choiceText = direction === 'left' ? this.currentCard.leftChoice : this.currentCard.rightChoice;
-        
+
         // Aplicar efeitos
         this.applyEffects(effect, hiddenEffect);
-        
+
         // Registrar carta jogada
         if (this.currentCard.isKeyCard) {
             this.keyCardsPlayedInChapter++;
         } else {
             this.playedConsequenceCards.add(this.currentCard.id);
         }
-        
+
         this.cardsPlayedInChapter++;
         this.updateAvailableConsequenceCards();
-        
+
         // Mostrar efeitos e animar saída
         this.uiManager.showEffectCard(choiceText, effect, hiddenEffect);
         this.uiManager.animateCardExit(direction);
-        
+
         // Processar próxima carta
         setTimeout(() => {
             this.turn++;
             this.updateDisplay();
-            
+
             if (this.checkGameOver()) {
                 this.gameOver();
             } else {
@@ -252,23 +252,23 @@ class ProgrammingGame {
 
     handleIntroChoice(direction) {
         const hiddenEffect = direction === 'left' ? this.currentCard.leftHiddenEffects : this.currentCard.rightHiddenEffects;
-        
+
         // Verificar game over especial da introdução
         if (hiddenEffect && hiddenEffect.gameOver) {
             this.menuSystem.showIntroGameOver();
             return;
         }
-        
+
         // Aplicar efeitos ocultos
         if (hiddenEffect) {
             for (let status in hiddenEffect) {
                 this.hiddenStatus[status] = (this.hiddenStatus[status] || 0) + hiddenEffect[status];
             }
         }
-        
+
         // Animar saída
         this.uiManager.animateCardExit(direction);
-        
+
         setTimeout(() => {
             this.introCardIndex++;
             this.loadNextCard();
@@ -283,7 +283,7 @@ class ProgrammingGame {
                 this.stats[statName] = Math.max(0, Math.min(100, this.stats[statName] + visibleEffects[stat]));
             }
         }
-        
+
         // Aplicar efeitos ocultos
         if (hiddenEffects) {
             for (let status in hiddenEffects) {
@@ -308,16 +308,11 @@ class ProgrammingGame {
 
     updateChapterProgress() {
         this.uiManager.updateChapterProgress(
-            this.currentChapter, 
-            this.maxChapters, 
-            this.keyCardsPlayedInChapter, 
+            this.currentChapter,
+            this.maxChapters,
+            this.keyCardsPlayedInChapter,
             this.cardsPlayedInChapter
         );
-        
-        // Debug de status ocultos
-        if (this.turn % 3 === 0) {
-            console.log('💻 Status Ocultos:', this.hiddenStatus);
-        }
     }
 
     isChapterComplete() {
@@ -329,10 +324,9 @@ class ProgrammingGame {
             this.storyComplete();
             return;
         }
-        
-        console.log(`✅ Capítulo ${this.currentChapter} completado!`);
+
         this.currentChapter++;
-        
+
         if (this.currentChapter <= this.maxChapters) {
             this.showChapterTransition();
         }
@@ -343,13 +337,11 @@ class ProgrammingGame {
         this.menuSystem.showChapterTransition(this.currentChapter, description);
     }
 
-    getChapterDescription(chapter) {
+getChapterDescription(chapter) {
         const descriptions = {
-            2: "Você dominou os conceitos básicos de POO! Agora é hora de aprender sobre herança, polimorfismo e outros conceitos avançados.",
-            3: "Seus robôs estão evoluindo! Padrões de design e arquiteturas complexas aguardam sua implementação.",
-            4: "O Grande Programador está próximo! Você deve reunir todo seu conhecimento para os desafios finais.",
-            5: "A batalha final se aproxima! Suas habilidades de programação serão testadas ao limite.",
-            6: "O confronto definitivo chegou! Tudo que você aprendeu sobre POO será crucial nesta última fase."
+            2: "Você deu vida à sua primeira classe. Agora, no Capítulo 2, você dominará os rituais de criação com os Construtores e protegerá a essência dos seus gólens com os segredos do Encapsulamento.",
+            3: "Seus gólens são fortes, mas lutam sozinhos. No Capítulo 3, você forjará Alianças de Código, aprendendo a fazer seus objetos colaborarem para executar estratégias complexas e lutar como um exército unificado.",
+            4: "A força bruta não é mais suficiente. No Capítulo 4, você mergulhará em táticas avançadas, dominando o Polimorfismo para criar unidades adaptáveis e usando o poder das Coleções para gerenciar seu exército com precisão letal.",
         };
         return descriptions[chapter] || "Uma nova fase de sua jornada de programação começa...";
     }
@@ -365,7 +357,7 @@ class ProgrammingGame {
 
     checkGameOver() {
         for (let stat in this.stats) {
-            if (this.stats[stat] <= 0 || this.stats[stat] >= 100) {
+            if (this.stats[stat] <= 0 || this.stats[stat] >= 1000) {
                 return true;
             }
         }
@@ -379,12 +371,12 @@ class ProgrammingGame {
 
     storyComplete() {
         this.gameCompleted = true;
-        
+
         // Calcular pontuação
         let score = 0;
         let balanceBonus = 0;
         let skillBonus = 0;
-        
+
         // Bônus por stats equilibradas
         for (let stat in this.stats) {
             if (this.stats[stat] >= 30 && this.stats[stat] <= 70) {
@@ -393,7 +385,7 @@ class ProgrammingGame {
                 balanceBonus += 15;
             }
         }
-        
+
         // Bônus por habilidades desenvolvidas
         const importantSkills = ['player_conhecimento', 'robo_ataque', 'robo_defesa', 'player_felicidade'];
         for (let skill of importantSkills) {
@@ -403,14 +395,14 @@ class ProgrammingGame {
                 skillBonus += 10;
             }
         }
-        
+
         score = Math.round((this.turn * 8) + balanceBonus + skillBonus + 300);
-        
+
         const ending = {
             title: "🎓 O Despertar Final",
             text: "Você derrotou o Grande Programador e dominou completamente a Orientação a Objetos! Uma luz brilhante te envolve... Você acorda em seu quarto, na frente do computador. Seu livro de POO está aberto na mesa. 'Que sonho incrível!' você pensa, percebendo que agora entende perfeitamente todos os conceitos. A prova será moleza!"
         };
-        
+
         this.menuSystem.showStoryComplete(score, ending);
     }
 
@@ -434,39 +426,39 @@ class ProgrammingGame {
             onDragEnd: () => this.endDrag(),
             isDragging: () => this.isDragging
         };
-        
+
         this.uiManager.setupDragListeners(handlers);
     }
 
     startDrag(x) {
         if (this.isPaused || this.gameCompleted) return;
-        
+
         this.isDragging = true;
         this.dragStartX = x;
-        
+
         this.uiManager.setCardDragging(true);
         this.uiManager.showChoices();
     }
 
     handleDrag(x) {
         if (!this.isDragging || this.isPaused || this.gameCompleted) return;
-        
+
         const deltaX = x - this.dragStartX;
         this.uiManager.updateCardPosition(deltaX);
     }
 
     endDrag() {
         if (!this.isDragging || this.isPaused || this.gameCompleted) return;
-        
+
         const deltaX = this.uiManager.getCardDeltaX();
-        
+
         if (Math.abs(deltaX) > 100) {
             this.makeChoice(deltaX > 0 ? 'right' : 'left');
         } else {
             this.uiManager.resetCardPosition();
             this.uiManager.hideChoices();
         }
-        
+
         this.isDragging = false;
         this.uiManager.setCardDragging(false);
     }

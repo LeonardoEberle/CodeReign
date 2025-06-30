@@ -1,5 +1,5 @@
 const INTRO_CARDS = [
- {
+    {
         id: "awakening",
         character: "😴",
         title: "O Despertar",
@@ -84,7 +84,7 @@ const INTRO_CARDS = [
 // ========================================
 
 const CHAPTER_KEY_CARDS = {
-        1: [ // CAPÍTULO 1: O Chamado do Código Perdido
+    1: [ // CAPÍTULO 1: O Chamado do Código Perdido
         {
             id: "primeira_visao",
             character: "🏰",
@@ -152,9 +152,9 @@ const CHAPTER_KEY_CARDS = {
             id: "portao_codigo",
             character: "🚪",
             title: "O Portão do Código",
-            text: "Diante de uma porta mágica, surge a inscrição luminosa: 'Robo();'. O Guardião dos Construtores aguarda sua resposta.",
-            leftChoice: "É um construtor! Cria novos robôs!",
-            rightChoice: "Função mágica de invocação?",
+            text: "O Compilador da uma risada e então bate seu cajado no chao. À sua frente, um portão colossal feito de código cintilante aparece. Um ser espectral, o Guardião, se ergue, seus olhos de cristal fixos em você. Uma inscrição queima no ar: 'new Gólem();'. A voz do Guardião ecoa em sua mente: 'Decifre o encantamento.'",
+            leftChoice: "\"É um construtor! O ritual para criar um novo Gólem!\"",
+            rightChoice: "\"É uma função para invocar um Gólem já existente.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -163,10 +163,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "personalizacao_inicial",
             character: "⚡",
-            title: "Personalização Inicial",
-            text: "O Guardião pergunta: 'Deseja criar um construtor que receba energia inicial para seus robôs?'",
-            leftChoice: "Robo(int energia) - Construtor parametrizado",
-            rightChoice: "Um construtor padrão já tá bom",
+            title: "A Forja Primordial",
+            text: "O Guardião gesticula. Duas projeções de gólens aparecem: um simples e outro crepitando com poder. 'Um nasce como uma tela em branco. O outro, forjado com energia primordial desde o início. Como você imbui essa força no momento da criação?'",
+            leftChoice: "\"Definindo um construtor com parâmetros. new Gólem(int energia);\"",
+            rightChoice: "\"Dando energia a ele depois de instanciado.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -175,10 +175,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "novo_nivel_controle",
             character: "🔧",
-            title: "Novo Nível de Controle",
-            text: "Você precisa criar vários tipos de robôs: guerreiros, exploradores, construtores. Como proceder?",
-            leftChoice: "Múltiplos construtores com diferentes parâmetros",
-            rightChoice: "Um construtor genérico para todos",
+            title: "Arsenal de Criação",
+            text: "Siren aparece, um brilho de urgência em seus olhos. 'Ameaças diferentes exigem gólens diferentes: tanques, batedores, suportes. Uma única forma de criação é ineficiente. Como você pode criar múltiplos 'diagramas' de construção para forjar gólens especializados?'",
+            leftChoice: "\"Criando múltiplos construtores com diferentes parâmetros!\"",
+            rightChoice: "\"Usando um único construtor com diversas condicionais para definir seu tipo.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -187,10 +187,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "visao_privada",
             character: "🔒",
-            title: "Visão Privada",
-            text: "Hackers do Reino Sombrio tentam modificar a energia dos seus robôs! Como proteger os atributos?",
-            leftChoice: "private int energia; - Ocultar atributos",
-            rightChoice: "Deixar público, confio na segurança",
+            title: "Invasão Espectral",
+            text: "Espectros sombrios, feitos de código corrompido, atravessam seus gólens, tentando alterar seus atributos vitais diretamente! 'Eles estão atacando a essência dos seus gólens!' grita Siren. 'Você precisa de um escudo interno! Como protegê-los?'",
+            leftChoice: "\"Tornando os atributos 'private'! Criar uma barreira interna!\"",
+            rightChoice: "\"Aumentando o poder dos atributos de defesa!\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -199,10 +199,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "metodo_secreto",
             character: "🗝️",
-            title: "Método Secreto",
-            text: "Com atributos privados, como outros objetos poderão ler a energia do robô? O Guardião aguarda sua solução.",
-            leftChoice: "getEnergia() - Criar método de acesso",
-            rightChoice: "Ler direto o atributo público",
+            title: "A Janela da Alma",
+            text: "O Guardião aprova sua defesa. 'O núcleo está seguro, mas agora é uma caixa-preta. Seus outros objetos estão cegos para o estado do seu gólem. Como você permite que eles VEJAM a energia, sem lhes dar a chave para ALTERÁ-LA?'",
+            leftChoice: "\"Criando um método de acesso público: um 'getter'!\"",
+            rightChoice: "\"Não tem jeito. Vou ter que remover a proteção 'private'.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -214,10 +214,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "dois_mundos_encontram",
             character: "🤝",
-            title: "Dois Mundos se Encontram",
-            text: "Seu Robo precisa trabalhar com a classe Comando para executar estratégias complexas. Como conectá-los?",
-            leftChoice: "comando.executar(robo) - Passar como parâmetro",
-            rightChoice: "Tentar acessar atributos diretamente",
+            title: "A Mente e o Músculo",
+            text: "Siren projeta um orbe de pura lógica. 'Isto é um 'Comando', a estratégia. Aquilo,' ela aponta para seu Gólem, 'é a força. A mente precisa guiar o músculo, mas eles nem se conhecem. Como você os apresenta?'",
+            leftChoice: "\"Passando o Gólem como um argumento para o 'Comando'.\"",
+            rightChoice: "\"Fazendo o 'Comando' procurar pelo Gólem diretamente.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -226,10 +226,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "ligacao_mistica",
             character: "🔗",
-            title: "Ligação Mística",
-            text: "Você cria a classe Comando que precisa controlar múltiplos robôs. Qual abordagem usar?",
-            leftChoice: "comando.atacarEmGrupo(listaRobos)",
-            rightChoice: "Cada robô se vira sozinho",
+            title: "A Voz do General",
+            text: "Uma projeção de um inimigo colossal surge. Um único gólem não será suficiente. 'Seu 'Comando' deve se tornar um general,' diz Siren, 'e dar ordens a uma legião inteira de uma só vez. Como ele fará sua voz ser ouvida por todos?'",
+            leftChoice: "\"Passando uma lista de gólens para o método do comando.\"",
+            rightChoice: "\"Criando um método de comando para cada gólem.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -238,10 +238,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "mensagem_objetos",
             character: "📨",
-            title: "A Mensagem Entre Objetos",
-            text: "Como fazer um robô executar ações comandadas por outra classe? Siren observa atentamente.",
-            leftChoice: "robo.executarAcao() dentro de Comando",
-            rightChoice: "Copiar o código do método",
+            title: "Conversa Elegante",
+            text: "'Observe a beleza disto,' sussurra Siren. 'O 'Comando' não precisa saber OS DETALHES do ataque, apenas ORDENÁ-LO. Ele envia uma mensagem, e o gólem a executa. Qual o nome dessa conversa elegante entre objetos?'",
+            leftChoice: "\"É uma 'chamada de método'. gólem.atacar().\"",
+            rightChoice: "\"É 'cópia de código'. colar o método do golém para o comando.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -250,10 +250,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "retorno_heroi",
             character: "🎁",
-            title: "O Retorno do Herói",
-            text: "Você precisa de um método que crie e retorne um novo robô configurado. Como implementar?",
-            leftChoice: "public Robo criarRoboElite() { return new Robo(100); }",
-            rightChoice: "Retornar apenas valores int",
+            title: "A Forja de Heróis",
+            text: "O Mago Compilador aparece, satisfeito. 'Você não precisa mais forjar cada gólem manualmente. Crie uma 'Forja Mestra' — um método que, ao ser chamado, produz e entrega um Gólem de Elite, pronto para a batalha. Mostre-me este feitiço!'",
+            leftChoice: "\"public Gólem criarElite() { return new Gólem(...); }\"",
+            rightChoice: "\"Um método que retorna 'true' se o gólem foi criado.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -262,10 +262,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "alianca_final",
             character: "⚔️",
-            title: "A Aliança Final",
-            text: "Para derrotar os lacaios do Grande Programador, seus robôs devem atacar em perfeita sincronia!",
-            leftChoice: "for(Robo r : robos) { r.atacar(); }",
-            rightChoice: "robo1.atacar(); robo2.atacar(); ...",
+            title: "A Horda Sincronizada",
+            text: "Uma horda de 'Lacaios do Código Espaguete' avança! 'São muitos!' grita Siren. 'Comandá-los um a um será a nossa ruína! Você precisa percorrer suas legiões e ordenar um ataque em uníssono, numa onda de lógica implacável!'",
+            leftChoice: "\"Usar um loop 'for' para percorrer a lista e atacar!\"",
+            rightChoice: "\"Chamar 'atacar()' para gólem1, gólem2, gólem3...\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -277,10 +277,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "chegada_polimorfo",
             character: "🎭",
-            title: "A Chegada do Polimorfo",
-            text: "Um ser que muda de forma surge! 'Eu posso ser qualquer coisa que implemente Combatente', ele proclama.",
-            leftChoice: "interface Combatente { void atacar(); }",
-            rightChoice: "Verificar tipo com instanceof sempre",
+            title: "O Lorde Metamorfo",
+            text: "Uma entidade fluida surge, mudando de um gólem-tanque pesado para um drone ágil. 'Minha forma é irrelevante,' sua voz ecoa. 'Meu propósito, lutar, é absoluto. Defina este 'contrato' de combate, esta 'Interface', e qualquer um que a honre pode se juntar a mim.'",
+            leftChoice: "\"Criar uma 'interface Combatente' com o método 'atacar()'\"",
+            rightChoice: "\"Verificar o tipo de cada um com 'instanceof' e agir.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -289,10 +289,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "mapa_estrategico",
             character: "🗺️",
-            title: "Mapa Estratégico",
-            text: "Você precisa mapear cada tipo de arma para robôs específicos. Qual estrutura usar?",
-            leftChoice: "Map<String, Robo> arsenalRobos",
-            rightChoice: "Lista simples e buscar manualmente",
+            title: "O Arsenal Indexado",
+            text: "Siren exibe armas lendárias: 'Canhão de Singularidade', 'Lâminas Quânticas'. 'Apenas gólens específicos podem usá-las. Em batalha, você precisa do gólem certo instantaneamente pelo nome da arma. Uma lista seria lenta. Qual estrutura de dados oferece essa chave-valor?'",
+            leftChoice: "\"Um 'Map'! Para mapear a arma ao gólem.\"",
+            rightChoice: "\"Uma 'List' e um loop para buscar o gólem certo.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -301,10 +301,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "exercito_unico",
             character: "🛡️",
-            title: "Exército Sem Duplicatas",
-            text: "O Grande Programador enviou clones! Como garantir que seu exército tenha apenas robôs únicos?",
-            leftChoice: "HashSet<Robo> exercitoUnico",
-            rightChoice: "ArrayList<Robo> e verificar manualmente",
+            title: "A Praga dos Clones",
+            text: "'Uma armadilha!' brada o Compilador. 'O inimigo injetou instâncias de Gólens duplicadas em seu exército para semear o caos! Você precisa de uma coleção que, por sua própria natureza mágica, rejeita duplicatas. Qual 'Conjunto' sagrado irá purificar suas fileiras?'",
+            leftChoice: "\"Um 'HashSet'! Ele garantirá gólens únicos.\"",
+            rightChoice: "\"Um 'ArrayList', e eu verifico as duplicatas manualmente.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -313,10 +313,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "formacao_batalha",
             character: "📋",
-            title: "Formação de Batalha",
-            text: "A ordem de ataque é crucial! Qual estrutura preserva a sequência dos robôs?",
-            leftChoice: "ArrayList<Robo> formacaoBatalha",
-            rightChoice: "HashSet<Robo> conjunto",
+            title: "A Sequência da Vitória",
+            text: "'O próximo campeão inimigo tem uma fraqueza sequencial,' diz Siren. 'Primeiro, o 'Quebra-Escudo'. Depois, o 'Perfurador'. A ordem é crucial e não pode ser alterada. Qual coleção manterá sua linha de batalha na formação exata que você ditar?'",
+            leftChoice: "\"Um 'ArrayList', que preserva a ordem de inserção.\"",
+            rightChoice: "\"Um 'HashSet', pois a ordem não deve importar tanto.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -325,10 +325,10 @@ const CHAPTER_KEY_CARDS = {
         {
             id: "transformacao_final",
             character: "🌟",
-            title: "A Transformação Final",
-            text: "Para vencer o Grande Programador, seus robôs devem adaptar comportamento em tempo real!",
-            leftChoice: "Usar polimorfismo e interfaces",
-            rightChoice: "Gigantesco switch-case",
+            title: "A Dança da Adaptação",
+            text: "O campeão do Grande Programador muda de tática a cada segundo. 'Sua lógica estática é inútil!' ele zomba. 'Você precisa de gólens que possam mudar sua estratégia em tempo real, sem 'if's ou 'switch'es. Abrace o poder do polimorfismo!'",
+            leftChoice: "\"Usar a interface 'Combatente' e trocar as implementações!\"",
+            rightChoice: "\"Prever todos os comportamentos com um switch.\"",
             leftEffect: {},
             rightEffect: {},
             leftHiddenEffects: {},
@@ -348,7 +348,7 @@ const CONSEQUENCE_CARDS = [
         leftChoice: "Focar nos estudos",
         rightChoice: "Relaxar um pouco",
         leftEffect: { knowledge: 15, energy: -10 },
-        rightEffect: { energy: 10, robots: 5 },
+        rightEffect: { energy: 10, Golemts: 5 },
         triggerConditions: { player_felicidade: { min: 8, max: Infinity } },
         weight: 2
     },
@@ -359,8 +359,8 @@ const CONSEQUENCE_CARDS = [
         text: "Você está se sentindo desmotivado... Talvez seja hora de encontrar inspiração.",
         leftChoice: "Conversar com Siren",
         rightChoice: "Tentar sozinho",
-        leftEffect: { knowledge: 10, energy: 5, robots: -5 },
-        rightEffect: { knowledge: -5, energy: -10, robots: -10 },
+        leftEffect: { knowledge: 10, energy: 5, Golemts: -5 },
+        rightEffect: { knowledge: -5, energy: -10, Golemts: -10 },
         triggerConditions: { player_felicidade: { min: -Infinity, max: -5 } },
         weight: 3
     },
@@ -371,9 +371,9 @@ const CONSEQUENCE_CARDS = [
         character: "💡",
         title: "Insight de Programação",
         text: "Você teve uma epifania! Conceitos de POO estão fazendo sentido agora.",
-        leftChoice: "Aplicar nos robôs",
+        leftChoice: "Aplicar nos Golens",
         rightChoice: "Estudar mais teoria",
-        leftEffect: { robots: 20, knowledge: 10, energy: -5 },
+        leftEffect: { Golemts: 20, knowledge: 10, energy: -5 },
         rightEffect: { knowledge: 25, energy: -10 },
         triggerConditions: { player_conhecimento: { min: 12, max: Infinity } },
         weight: 2
@@ -385,89 +385,89 @@ const CONSEQUENCE_CARDS = [
         text: "Você está confuso com tantos conceitos novos... Classes, objetos, métodos...",
         leftChoice: "Revisar fundamentos",
         rightChoice: "Pedir ajuda à Siren",
-        leftEffect: { knowledge: 10, energy: -15, robots: -5 },
-        rightEffect: { knowledge: 15, energy: -5, robots: 5 },
+        leftEffect: { knowledge: 10, energy: -15, Golemts: -5 },
+        rightEffect: { knowledge: 15, energy: -5, Golemts: 5 },
         triggerConditions: { player_conhecimento: { min: -Infinity, max: 3 } },
         weight: 3
     },
 
-    // CONSEQUÊNCIAS DE FELICIDADE DO ROBÔ
+    // CONSEQUÊNCIAS DE FELICIDADE DO Gólem
     {
-        id: "robo_loyal",
+        id: "Golem_loyal",
         character: "🤖💙",
-        title: "Robô Leal",
-        text: "Seu robô demonstra lealdade! Ele está executando comandos com mais eficiência.",
-        leftChoice: "Elogiar o robô",
+        title: "Gólem Leal",
+        text: "Seu Gólem demonstra lealdade! Ele está executando comandos com mais eficiência.",
+        leftChoice: "Elogiar o Gólem",
         rightChoice: "Dar upgrade",
-        leftEffect: { robots: 15, energy: 5 },
-        rightEffect: { robots: 20, energy: -10, resources: -5 },
-        triggerConditions: { robo_felicidade: { min: 8, max: Infinity } },
+        leftEffect: { Golemts: 15, energy: 5 },
+        rightEffect: { Golemts: 20, energy: -10, resources: -5 },
+        triggerConditions: { Golem_felicidade: { min: 8, max: Infinity } },
         weight: 2
     },
     {
-        id: "robo_rebellion",
+        id: "Golem_rebellion",
         character: "🤖😠",
-        title: "Rebelião do Robô",
-        text: "Seu robô está resistindo aos comandos! Parece que ele não está feliz com suas modificações.",
+        title: "Rebelião do Gólem",
+        text: "Seu Gólem está resistindo aos comandos! Parece que ele não está feliz com suas modificações.",
         leftChoice: "Forçar obediência",
         rightChoice: "Tentar entender o problema",
-        leftEffect: { robots: -10, energy: -5, resources: 5 },
-        rightEffect: { robots: 5, energy: -10, knowledge: 10 },
-        triggerConditions: { robo_felicidade: { min: -Infinity, max: -5 } },
+        leftEffect: { Golemts: -10, energy: -5, resources: 5 },
+        rightEffect: { Golemts: 5, energy: -10, knowledge: 10 },
+        triggerConditions: { Golem_felicidade: { min: -Infinity, max: -5 } },
         weight: 3
     },
 
-    // CONSEQUÊNCIAS DE ATAQUE DO ROBÔ
+    // CONSEQUÊNCIAS DE ATAQUE DO Gólem
     {
-        id: "robo_powerful",
+        id: "Golem_powerful",
         character: "🤖⚔️",
-        title: "Robô Poderoso",
-        text: "Seu robô desenvolveu capacidades de combate impressionantes! Outros robôs o respeitam.",
+        title: "Gólem Poderoso",
+        text: "Seu Gólem desenvolveu capacidades de combate impressionantes! Outros Golens o respeitam.",
         leftChoice: "Treinar mais",
-        rightChoice: "Ensinar outros robôs",
-        leftEffect: { robots: 25, energy: -15 },
-        rightEffect: { robots: 15, knowledge: 10, energy: -10 },
-        triggerConditions: { robo_ataque: { min: 12, max: Infinity } },
+        rightChoice: "Ensinar outros Golens",
+        leftEffect: { Golemts: 25, energy: -15 },
+        rightEffect: { Golemts: 15, knowledge: 10, energy: -10 },
+        triggerConditions: { Golem_ataque: { min: 12, max: Infinity } },
         weight: 2
     },
     {
-        id: "robo_weak_attack",
+        id: "Golem_weak_attack",
         character: "🤖💤",
         title: "Ataque Fraco",
-        text: "Seu robô está com dificuldades em combate. Talvez precise de melhorias em seus algoritmos de ataque.",
+        text: "Seu Gólem está com dificuldades em combate. Talvez precise de melhorias em seus algoritmos de ataque.",
         leftChoice: "Otimizar algoritmos",
         rightChoice: "Treinar fundamentos",
-        leftEffect: { robots: 10, knowledge: 15, energy: -20 },
-        rightEffect: { robots: 5, knowledge: 10, energy: -10 },
-        triggerConditions: { robo_ataque: { min: -Infinity, max: 3 } },
+        leftEffect: { Golemts: 10, knowledge: 15, energy: -20 },
+        rightEffect: { Golemts: 5, knowledge: 10, energy: -10 },
+        triggerConditions: { Golem_ataque: { min: -Infinity, max: 3 } },
         weight: 3
     },
 
-    // CONSEQUÊNCIAS DE VULNERABILIDADE DO ROBÔ
+    // CONSEQUÊNCIAS DE VULNERABILIDADE DO Gólem
     {
         id: "security_breach",
         character: "🔓",
         title: "Brecha de Segurança",
-        text: "Inimigos descobriram vulnerabilidades em seu robô! Urgente: corrigir falhas de segurança.",
+        text: "Inimigos descobriram vulnerabilidades em seu Gólem! Urgente: corrigir falhas de segurança.",
         leftChoice: "Patch de emergência",
         rightChoice: "Reescrever código de segurança",
-        leftEffect: { robots: 10, energy: -10, resources: -5 },
-        rightEffect: { robots: -5, knowledge: 20, energy: -25 },
-        triggerConditions: { robo_vulnerabilidade: { min: 10, max: Infinity } },
+        leftEffect: { Golemts: 10, energy: -10, resources: -5 },
+        rightEffect: { Golemts: -5, knowledge: 20, energy: -25 },
+        triggerConditions: { Golem_vulnerabilidade: { min: 10, max: Infinity } },
         weight: 4
     },
 
-    // CONSEQUÊNCIAS DE DEFESA DO ROBÔ
+    // CONSEQUÊNCIAS DE DEFESA DO Gólem
     {
         id: "fortress_mode",
         character: "🛡️",
         title: "Modo Fortaleza",
-        text: "Seu robô ativou protocolos de defesa avançados! Ele está quase impenetrável.",
+        text: "Seu Gólem ativou protocolos de defesa avançados! Ele está quase impenetrável.",
         leftChoice: "Manter defesa alta",
         rightChoice: "Balancear com ataque",
-        leftEffect: { robots: 20, energy: -5 },
-        rightEffect: { robots: 15, energy: -10, knowledge: 5 },
-        triggerConditions: { robo_defesa: { min: 12, max: Infinity } },
+        leftEffect: { Golemts: 20, energy: -5 },
+        rightEffect: { Golemts: 15, energy: -10, knowledge: 5 },
+        triggerConditions: { Golem_defesa: { min: 12, max: Infinity } },
         weight: 2
     },
 
@@ -480,7 +480,7 @@ const CONSEQUENCE_CARDS = [
         leftChoice: "Aceitar recursos",
         rightChoice: "Pedir conhecimento",
         leftEffect: { resources: 20, energy: 10 },
-        rightEffect: { knowledge: 20, robots: 10 },
+        rightEffect: { knowledge: 20, Golemts: 10 },
         triggerConditions: { npc_gratitude: { min: 8, max: Infinity } },
         weight: 1
     },
@@ -491,8 +491,8 @@ const CONSEQUENCE_CARDS = [
         text: "Os habitantes locais estão preocupados com seus métodos. Talvez você devesse ser mais cuidadoso.",
         leftChoice: "Ignorar preocupações",
         rightChoice: "Ouvir conselhos",
-        leftEffect: { robots: 10, energy: -5, knowledge: -5 },
-        rightEffect: { robots: 5, knowledge: 15, energy: -10 },
+        leftEffect: { Golemts: 10, energy: -5, knowledge: -5 },
+        rightEffect: { Golemts: 5, knowledge: 15, energy: -10 },
         triggerConditions: { npc_felicidade: { min: -Infinity, max: -3 } },
         weight: 2
     },
@@ -506,7 +506,7 @@ const CONSEQUENCE_CARDS = [
         leftChoice: "Estudar padrões de design",
         rightChoice: "Focar em algoritmos",
         leftEffect: { knowledge: 15, energy: -10 },
-        rightEffect: { robots: 15, energy: -5 },
+        rightEffect: { Golemts: 15, energy: -5 },
         triggerConditions: {},
         weight: 1
     },
@@ -517,7 +517,7 @@ const CONSEQUENCE_CARDS = [
         text: "Você encontra outro programador perdido! Ele oferece trocar conhecimentos.",
         leftChoice: "Trocar dicas de POO",
         rightChoice: "Trocar recursos",
-        leftEffect: { knowledge: 20, robots: 5 },
+        leftEffect: { knowledge: 20, Golemts: 5 },
         rightEffect: { resources: 15, energy: 10 },
         triggerConditions: {},
         weight: 1
@@ -529,8 +529,8 @@ const CONSEQUENCE_CARDS = [
         text: "Hora de debug! Você encontra alguns bugs interessantes no código do mundo.",
         leftChoice: "Corrigir bugs",
         rightChoice: "Explorar bugs",
-        leftEffect: { knowledge: 15, robots: 10, energy: -15 },
-        rightEffect: { knowledge: 5, robots: -5, energy: 5 },
+        leftEffect: { knowledge: 15, Golemts: 10, energy: -15 },
+        rightEffect: { knowledge: 5, Golemts: -5, energy: 5 },
         triggerConditions: {},
         weight: 1
     }
@@ -541,13 +541,13 @@ const INITIAL_HIDDEN_STATUS = {
     // Player
     player_felicidade: 0,
     player_conhecimento: 0,
-    
-    // Robô
-    robo_felicidade: 0,
-    robo_ataque: 0,
-    robo_vulnerabilidade: 0,
-    robo_defesa: 0,
-    
+
+    // Gólem
+    Golem_felicidade: 0,
+    Golem_ataque: 0,
+    Golem_vulnerabilidade: 0,
+    Golem_defesa: 0,
+
     // NPCs
     npc_felicidade: 0,
     npc_gratitude: 0

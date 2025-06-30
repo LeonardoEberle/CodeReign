@@ -135,8 +135,13 @@
         }
 
         @keyframes keyCardGlow {
-            from { box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3); }
-            to { box-shadow: 0 8px 32px rgba(255, 215, 0, 0.6); }
+            from {
+                box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+            }
+
+            to {
+                box-shadow: 0 8px 32px rgba(255, 215, 0, 0.6);
+            }
         }
 
         /* Indicador de tipo de carta */
@@ -398,19 +403,19 @@
             .game-container {
                 max-width: 100%;
             }
-            
+
             .card {
                 width: 280px;
                 height: 380px;
             }
-            
+
             .overlay-content {
                 margin: 10px;
                 padding: 20px;
             }
         }
 
-                /* Adicionar estilos específicos para o tema de programação */
+        /* Adicionar estilos específicos para o tema de programação */
         .stat-label {
             font-size: 10px;
             margin-top: 2px;
@@ -437,13 +442,18 @@
         /* Efeito hover nos botões */
         .overlay-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Animação para cartas de programação */
         @keyframes codeGlow {
-            from { box-shadow: 0 0 20px rgba(74, 144, 226, 0.3); }
-            to { box-shadow: 0 0 30px rgba(74, 144, 226, 0.6); }
+            from {
+                box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+            }
+
+            to {
+                box-shadow: 0 0 30px rgba(74, 144, 226, 0.6);
+            }
         }
 
         .card.intro-card {

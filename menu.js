@@ -14,7 +14,7 @@ class MenuSystem {
     // ========================================
     // MENU INICIAL E INTRODUÇÃO
     // ========================================
-    
+
     showIntroOverlay() {
         const overlay = document.getElementById(this.overlays.intro);
         if (overlay) overlay.style.display = 'flex';
@@ -33,7 +33,7 @@ class MenuSystem {
     // ========================================
     // MENU DE PAUSA
     // ========================================
-    
+
     togglePause() {
         if (this.game.isPaused) {
             this.resume();
@@ -72,14 +72,14 @@ class MenuSystem {
     // ========================================
     // GAME OVER
     // ========================================
-    
+
     showGameOver(reason) {
         const elements = {
             reason: document.getElementById('deathReason'),
             turns: document.getElementById('finalTurns'),
             overlay: document.getElementById(this.overlays.gameOver)
         };
-        
+
         if (elements.reason) elements.reason.textContent = reason;
         if (elements.turns) elements.turns.textContent = this.game.turn - 1;
         if (elements.overlay) elements.overlay.style.display = 'flex';
@@ -87,7 +87,7 @@ class MenuSystem {
 
     getGameOverReason() {
         const stats = this.game.stats;
-        
+
         if (stats.robots <= 0) {
             return "Todos os seus robôs foram destruídos! Sem eles, você não pode continuar sua missão.";
         } else if (stats.robots >= 100) {
@@ -105,14 +105,14 @@ class MenuSystem {
         } else if (stats.resources >= 100) {
             return "Tanto poder computacional atraiu a atenção do Grande Programador! Ele te encontrou!";
         }
-        
+
         return "Sua jornada no Mundo dos Objetos chegou ao fim...";
     }
 
     // ========================================
     // HISTÓRIA COMPLETA
     // ========================================
-    
+
     showStoryComplete(score, ending) {
         const elements = {
             title: document.getElementById('storyEndTitle'),
@@ -125,7 +125,7 @@ class MenuSystem {
             resources: document.getElementById('finalTreasury'),
             overlay: document.getElementById(this.overlays.storyComplete)
         };
-        
+
         if (elements.title) elements.title.textContent = ending.title;
         if (elements.text) elements.text.textContent = ending.text;
         if (elements.score) elements.score.textContent = score;
@@ -140,12 +140,12 @@ class MenuSystem {
     // ========================================
     // TRANSIÇÕES DE CAPÍTULO
     // ========================================
-    
+
     showChapterTransition(chapter, description) {
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
         overlay.style.zIndex = '1001';
-        
+
         const content = document.createElement('div');
         content.className = 'overlay-content';
         content.innerHTML = `
@@ -155,7 +155,7 @@ class MenuSystem {
                 Continuar Programando
             </button>
         `;
-        
+
         overlay.appendChild(content);
         document.body.appendChild(overlay);
     }
@@ -169,12 +169,12 @@ class MenuSystem {
     // ========================================
     // GAME OVER NA INTRODUÇÃO
     // ========================================
-    
+
     showIntroGameOver() {
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
         overlay.style.zIndex = '1001';
-        
+
         const content = document.createElement('div');
         content.className = 'overlay-content';
         content.innerHTML = `
@@ -195,7 +195,7 @@ class MenuSystem {
                 Voltar ao Mundo Real
             </button>
         `;
-        
+
         overlay.appendChild(content);
         document.body.appendChild(overlay);
     }
@@ -209,13 +209,13 @@ class MenuSystem {
     // ========================================
     // UTILITÁRIOS
     // ========================================
-    
+
     hideAllOverlays() {
         Object.values(this.overlays).forEach(id => {
             const element = document.getElementById(id);
             if (element) element.style.display = 'none';
         });
-        
+
         // Remove overlays de transição de capítulo
         const transitionOverlays = document.querySelectorAll('.overlay[style*="z-index: 1001"]');
         transitionOverlays.forEach(overlay => overlay.remove());
@@ -271,10 +271,10 @@ function restartGame() {
             const element = document.getElementById(id);
             if (element) element.style.display = 'none';
         });
-        
+
         const transitionOverlays = document.querySelectorAll('.overlay[style*="z-index: 1001"]');
         transitionOverlays.forEach(overlay => overlay.remove());
-        
+
         startGame();
     }
 }
