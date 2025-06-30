@@ -459,3 +459,12 @@
         .card.intro-card {
             animation: codeGlow 3s ease-in-out infinite alternate;
         }
+
+        .card-image {
+            width: 90%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }

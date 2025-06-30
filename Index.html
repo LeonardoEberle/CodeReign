@@ -10,7 +10,6 @@
 
 <body>
     <div class="game-container">
-        <!-- Stats Header -->
         <div class="stats-container">
             <div class="stat">
                 <div class="stat-icon">🤖</div>
@@ -19,7 +18,7 @@
                 </div>
                 <div class="stat-label">Gólens</div>
             </div>
-            <!-- <div class="stat">
+             <!-- <div class="stat">
                 <div class="stat-icon">⚡</div>
                 <div class="stat-bar">
                     <div class="stat-fill" id="energyBar"></div>
@@ -42,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Progresso da História -->
         <div class="story-progress">
             <div id="chapterCount">Introdução: 1/5</div>
             <div class="progress-bar">
@@ -50,28 +48,24 @@
             </div>
         </div>
 
-        <!-- Card Area -->
         <div class="card-area">
             <div class="card" id="currentCard">
-                <div class="card-character" id="cardCharacter">😴</div>
+                <img class="card-image" id="cardImage" src="" alt="Ilustração da carta">
                 <div class="card-title" id="cardTitle">O Despertar</div>
                 <div class="card-text" id="cardText">Você acorda em um lugar estranho...</div>
             </div>
 
-            <!-- Choices overlay -->
             <div class="choices" id="choices">
                 <div class="choice left" id="leftChoice">Escolha Esquerda</div>
                 <div class="choice right" id="rightChoice">Escolha Direita</div>
             </div>
 
-            <!-- Effect Card -->
             <div class="effect-card" id="effectCard">
                 <div class="effect-title" id="effectTitle">Efeito</div>
                 <div id="effectList"></div>
             </div>
         </div>
 
-        <!-- Bottom UI -->
         <div class="bottom-ui">
             <div class="turn-counter">
                 Linha de Código: <span id="turnCount">1</span>
@@ -83,7 +77,6 @@
         </div>
     </div>
 
-    <!-- Intro Overlay -->
     <div class="overlay" id="introOverlay">
         <div class="overlay-content">
             <div class="overlay-title">Code Heroes</div>
@@ -108,8 +101,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Pause Overlay -->
     <div class="overlay" id="pauseOverlay" style="display: none;">
         <div class="overlay-content">
             <div class="overlay-title">⏸️ DEBUG MODE</div>
@@ -127,8 +118,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Game Over Overlay -->
     <div class="overlay" id="gameOver" style="display: none;">
         <div class="overlay-content">
             <div class="overlay-title">💀 SYSTEM CRASH</div>
@@ -136,7 +125,7 @@
                 Erro fatal no sistema...
             </div>
             <div style="margin: 15px 0;">
-                ações tomadas executadas: <strong id="finalTurns">0</strong>
+                ações tomadas: <strong id="finalTurns">0</strong>
             </div>
             <button class="overlay-button" onclick="restartGame()">
                 Debug e Restart
@@ -146,15 +135,12 @@
             </button>
         </div>
     </div>
-
-    <!-- Story Complete Overlay -->
     <div class="overlay" id="storyComplete" style="display: none;">
         <div class="overlay-content">
             <div class="overlay-title" id="storyEndTitle">🎓 COMPILAÇÃO COMPLETA</div>
             <div class="overlay-text" id="storyEndText">
                 Sua jornada de programação chegou ao fim...
             </div>
-
             <div class="final-stats">
                 <div class="final-stat">
                     <div class="final-stat-icon">🤖</div>
@@ -177,12 +163,10 @@
                     <div class="final-stat-value" id="finalTreasury">50</div>
                 </div>
             </div>
-
             <div style="margin: 15px 0;">
                 <div>Ações: <strong id="finalTurns">0</strong></div>
                 <div>Pontuação final: <strong id="finalScore">0</strong></div>
             </div>
-
             <button class="overlay-button" onclick="restartGame()">
                 Nova Aventura
             </button>
@@ -192,7 +176,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="cards.js"></script>
     <script src="menu.js"></script>
     <script src="ui.js"></script>

@@ -1,44 +1,31 @@
-// ui.js - Sistema de Gerenciamento de UI
-
 class UIManager {
     constructor(game) {
         this.game = game;
         this.elements = this.cacheElements();
     }
 
-    // ========================================
-    // CACHE DE ELEMENTOS DOM
-    // ========================================
-
     cacheElements() {
         return {
-            // Barras de stats
             stats: {
                 robots: document.getElementById('robotsBar'),
                 energy: document.getElementById('energyBar'),
                 intelligence: document.getElementById('intelligenceBar'),
                 resources: document.getElementById('resourcesBar')
             },
-
-            // Elementos da carta
             card: {
                 element: document.getElementById('currentCard'),
-                character: document.getElementById('cardCharacter'),
+                image: document.getElementById('cardImage'), // Alterado de character para image
                 title: document.getElementById('cardTitle'),
                 text: document.getElementById('cardText'),
                 leftChoice: document.getElementById('leftChoice'),
                 rightChoice: document.getElementById('rightChoice'),
                 choices: document.getElementById('choices')
             },
-
-            // Carta de efeito
             effect: {
                 card: document.getElementById('effectCard'),
                 title: document.getElementById('effectTitle'),
                 list: document.getElementById('effectList')
             },
-
-            // Progresso
             progress: {
                 chapter: document.getElementById('chapterCount'),
                 bar: document.getElementById('storyProgress'),
@@ -47,24 +34,17 @@ class UIManager {
         };
     }
 
-    // ========================================
-    // ATUALIZAÇÃO DE STATS
-    // ========================================
-
     updateStats(stats) {
         const statBars = this.elements.stats;
-
         for (let statName in statBars) {
             if (statBars[statName] && stats[statName] !== undefined) {
                 statBars[statName].style.width = stats[statName] + '%';
-
-                // Cores baseadas no valor
                 if (stats[statName] <= 20 || stats[statName] >= 80) {
-                    statBars[statName].style.background = '#f44336'; // Vermelho - perigo
+                    statBars[statName].style.background = '#f44336';
                 } else if (stats[statName] <= 40 || stats[statName] >= 60) {
-                    statBars[statName].style.background = '#FF9800'; // Laranja - cuidado
+                    statBars[statName].style.background = '#FF9800';
                 } else {
-                    statBars[statName].style.background = '#4CAF50'; // Verde - seguro
+                    statBars[statName].style.background = '#4CAF50';
                 }
             }
         }
@@ -76,32 +56,22 @@ class UIManager {
         }
     }
 
-    // ========================================
-    // EXIBIÇÃO DE CARTAS
-    // ========================================
-
     displayCard(card) {
         const elements = this.elements.card;
 
-        if (elements.character) elements.character.textContent = card.character;
+        // Alteração aqui: de textContent para src
+        if (elements.image) elements.image.src = card.image || ''; 
         if (elements.title) elements.title.textContent = card.title;
         if (elements.text) elements.text.textContent = card.text;
         if (elements.leftChoice) elements.leftChoice.textContent = card.leftChoice;
         if (elements.rightChoice) elements.rightChoice.textContent = card.rightChoice;
 
         if (elements.element) {
-            // Reset posição e opacidade
             elements.element.style.transform = 'translateX(0px) rotate(0deg)';
             elements.element.style.opacity = '1';
-
-            // Remove classes anteriores
             elements.element.classList.remove('key-card', 'intro-card');
-
-            // Remove indicador anterior se existir
             const existingIndicator = elements.element.querySelector('.card-type-indicator');
             if (existingIndicator) existingIndicator.remove();
-
-            // Adiciona estilo e indicador baseado no tipo de carta
             this.applyCardStyle(elements.element, card);
         }
 
@@ -111,7 +81,6 @@ class UIManager {
     applyCardStyle(cardElement, card) {
         let indicatorText = '';
         let indicatorClass = '';
-
         if (card.isIntro) {
             cardElement.classList.add('intro-card');
             indicatorClass = 'card-type-intro';
@@ -124,16 +93,11 @@ class UIManager {
             indicatorClass = 'card-type-consequence';
             indicatorText = '⚡ Evento';
         }
-
         const indicator = document.createElement('div');
         indicator.className = `card-type-indicator ${indicatorClass}`;
         indicator.textContent = indicatorText;
         cardElement.appendChild(indicator);
     }
-
-    // ========================================
-    // ANIMAÇÕES DE CARTA
-    // ========================================
 
     animateCardExit(direction) {
         const card = this.elements.card.element;
@@ -156,24 +120,13 @@ class UIManager {
         }
     }
 
-    // ========================================
-    // CARTA DE EFEITO
-    // ========================================
-
     showEffectCard(choiceText, effects, hiddenEffects = {}) {
         const { card, title, list } = this.elements.effect;
-
         if (!card || !title || !list) return;
-
         title.textContent = `"${choiceText}"`;
         list.innerHTML = '';
-
-        // Adicionar efeitos visíveis
         this.addVisibleEffects(list, effects);
-
-        // Adicionar efeitos ocultos importantes
         this.addHiddenEffects(list, hiddenEffects);
-
         card.style.display = 'block';
         setTimeout(() => {
             card.classList.add('show');
@@ -185,22 +138,15 @@ class UIManager {
             robots: { icon: '🤖', name: 'Gólem' },
             energy: { icon: '⚡', name: 'Energia' },
             intelligence: { icon: '🧠', name: 'Inteligência' },
-            knowledge: { icon: '🧠', name: 'Inteligência' }, // Fallback
+            knowledge: { icon: '🧠', name: 'Inteligência' },
             resources: { icon: '💾', name: 'Recursos' }
         };
-
         for (let stat in effects) {
             const value = effects[stat];
             if (value !== 0) {
                 const displayStat = stat === 'knowledge' ? 'intelligence' : stat;
                 const statInfo = statNames[displayStat] || statNames[stat];
-
-                const effectItem = this.createEffectItem(
-                    statInfo.icon,
-                    statInfo.name,
-                    value
-                );
-
+                const effectItem = this.createEffectItem(statInfo.icon, statInfo.name, value);
                 list.appendChild(effectItem);
             }
         }
@@ -216,9 +162,7 @@ class UIManager {
             robo_felicidade: 'Felicidade do Robô',
             npc_gratitude: 'Gratidão dos NPCs'
         };
-
         let hasImportantHiddenEffects = false;
-
         for (let status of importantHiddenEffects) {
             if (hiddenEffects[status] && Math.abs(hiddenEffects[status]) >= 3) {
                 if (!hasImportantHiddenEffects) {
@@ -228,14 +172,7 @@ class UIManager {
                     list.appendChild(separator);
                     hasImportantHiddenEffects = true;
                 }
-
-                const effectItem = this.createEffectItem(
-                    '🔮',
-                    statusNames[status],
-                    hiddenEffects[status],
-                    true
-                );
-
+                const effectItem = this.createEffectItem('🔮', statusNames[status], hiddenEffects[status], true);
                 list.appendChild(effectItem);
             }
         }
@@ -244,15 +181,12 @@ class UIManager {
     createEffectItem(icon, name, value, isHidden = false) {
         const effectItem = document.createElement('div');
         effectItem.className = 'effect-item';
-
         if (isHidden) {
             effectItem.style.opacity = '0.8';
             effectItem.style.fontSize = '12px';
         }
-
         const sign = value > 0 ? '+' : '';
         const valueClass = value > 0 ? 'positive' : 'negative';
-
         effectItem.innerHTML = `
             <div class="effect-stat">
                 <span>${icon}</span>
@@ -260,7 +194,6 @@ class UIManager {
             </div>
             <span class="effect-value ${valueClass}">${sign}${value}</span>
         `;
-
         return effectItem;
     }
 
@@ -274,15 +207,10 @@ class UIManager {
         }
     }
 
-    // ========================================
-    // PROGRESSO
-    // ========================================
-
     updateIntroProgress(currentIndex, totalCards) {
         if (this.elements.progress.chapter) {
             this.elements.progress.chapter.textContent = `Introdução: ${currentIndex + 1}/${totalCards}`;
         }
-
         if (this.elements.progress.bar) {
             const progress = ((currentIndex + 1) / totalCards) * 100;
             this.elements.progress.bar.style.width = progress + '%';
@@ -294,28 +222,18 @@ class UIManager {
             const progress = (keyCardsPlayed / 5) * 100;
             this.elements.progress.bar.style.width = Math.min(100, progress) + '%';
         }
-
         if (this.elements.progress.chapter) {
             const keyProgress = `${keyCardsPlayed}/5`;
-            this.elements.progress.chapter.textContent =
-                `Cap. ${chapter}/${maxChapters} | POO: ${keyProgress} | Total: ${totalCardsPlayed}`;
+            this.elements.progress.chapter.textContent = `Cap. ${chapter}/${maxChapters} | POO: ${keyProgress} | Total: ${totalCardsPlayed}`;
         }
     }
-
-    // ========================================
-    // DRAG AND DROP
-    // ========================================
 
     setupDragListeners(handlers) {
         const card = this.elements.card.element;
         if (!card) return;
-
-        // Mouse events
         card.addEventListener('mousedown', (e) => handlers.onDragStart(e.clientX));
         document.addEventListener('mousemove', (e) => handlers.onDragMove(e.clientX));
         document.addEventListener('mouseup', () => handlers.onDragEnd());
-
-        // Touch events
         card.addEventListener('touchstart', (e) => {
             e.preventDefault();
             handlers.onDragStart(e.touches[0].clientX);
@@ -341,10 +259,8 @@ class UIManager {
     updateCardPosition(deltaX) {
         const card = this.elements.card.element;
         if (!card) return;
-
         const rotation = deltaX * 0.1;
         card.style.transform = `translateX(${deltaX}px) rotate(${rotation}deg)`;
-
         if (Math.abs(deltaX) > 50) {
             card.style.opacity = Math.max(0.5, 1 - Math.abs(deltaX) / 200);
         } else {
@@ -363,14 +279,12 @@ class UIManager {
     getCardDeltaX() {
         const card = this.elements.card.element;
         if (!card) return 0;
-
         const currentTransform = card.style.transform;
         const translateX = currentTransform.match(/translateX\(([^)]+)\)/);
         return translateX ? parseFloat(translateX[1]) : 0;
     }
 }
 
-// Exportar para compatibilidade
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = UIManager;
 } else if (typeof window !== 'undefined') {

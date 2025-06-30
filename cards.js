@@ -1,7 +1,7 @@
 const INTRO_CARDS = [
     {
         id: "awakening",
-        character: "😴",
+        image: "images/awakening.png",
         title: "O Despertar",
         text: "Seus olhos se abrem lentamente... Onde antes havia o teto familiar do seu quarto, agora paira um céu estrelado que parece... pixelado? O ar cheira a código antigo e magia digital. Torres de pedra se erguem ao longe, suas texturas alternando entre o medieval e o computacional, como se a realidade não conseguisse decidir sua resolução.",
         leftChoice: "Levantar e explorar este mundo impossível",
@@ -14,7 +14,7 @@ const INTRO_CARDS = [
     },
     {
         id: "the_call",
-        character: "👩‍🦰",
+        image: "images/the_call.png",
         title: "O Chamado",
         text: "\"Fascinante... Outro Viajante dos Mundos!\" Uma voz melodiosa corta o silêncio. Diante de você, uma jovem de cabelos ruivos flamejantes e olhos que brilham com o conhecimento de mil algoritmos. \"Sou Siren, Guardiã do Limiar\", ela sussurra, circundando você com curiosidade quase predatória. \"Você é um programador, não é? O Portal só se abre para mentes obcecadas com código...\"",
         leftChoice: "\"Onde diabos eu estou?!\"",
@@ -27,7 +27,7 @@ const INTRO_CARDS = [
     },
     {
         id: "the_mission",
-        character: "⚔️",
+        image: "images/the_mission.png",
         title: "A Missão",
         text: "O sorriso de Siren se alarga, revelando uma mistura perturbadora de compaixão e expectativa. \"Bem-vindo ao Mundo dos Objetos, onde conceitos ganham vida e bugs podem ser letais! Para retornar ao seu mundo...\" ela pausa dramaticamente, \"você deve derrotar O Grande Programador e seus temíveis Cavaleiros da Orientação a Objetos. Eles corromperam este reino com código espaguete e padrões destrutivos!\" Raios pixelados cortam o céu, como se o próprio mundo reagisse à menção do vilão.",
         leftChoice: "\"Não! Isso é loucura! Me mande de volta agora!\"",
@@ -40,7 +40,7 @@ const INTRO_CARDS = [
     },
     {
         id: "preparation",
-        character: "🤖",
+        image: "images/preparation.png",
         title: "A Preparação",
         text: "Siren estende as mãos, revelando o que parece ser uma pequena estátua de argila com runas brilhantes gravadas em sua superfície. \"Não é uma simples estátua\", ela explica enquanto as runas pulsam com vida própria. \"É um Golem Primordial - uma tela em branco esperando seu código. Os antigos os chamavam de 'Objetos Não Instanciados'. Este será seu primeiro companheiro, sua primeira... criação.\" O golem emite um zumbido suave, como um computador inicializando.",
         leftChoice: "\"Err... o que exatamente eu faço com isso?\"",
@@ -53,7 +53,7 @@ const INTRO_CARDS = [
     },
     {
         id: "modifier_intro",
-        character: "💻",
+        image: "images/modifier_intro.png",
         title: "Modificador",
         text: "\"Ah, mas um programador sem suas ferramentas é como um mago sem varinha!\" Siren gira dramaticamente, materializando das sombras um artefato peculiar: um livro antigo que brilha com luz de LED, suas páginas alternando entre pergaminho medieval e tela de código. \"O Grimório Digital - metade magia ancestral, metade IDE moderna. Com ele, você poderá reescrever a essência dos golems, debugar maldições e compilar feitiços!\" O livro vibra em suas mãos, ansioso por ser usado.",
         leftChoice: "\"Ok, acho que entendi...\" *folhear nervosamente*",
@@ -66,7 +66,7 @@ const INTRO_CARDS = [
     },
     {
         id: "context",
-        character: "📜",
+        image: "images/context.png",
         title: "Contexto",
         text: "O vento digital sopra. Siren fecha os olhos, como se ouvisse algo além. \"Os Cavaleiros da Orientação a Objetos se aproximam... Você ainda não está pronto.\" Ela aponta para uma torre impossível que desafia a física, construída de blocos que parecem flutuar. \"O Compilador na Torre de Babel++. Esse excêntrico mago ancião conhece os segredos da criação de golems desde a Era do Assembly. Mas cuidado... ele tem o péssimo hábito de transformar em bugs aqueles que desperdiçam seu tempo.\"",
         leftChoice: "\"Torre de Babel++? Compilador? Entendi...\" *engolir em seco*",
@@ -79,15 +79,11 @@ const INTRO_CARDS = [
     }
 ];
 
-// ========================================
-// CARTAS-CHAVE POR CAPÍTULO (Sequência Fixa)
-// ========================================
-
 const CHAPTER_KEY_CARDS = {
-    1: [ // CAPÍTULO 1: O Chamado do Código Perdido
+    1: [ 
         {
             id: "primeira_visao",
-            character: "🏰",
+            image: "images/primeira_visao.png",
             title: "Primeira Visão",
             text: "A Torre de Babel++ se ergue diante de você como um monumento. Cavaleiros com armaduras gravadas em pseudocódigo patrulham a entrada. Ao adentrar, você testemunha um espetáculo hipnotizante: um velho mago faz dançar no ar símbolos que você reconhece - variáveis flutuam como vaga-lumes, operadores matemáticos giram em órbitas, e fragmentos de código se entrelaçam formando constelações de lógica pura. O ar vibra com o zumbido.",
             leftChoice: "\"Por todos os bugs... Onde estou? O que são esses símbolos?\"",
@@ -99,7 +95,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "codigo_encantado",
-            character: "📖",
+            image: "images/codigo_encantado.png",
             title: "Código Encantado",
             text: "O Compilador se aproxima com passos que ecoam como teclas sendo pressionadas. Seus olhos - verde fosforescente - escaneiam você de cima a baixo, processando sua essência. \"Hmm... Latência aceitável, memória adequada, potencial de processamento... promissor\", ele murmura. Então, com voz estridente, ordena: \"INICIANTE! Se quer dar vida aos golems, comece pelo princípio de tudo - a CLASSE! Escreva em seu grimório: class Golem { }. Este é o molde primordial\"",
             leftChoice: "\"class Golem { }\" *escrever com mãos trêmulas no grimório*",
@@ -111,7 +107,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "atributos_vitais",
-            character: "💎",
+            image: "images/atributos_vitais.png",
             title: "Atributos Vitais",
             text: "\"EXCELENTE!\" troveja o Compilador, e as paredes tremem com seu entusiasmo. \"Mas uma classe vazia é como um corpo sem alma! Observe...\" Ele gesticula e cristais de dados materializam no ar - rubis representando força, safiras pulsando com energia. \"Todo golem precisa de ATRIBUTOS... Mas CUIDADO!\" seus olhos flamejam, \"escolha os TIPOS corretos, ou seu golem será tão útil quanto um bardo pianista\"",
             leftChoice: "\"int energia; int força;\" *números fazem sentido para valores*",
@@ -123,7 +119,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "comportamento_magico",
-            character: "🎭",
+            image: "images/comportamento_magico.png",
             title: "Comportamento Mágico",
             text: "Uma brisa sopra pela torre, trazendo o perfume digital de Siren. Ela materializa ao seu lado como um processo em segundo plano. \"Impressionante progresso ... Mas escute... atributos dizem o que seu golem É - um inventário de características. Porém...\" ela toca seu grimório e as páginas brilham, \"MÉTODOS dizem o que ele FAZ! Sem ações, seu golem será apenas uma estátua bonita de dados. Dê-lhe o poder de atacar() - transforme potencial em realidade!\"",
             leftChoice: "\"void atacar() { ... }\" *sim! ações, comportamentos!*",
@@ -135,7 +131,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "Construa",
-            character: "✨",
+            image: "images/Construa.png",
             title: "O Nascimento",
             text: "O ar se eletrifica. Raios de código puro dançam entre os dedos do Compilador enquanto Siren observa com expectativa. \"Chegou o momento crucial\", ela proclama, e sua voz ecoa. \"Você criou o molde, definiu características, programou comportamentos... Mas como dar o sopro de vida? Como transformar essa CLASSE em um OBJETO vivo?\" O Compilador se inclina, seus olhos brilhando intensamente: \"Você precisa do CONSTRUTOR - o ritual de nascimento!\"",
             leftChoice: "\"Construtor? Como... como funciona essa magia?\"",
@@ -147,10 +143,10 @@ const CHAPTER_KEY_CARDS = {
         },
     ],
 
-    2: [ // CAPÍTULO 2: O Guardião dos Construtores
+    2: [
         {
             id: "portao_codigo",
-            character: "🚪",
+            image: "images/portao_codigo.png",
             title: "O Portão do Código",
             text: "O Compilador da uma risada e então bate seu cajado no chao. À sua frente, um portão colossal feito de código cintilante aparece. Um ser espectral, o Guardião, se ergue, seus olhos de cristal fixos em você. Uma inscrição queima no ar: 'new Gólem();'. A voz do Guardião ecoa em sua mente: 'Decifre o encantamento.'",
             leftChoice: "\"É um construtor! O ritual para criar um novo Gólem!\"",
@@ -162,7 +158,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "personalizacao_inicial",
-            character: "⚡",
+            image: "images/personalizacao_inicial.png",
             title: "A Forja Primordial",
             text: "O Guardião gesticula. Duas projeções de gólens aparecem: um simples e outro crepitando com poder. 'Um nasce como uma tela em branco. O outro, forjado com energia primordial desde o início. Como você imbui essa força no momento da criação?'",
             leftChoice: "\"Definindo um construtor com parâmetros. new Gólem(int energia);\"",
@@ -174,7 +170,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "novo_nivel_controle",
-            character: "🔧",
+            image: "images/novo_nivel_controle.png",
             title: "Arsenal de Criação",
             text: "Siren aparece, um brilho de urgência em seus olhos. 'Ameaças diferentes exigem gólens diferentes: tanques, batedores, suportes. Uma única forma de criação é ineficiente. Como você pode criar múltiplos 'diagramas' de construção para forjar gólens especializados?'",
             leftChoice: "\"Criando múltiplos construtores com diferentes parâmetros!\"",
@@ -186,7 +182,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "visao_privada",
-            character: "🔒",
+            image: "images/visao_privada.png",
             title: "Invasão Espectral",
             text: "Espectros sombrios, feitos de código corrompido, atravessam seus gólens, tentando alterar seus atributos vitais diretamente! 'Eles estão atacando a essência dos seus gólens!' grita Siren. 'Você precisa de um escudo interno! Como protegê-los?'",
             leftChoice: "\"Tornando os atributos 'private'! Criar uma barreira interna!\"",
@@ -198,7 +194,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "metodo_secreto",
-            character: "🗝️",
+            image: "images/metodo_secreto.png",
             title: "A Janela da Alma",
             text: "O Guardião aprova sua defesa. 'O núcleo está seguro, mas agora é uma caixa-preta. Seus outros objetos estão cegos para o estado do seu gólem. Como você permite que eles VEJAM a energia, sem lhes dar a chave para ALTERÁ-LA?'",
             leftChoice: "\"Criando um método de acesso público: um 'getter'!\"",
@@ -210,10 +206,10 @@ const CHAPTER_KEY_CARDS = {
         }
     ],
 
-    3: [ // CAPÍTULO 3: As Alianças de Código
+    3: [ 
         {
             id: "dois_mundos_encontram",
-            character: "🤝",
+            image: "images/dois_mundos_encontram.png",
             title: "A Mente e o Músculo",
             text: "Siren projeta um orbe de pura lógica. 'Isto é um 'Comando', a estratégia. Aquilo,' ela aponta para seu Gólem, 'é a força. A mente precisa guiar o músculo, mas eles nem se conhecem. Como você os apresenta?'",
             leftChoice: "\"Passando o Gólem como um argumento para o 'Comando'.\"",
@@ -225,7 +221,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "ligacao_mistica",
-            character: "🔗",
+            image: "images/ligacao_mistica.png",
             title: "A Voz do General",
             text: "Uma projeção de um inimigo colossal surge. Um único gólem não será suficiente. 'Seu 'Comando' deve se tornar um general,' diz Siren, 'e dar ordens a uma legião inteira de uma só vez. Como ele fará sua voz ser ouvida por todos?'",
             leftChoice: "\"Passando uma lista de gólens para o método do comando.\"",
@@ -237,7 +233,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "mensagem_objetos",
-            character: "📨",
+            image: "images/mensagem_objetos.png",
             title: "Conversa Elegante",
             text: "'Observe a beleza disto,' sussurra Siren. 'O 'Comando' não precisa saber OS DETALHES do ataque, apenas ORDENÁ-LO. Ele envia uma mensagem, e o gólem a executa. Qual o nome dessa conversa elegante entre objetos?'",
             leftChoice: "\"É uma 'chamada de método'. gólem.atacar().\"",
@@ -249,7 +245,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "retorno_heroi",
-            character: "🎁",
+            image: "images/retorno_heroi.png",
             title: "A Forja de Heróis",
             text: "O Mago Compilador aparece, satisfeito. 'Você não precisa mais forjar cada gólem manualmente. Crie uma 'Forja Mestra' — um método que, ao ser chamado, produz e entrega um Gólem de Elite, pronto para a batalha. Mostre-me este feitiço!'",
             leftChoice: "\"public Gólem criarElite() { return new Gólem(...); }\"",
@@ -261,7 +257,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "alianca_final",
-            character: "⚔️",
+            image: "images/alianca_final.png",
             title: "A Horda Sincronizada",
             text: "Uma horda de 'Lacaios do Código Espaguete' avança! 'São muitos!' grita Siren. 'Comandá-los um a um será a nossa ruína! Você precisa percorrer suas legiões e ordenar um ataque em uníssono, numa onda de lógica implacável!'",
             leftChoice: "\"Usar um loop 'for' para percorrer a lista e atacar!\"",
@@ -273,10 +269,10 @@ const CHAPTER_KEY_CARDS = {
         }
     ],
 
-    4: [ // CAPÍTULO 4: O Polimorfo das Coleções
+    4: [
         {
             id: "chegada_polimorfo",
-            character: "🎭",
+            image: "images/chegada_polimorfo.png",
             title: "O Lorde Metamorfo",
             text: "Uma entidade fluida surge, mudando de um gólem-tanque pesado para um drone ágil. 'Minha forma é irrelevante,' sua voz ecoa. 'Meu propósito, lutar, é absoluto. Defina este 'contrato' de combate, esta 'Interface', e qualquer um que a honre pode se juntar a mim.'",
             leftChoice: "\"Criar uma 'interface Combatente' com o método 'atacar()'\"",
@@ -288,7 +284,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "mapa_estrategico",
-            character: "🗺️",
+            image: "images/mapa_estrategico.png",
             title: "O Arsenal Indexado",
             text: "Siren exibe armas lendárias: 'Canhão de Singularidade', 'Lâminas Quânticas'. 'Apenas gólens específicos podem usá-las. Em batalha, você precisa do gólem certo instantaneamente pelo nome da arma. Uma lista seria lenta. Qual estrutura de dados oferece essa chave-valor?'",
             leftChoice: "\"Um 'Map'! Para mapear a arma ao gólem.\"",
@@ -300,19 +296,20 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "exercito_unico",
-            character: "🛡️",
+            image: "images/exercito_unico.png",
             title: "A Praga dos Clones",
             text: "'Uma armadilha!' brada o Compilador. 'O inimigo injetou instâncias de Gólens duplicadas em seu exército para semear o caos! Você precisa de uma coleção que, por sua própria natureza mágica, rejeita duplicatas. Qual 'Conjunto' sagrado irá purificar suas fileiras?'",
             leftChoice: "\"Um 'HashSet'! Ele garantirá gólens únicos.\"",
             rightChoice: "\"Um 'ArrayList', e eu verifico as duplicatas manualmente.\"",
             leftEffect: {},
+
             rightEffect: {},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
         {
             id: "formacao_batalha",
-            character: "📋",
+            image: "images/formacao_batalha.png",
             title: "A Sequência da Vitória",
             text: "'O próximo campeão inimigo tem uma fraqueza sequencial,' diz Siren. 'Primeiro, o 'Quebra-Escudo'. Depois, o 'Perfurador'. A ordem é crucial e não pode ser alterada. Qual coleção manterá sua linha de batalha na formação exata que você ditar?'",
             leftChoice: "\"Um 'ArrayList', que preserva a ordem de inserção.\"",
@@ -324,7 +321,7 @@ const CHAPTER_KEY_CARDS = {
         },
         {
             id: "transformacao_final",
-            character: "🌟",
+            image: "images/transformacao_final.png",
             title: "A Dança da Adaptação",
             text: "O campeão do Grande Programador muda de tática a cada segundo. 'Sua lógica estática é inútil!' ele zomba. 'Você precisa de gólens que possam mudar sua estratégia em tempo real, sem 'if's ou 'switch'es. Abrace o poder do polimorfismo!'",
             leftChoice: "\"Usar a interface 'Combatente' e trocar as implementações!\"",
@@ -337,12 +334,10 @@ const CHAPTER_KEY_CARDS = {
     ]
 };
 
-
 const CONSEQUENCE_CARDS = [
-    // CONSEQUÊNCIAS DE FELICIDADE DO PLAYER
     {
         id: "player_motivado",
-        character: "😊",
+        image: "images/player_motivado.png",
         title: "Motivação em Alta",
         text: "Você está se sentindo confiante! Sua motivação está impulsionando seu aprendizado de programação.",
         leftChoice: "Focar nos estudos",
@@ -354,7 +349,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "player_desanimado",
-        character: "😞",
+        image: "images/player_desanimado.png",
         title: "Desânimo Crescente",
         text: "Você está se sentindo desmotivado... Talvez seja hora de encontrar inspiração.",
         leftChoice: "Conversar com Siren",
@@ -364,11 +359,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { player_felicidade: { min: -Infinity, max: -5 } },
         weight: 3
     },
-
-    // CONSEQUÊNCIAS DE CONHECIMENTO DO PLAYER
     {
         id: "insight_programming",
-        character: "💡",
+        image: "images/insight_programming.png",
         title: "Insight de Programação",
         text: "Você teve uma epifania! Conceitos de POO estão fazendo sentido agora.",
         leftChoice: "Aplicar nos Golens",
@@ -380,7 +373,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "confusion_concepts",
-        character: "❓",
+        image: "images/confusion_concepts.png",
         title: "Confusão Conceitual",
         text: "Você está confuso com tantos conceitos novos... Classes, objetos, métodos...",
         leftChoice: "Revisar fundamentos",
@@ -390,11 +383,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { player_conhecimento: { min: -Infinity, max: 3 } },
         weight: 3
     },
-
-    // CONSEQUÊNCIAS DE FELICIDADE DO Gólem
     {
         id: "Golem_loyal",
-        character: "🤖💙",
+        image: "images/Golem_loyal.png",
         title: "Gólem Leal",
         text: "Seu Gólem demonstra lealdade! Ele está executando comandos com mais eficiência.",
         leftChoice: "Elogiar o Gólem",
@@ -406,7 +397,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "Golem_rebellion",
-        character: "🤖😠",
+        image: "images/Golem_rebellion.png",
         title: "Rebelião do Gólem",
         text: "Seu Gólem está resistindo aos comandos! Parece que ele não está feliz com suas modificações.",
         leftChoice: "Forçar obediência",
@@ -416,11 +407,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { Golem_felicidade: { min: -Infinity, max: -5 } },
         weight: 3
     },
-
-    // CONSEQUÊNCIAS DE ATAQUE DO Gólem
     {
         id: "Golem_powerful",
-        character: "🤖⚔️",
+        image: "images/Golem_powerful.png",
         title: "Gólem Poderoso",
         text: "Seu Gólem desenvolveu capacidades de combate impressionantes! Outros Golens o respeitam.",
         leftChoice: "Treinar mais",
@@ -432,7 +421,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "Golem_weak_attack",
-        character: "🤖💤",
+        image: "images/Golem_weak_attack.png",
         title: "Ataque Fraco",
         text: "Seu Gólem está com dificuldades em combate. Talvez precise de melhorias em seus algoritmos de ataque.",
         leftChoice: "Otimizar algoritmos",
@@ -442,11 +431,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { Golem_ataque: { min: -Infinity, max: 3 } },
         weight: 3
     },
-
-    // CONSEQUÊNCIAS DE VULNERABILIDADE DO Gólem
     {
         id: "security_breach",
-        character: "🔓",
+        image: "images/security_breach.png",
         title: "Brecha de Segurança",
         text: "Inimigos descobriram vulnerabilidades em seu Gólem! Urgente: corrigir falhas de segurança.",
         leftChoice: "Patch de emergência",
@@ -456,11 +443,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { Golem_vulnerabilidade: { min: 10, max: Infinity } },
         weight: 4
     },
-
-    // CONSEQUÊNCIAS DE DEFESA DO Gólem
     {
         id: "fortress_mode",
-        character: "🛡️",
+        image: "images/fortress_mode.png",
         title: "Modo Fortaleza",
         text: "Seu Gólem ativou protocolos de defesa avançados! Ele está quase impenetrável.",
         leftChoice: "Manter defesa alta",
@@ -470,11 +455,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { Golem_defesa: { min: 12, max: Infinity } },
         weight: 2
     },
-
-    // CONSEQUÊNCIAS DE GRATIDÃO DOS NPCs
     {
         id: "siren_gift",
-        character: "👩‍🦰🎁",
+        image: "images/siren_gift.png",
         title: "Presente da Siren",
         text: "Siren fica impressionada com seu progresso! Ela oferece recursos extras para ajudar.",
         leftChoice: "Aceitar recursos",
@@ -486,7 +469,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "npc_concerns",
-        character: "👥😟",
+        image: "images/npc_concerns.png",
         title: "Preocupações dos NPCs",
         text: "Os habitantes locais estão preocupados com seus métodos. Talvez você devesse ser mais cuidadoso.",
         leftChoice: "Ignorar preocupações",
@@ -496,11 +479,9 @@ const CONSEQUENCE_CARDS = [
         triggerConditions: { npc_felicidade: { min: -Infinity, max: -3 } },
         weight: 2
     },
-
-    // CONSEQUÊNCIAS NEUTRAS/POSITIVAS
     {
         id: "ancient_code_library",
-        character: "📚",
+        image: "images/ancient_code_library.png",
         title: "Biblioteca de Códigos Antigos",
         text: "Você encontra uma biblioteca com algoritmos perdidos! Há padrões de design aqui.",
         leftChoice: "Estudar padrões de design",
@@ -512,7 +493,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "fellow_programmer",
-        character: "👨‍💻",
+        image: "images/fellow_programmer.png",
         title: "Programador Companheiro",
         text: "Você encontra outro programador perdido! Ele oferece trocar conhecimentos.",
         leftChoice: "Trocar dicas de POO",
@@ -524,7 +505,7 @@ const CONSEQUENCE_CARDS = [
     },
     {
         id: "debug_session",
-        character: "🐛",
+        image: "images/debug_session.png",
         title: "Sessão de Debug",
         text: "Hora de debug! Você encontra alguns bugs interessantes no código do mundo.",
         leftChoice: "Corrigir bugs",
@@ -536,24 +517,17 @@ const CONSEQUENCE_CARDS = [
     }
 ];
 
-// Status ocultos iniciais (atualizados)
 const INITIAL_HIDDEN_STATUS = {
-    // Player
     player_felicidade: 0,
     player_conhecimento: 0,
-
-    // Gólem
     Golem_felicidade: 0,
     Golem_ataque: 0,
     Golem_vulnerabilidade: 0,
     Golem_defesa: 0,
-
-    // NPCs
     npc_felicidade: 0,
     npc_gratitude: 0
 };
 
-// Exportar para compatibilidade
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         INTRO_CARDS,
