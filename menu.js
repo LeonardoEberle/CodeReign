@@ -88,14 +88,14 @@ class MenuSystem {
     getGameOverReason() {
         const stats = this.game.stats;
 
-        if (stats.robots <= 0) {
+        if (stats.golens <= 0) {
             return "Todos os seus gólens foram destruídos! Sem eles, você não pode continuar sua missão.";
         } else if (stats.knowledge <= 0) {
             return "Você esqueceu tudo sobre programação! Não consegue mais escrever uma linha de código.";
         } else if (stats.resources <= 0) {
             return "Sem recursos computacionais, seus programas não podem mais rodar. Tudo trava.";
         } else if (stats.resources >= 100) {
-            return "Tanto poder computacional atraiu a atenção do Grande Programador! Ele te encontrou!";
+            return "Tanto poder computacional fez seus golens se revoltarem contra você.";
         }
 
         return "Sua jornada no Mundo dos Objetos chegou ao fim...";
@@ -111,9 +111,9 @@ class MenuSystem {
             text: document.getElementById('storyEndText'),
             score: document.getElementById('finalScore'),
             turns: document.getElementById('finalTurns'),
-            robots: document.getElementById('finalChurch'),
-            knowledge: document.getElementById('finalArmy'),
-            resources: document.getElementById('finalTreasury'),
+            golens: document.getElementById('finalGolens'),
+            knowledge: document.getElementById('finalKnowledge'),
+            resources: document.getElementById('finalTResources'),
             overlay: document.getElementById(this.overlays.storyComplete)
         };
 
@@ -121,7 +121,7 @@ class MenuSystem {
         if (elements.text) elements.text.textContent = ending.text;
         if (elements.score) elements.score.textContent = score;
         if (elements.turns) elements.turns.textContent = this.game.turn - 1;
-        if (elements.robots) elements.robots.textContent = this.game.stats.robots;
+        if (elements.golens) elements.golens.textContent = this.game.stats.golens;
         if (elements.knowledge) elements.knowledge.textContent = this.game.stats.knowledge;
         if (elements.resources) elements.resources.textContent = this.game.stats.resources;
         if (elements.overlay) elements.overlay.style.display = 'flex';

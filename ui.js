@@ -7,7 +7,7 @@ class UIManager {
     cacheElements() {
         return {
             stats: {
-                robots: document.getElementById('robotsBar'),
+                golens: document.getElementById('golensBar'),
                 knowledge: document.getElementById('intelligenceBar'), // Mantém o ID antigo por compatibilidade
                 resources: document.getElementById('resourcesBar')
             },
@@ -133,8 +133,7 @@ class UIManager {
 
     addVisibleEffects(list, effects) {
         const statNames = {
-            robots: { icon: '🤖', name: 'Gólens' },
-            Golemts: { icon: '🤖', name: 'Gólens' }, // Correção do typo
+            golens: { icon: '🤖', name: 'Gólens' },
             knowledge: { icon: '🧠', name: 'Conhecimento' },
             intelligence: { icon: '🧠', name: 'Conhecimento' }, // Fallback
             resources: { icon: '💾', name: 'Recursos' }
@@ -149,7 +148,6 @@ class UIManager {
                 // Converter nomes inconsistentes
                 let displayStat = stat;
                 if (stat === 'intelligence') displayStat = 'knowledge';
-                if (stat === 'Golemts') displayStat = 'robots';
                 
                 const statInfo = statNames[displayStat] || statNames[stat];
                 const effectItem = this.createEffectItem(statInfo.icon, statInfo.name, value);

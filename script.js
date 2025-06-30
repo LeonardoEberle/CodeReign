@@ -2,7 +2,7 @@ class ProgrammingGame {
     constructor() {
         //status/indicadores do jogo (acima da tela)
         this.stats = {
-            robots: 50,       // Qualidade dos robôs
+            golens: 50,       // Qualidade dos robôs
             knowledge: 50,    // Conhecimento do jogador
             resources: 50     // Recursos computacionais disponiveis
         };
@@ -138,8 +138,8 @@ class ProgrammingGame {
             return true;
         }
         
-        // Ajustado para melhor balanceamento
-        return Math.random() < 0.3; // 30% chance de carta-chave, 70% consequência
+        //chance de carta evento
+        return Math.random() < 0.99; 
     }
 
     setupChapter() {
@@ -284,9 +284,6 @@ class ProgrammingGame {
             // Converter intelligence para knowledge se necessário
             let statName = stat === 'intelligence' ? 'knowledge' : stat;
             
-            // Converter robots/Golemts para robots
-            if (stat === 'Golemts') statName = 'robots';
-            
             if (this.stats[statName] !== undefined) {
                 this.stats[statName] = Math.max(0, Math.min(100, this.stats[statName] + visibleEffects[stat]));
             }
@@ -365,7 +362,7 @@ class ProgrammingGame {
 
     checkGameOver() {
         // Gólens e Conhecimento podem chegar a 100 sem game over
-        if (this.stats.robots <= 0) return true;
+        if (this.stats.golens <= 0) return true;
         if (this.stats.knowledge <= 0) return true;
         
         // Apenas recursos tem limite superior

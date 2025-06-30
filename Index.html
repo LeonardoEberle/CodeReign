@@ -14,17 +14,10 @@
             <div class="stat">
                 <div class="stat-icon">🤖</div>
                 <div class="stat-bar">
-                    <div class="stat-fill" id="robotsBar"></div>
+                    <div class="stat-fill" id="golensBar"></div>
                 </div>
                 <div class="stat-label">Gólens</div>
             </div>
-             <!-- <div class="stat">
-                <div class="stat-icon">⚡</div>
-                <div class="stat-bar">
-                    <div class="stat-fill" id="energyBar"></div>
-                </div>
-                <div class="stat-label">Energia</div>
-            </div> -->
             <div class="stat">
                 <div class="stat-icon">🧠</div>
                 <div class="stat-bar">
@@ -97,7 +90,7 @@
                 Suas decisões afetam eventos futuros!
             </div>
             <button class="overlay-button" onclick="startGameFromIntro()">
-                Começar Aventura de Programação
+                Começar Aventura
             </button>
         </div>
     </div>
@@ -105,14 +98,14 @@
         <div class="overlay-content">
             <div class="overlay-title">⏸️ DEBUG MODE</div>
             <div class="overlay-text">
-                O sistema está pausado. Seus Golens aguardam novos comandos...
+                O sistema está pausado. Seus Golens aguardam...
             </div>
             <button class="overlay-button" onclick="togglePauseGame()">
                 Retomar Execução
             </button>
-            <button class="overlay-button secondary" onclick="restartGame()">
+            <!-- <button class="overlay-button secondary" onclick="restartGame()">
                 Restart do Sistema
-            </button>
+            </button> -->
             <button class="overlay-button secondary" onclick="exitGame()">
                 Sair da Matrix
             </button>
@@ -139,28 +132,23 @@
         <div class="overlay-content">
             <div class="overlay-title" id="storyEndTitle">🎓 COMPILAÇÃO COMPLETA</div>
             <div class="overlay-text" id="storyEndText">
-                Sua jornada de programação chegou ao fim...
+                Sua jornada chegou ao fim...
             </div>
             <div class="final-stats">
                 <div class="final-stat">
                     <div class="final-stat-icon">🤖</div>
                     <div>Golens</div>
-                    <div class="final-stat-value" id="finalChurch">50</div>
-                </div>
-                <div class="final-stat">
-                    <div class="final-stat-icon">⚡</div>
-                    <div>Energia</div>
-                    <div class="final-stat-value" id="finalPeople">50</div>
+                    <div class="final-stat-value" id="finalGolens">50</div>
                 </div>
                 <div class="final-stat">
                     <div class="final-stat-icon">🧠</div>
                     <div>Conhecimento</div>
-                    <div class="final-stat-value" id="finalArmy">50</div>
+                    <div class="final-stat-value" id="finalKnowledge">50</div>
                 </div>
                 <div class="final-stat">
                     <div class="final-stat-icon">💾</div>
                     <div>Recursos</div>
-                    <div class="final-stat-value" id="finalTreasury">50</div>
+                    <div class="final-stat-value" id="finalResources">50</div>
                 </div>
             </div>
             <div style="margin: 15px 0;">
