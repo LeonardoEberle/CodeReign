@@ -13,7 +13,7 @@ class ProgrammingGame {
         
         // Sistema de capítulos
         this.currentChapter = 1;
-        this.maxChapters = 6;
+        this.maxChapters = 4;
         
         // Novo sistema de intercalação
         this.keyCardsQueue = [];           // Fila de cartas-chave em ordem
@@ -135,11 +135,11 @@ class ProgrammingGame {
         const totalCardsPlayed = this.cardsPlayedInChapter;
         const keyCardsPlayed = this.keyCardsPlayedInChapter;
         
-        if ((totalCardsPlayed - keyCardsPlayed) >= 3) {
+        if ((totalCardsPlayed - keyCardsPlayed) >= 2) {
             return true;
         }
-        
-        return Math.random() < 0.15; 
+        //70% de chance de vir outra carta chave ao inves de uma carta evento
+        return Math.random() < 0.99; 
     }
 
     setupChapter() {

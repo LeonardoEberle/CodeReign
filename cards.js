@@ -1,86 +1,80 @@
-// cards.js - O Mundo dos Objetos - Sistema Atualizado
-
-// ========================================
-// CARTAS INTRODUTÓRIAS DO CAPÍTULO 1
-// ========================================
-
 const INTRO_CARDS = [
-    {
+ {
         id: "awakening",
         character: "😴",
         title: "O Despertar",
-        text: "Você acorda em um lugar estranho que lembra muito a idade média. Suas roupas modernas contrastam com o ambiente ao redor. Onde você está?",
-        leftChoice: "Levantar",
-        rightChoice: "Olhar em volta",
+        text: "Seus olhos se abrem lentamente... Onde antes havia o teto familiar do seu quarto, agora paira um céu estrelado que parece... pixelado? O ar cheira a código antigo e magia digital. Torres de pedra se erguem ao longe, suas texturas alternando entre o medieval e o computacional, como se a realidade não conseguisse decidir sua resolução.",
+        leftChoice: "Levantar e explorar este mundo impossível",
+        rightChoice: "Observar cautelosamente os arredores",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { player_felicidade: 2 },
-        rightHiddenEffects: { player_conhecimento: 3 },
+        leftHiddenEffects: {},
+        rightHiddenEffects: {},
         isIntro: true
     },
     {
         id: "the_call",
         character: "👩‍🦰",
         title: "O Chamado",
-        text: "Uma garota o observa atentamente. Ela diz que seu nome é Siren e que você acabou de chegar de outro mundo. Seus olhos brilham com conhecimento antigo.",
-        leftChoice: "Se apresentar",
-        rightChoice: "Perguntar onde está",
+        text: "\"Fascinante... Outro Viajante dos Mundos!\" Uma voz melodiosa corta o silêncio. Diante de você, uma jovem de cabelos ruivos flamejantes e olhos que brilham com o conhecimento de mil algoritmos. \"Sou Siren, Guardiã do Limiar\", ela sussurra, circundando você com curiosidade quase predatória. \"Você é um programador, não é? O Portal só se abre para mentes obcecadas com código...\"",
+        leftChoice: "\"Onde diabos eu estou?!\"",
+        rightChoice: "\"Prazer, sou [seu nome]. Portal? Que portal?\"",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { npc_felicidade: 3, npc_gratitude: 2 },
-        rightHiddenEffects: { player_conhecimento: 3, player_felicidade: -1 },
+        leftHiddenEffects: {},
+        rightHiddenEffects: {},
         isIntro: true
     },
     {
         id: "the_mission",
         character: "⚔️",
         title: "A Missão",
-        text: "Siren lhe informa que você está preso no Mundo dos Objetos e para voltar ao seu mundo você precisa derrotar O Grande Programador, mestre dos Cavaleiros da Orientação a Objetos.",
-        leftChoice: "Recusar",
-        rightChoice: "Confirmar a missão",
+        text: "O sorriso de Siren se alarga, revelando uma mistura perturbadora de compaixão e expectativa. \"Bem-vindo ao Mundo dos Objetos, onde conceitos ganham vida e bugs podem ser letais! Para retornar ao seu mundo...\" ela pausa dramaticamente, \"você deve derrotar O Grande Programador e seus temíveis Cavaleiros da Orientação a Objetos. Eles corromperam este reino com código espaguete e padrões destrutivos!\" Raios pixelados cortam o céu, como se o próprio mundo reagisse à menção do vilão.",
+        leftChoice: "\"Não! Isso é loucura! Me mande de volta agora!\"",
+        rightChoice: "\"Se é o único jeito... Aceito o desafio!\"",
         leftEffect: {},
         rightEffect: {},
         leftHiddenEffects: { gameOver: true },
-        rightHiddenEffects: { player_felicidade: 5, npc_gratitude: 5 },
+        rightHiddenEffects: {},
         isIntro: true
     },
     {
         id: "preparation",
         character: "🤖",
         title: "A Preparação",
-        text: "Siren lhe entrega um pequeno boneco que diz ser um robô ancestral programável. 'Este será seu primeiro companheiro', ela diz com um sorriso misterioso.",
-        leftChoice: "O que faço com isso?",
-        rightChoice: "Entendido",
+        text: "Siren estende as mãos, revelando o que parece ser uma pequena estátua de argila com runas brilhantes gravadas em sua superfície. \"Não é uma simples estátua\", ela explica enquanto as runas pulsam com vida própria. \"É um Golem Primordial - uma tela em branco esperando seu código. Os antigos os chamavam de 'Objetos Não Instanciados'. Este será seu primeiro companheiro, sua primeira... criação.\" O golem emite um zumbido suave, como um computador inicializando.",
+        leftChoice: "\"Err... o que exatamente eu faço com isso?\"",
+        rightChoice: "\"Fascinante! Um objeto esperando ser instanciado!\"",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { player_conhecimento: -1, robo_felicidade: -2 },
-        rightHiddenEffects: { player_conhecimento: 2, robo_felicidade: 3 },
+        leftHiddenEffects: {},
+        rightHiddenEffects: {},
         isIntro: true
     },
     {
         id: "modifier_intro",
         character: "💻",
         title: "Modificador",
-        text: "Siren lhe entrega também um laptop para que você possa acessar e modificar seu robô. 'Com isso você pode alterar o código-fonte dele', ela explica.",
-        leftChoice: "Confirmar",
-        rightChoice: "Pegar o laptop",
+        text: "\"Ah, mas um programador sem suas ferramentas é como um mago sem varinha!\" Siren gira dramaticamente, materializando das sombras um artefato peculiar: um livro antigo que brilha com luz de LED, suas páginas alternando entre pergaminho medieval e tela de código. \"O Grimório Digital - metade magia ancestral, metade IDE moderna. Com ele, você poderá reescrever a essência dos golems, debugar maldições e compilar feitiços!\" O livro vibra em suas mãos, ansioso por ser usado.",
+        leftChoice: "\"Ok, acho que entendi...\" *folhear nervosamente*",
+        rightChoice: "\"Incrível! É como um laptop místico!\" *abraçar o grimório*",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { player_conhecimento: 2, robo_ataque: 1 },
-        rightHiddenEffects: { player_conhecimento: 3, player_felicidade: 2 },
+        leftHiddenEffects: {},
+        rightHiddenEffects: {},
         isIntro: true
     },
     {
         id: "context",
         character: "📜",
         title: "Contexto",
-        text: "Siren explica que neste mundo você pode alterar o código-fonte desses robôs e usá-los para derrotar O Grande Programador que guarda as portas para seu mundo.",
-        leftChoice: "Entendido",
-        rightChoice: "Entendido",
+        text: "O vento digital sopra. Siren fecha os olhos, como se ouvisse algo além. \"Os Cavaleiros da Orientação a Objetos se aproximam... Você ainda não está pronto.\" Ela aponta para uma torre impossível que desafia a física, construída de blocos que parecem flutuar. \"O Compilador na Torre de Babel++. Esse excêntrico mago ancião conhece os segredos da criação de golems desde a Era do Assembly. Mas cuidado... ele tem o péssimo hábito de transformar em bugs aqueles que desperdiçam seu tempo.\"",
+        leftChoice: "\"Torre de Babel++? Compilador? Entendi...\" *engolir em seco*",
+        rightChoice: "\"Mal posso esperar para aprender! Vamos lá!\"",
         leftEffect: {},
         rightEffect: {},
-        leftHiddenEffects: { player_conhecimento: 2 },
-        rightHiddenEffects: { player_conhecimento: 2 },
+        leftHiddenEffects: {},
+        rightHiddenEffects: {},
         isIntro: true
     }
 ];
@@ -90,73 +84,259 @@ const INTRO_CARDS = [
 // ========================================
 
 const CHAPTER_KEY_CARDS = {
-    1: [ // CAPÍTULO 1: Fundamentos de POO - Sequência Fixa
+        1: [ // CAPÍTULO 1: O Chamado do Código Perdido
         {
-            id: "classe_e_objeto",
-            character: "🏗️",
-            title: "Classe e Objeto",
-            text: "Uma classe nada mais é do que um projeto para criação de um objeto tangível, seu robô tem como classe 'RoboCombatente'.",
-            leftChoice: "Não fazer nada",
-            rightChoice: "Acessar classe",
-            leftEffect: { robots: -10, energy: 10 },
-            rightEffect: { robots: 15, energy: -5 },
-            leftHiddenEffects: { robo_felicidade: -3, player_conhecimento: 1 },
-            rightHiddenEffects: { robo_felicidade: 2, player_conhecimento: 5, robo_ataque: 2 }
+            id: "primeira_visao",
+            character: "🏰",
+            title: "Primeira Visão",
+            text: "A Torre de Babel++ se ergue diante de você como um monumento. Cavaleiros com armaduras gravadas em pseudocódigo patrulham a entrada. Ao adentrar, você testemunha um espetáculo hipnotizante: um velho mago faz dançar no ar símbolos que você reconhece - variáveis flutuam como vaga-lumes, operadores matemáticos giram em órbitas, e fragmentos de código se entrelaçam formando constelações de lógica pura. O ar vibra com o zumbido.",
+            leftChoice: "\"Por todos os bugs... Onde estou? O que são esses símbolos?\"",
+            rightChoice: "\"Você deve ser o lendário Mago Compilador!\"",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
         },
         {
-            id: "atributos",
-            character: "📊",
-            title: "Atributos",
-            text: "Atributos são aqueles que definem quem é o seu robô. Atribuir ataque e defesa para o robô?",
-            leftChoice: "Definir ataque e defesa como string de valor 15",
-            rightChoice: "Definir ataque e defesa como valores inteiros de valor 15",
-            leftEffect: { robots: -5, knowledge: 5, resources: -10 },
-            rightEffect: { robots: 10, knowledge: 15, resources: 5 },
-            leftHiddenEffects: { robo_vulnerabilidade: 8, player_conhecimento: 2 },
-            rightHiddenEffects: { robo_ataque: 5, robo_defesa: 5, player_conhecimento: 8 }
+            id: "codigo_encantado",
+            character: "📖",
+            title: "Código Encantado",
+            text: "O Compilador se aproxima com passos que ecoam como teclas sendo pressionadas. Seus olhos - verde fosforescente - escaneiam você de cima a baixo, processando sua essência. \"Hmm... Latência aceitável, memória adequada, potencial de processamento... promissor\", ele murmura. Então, com voz estridente, ordena: \"INICIANTE! Se quer dar vida aos golems, comece pelo princípio de tudo - a CLASSE! Escreva em seu grimório: class Golem { }. Este é o molde primordial\"",
+            leftChoice: "\"class Golem { }\" *escrever com mãos trêmulas no grimório*",
+            rightChoice: "\"Err... parece complicado. Posso tentar depois?\"",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
         },
         {
-            id: "metodos",
-            character: "⚙️",
-            title: "Métodos",
-            text: "Métodos definem o comportamento de um objeto. Definir método de ataque?",
-            leftChoice: "Sim",
-            rightChoice: "Não",
-            leftEffect: { robots: 20, energy: -15, knowledge: 10 },
-            rightEffect: { robots: -10, energy: 5, knowledge: -5 },
-            leftHiddenEffects: { robo_ataque: 10, robo_felicidade: 5, player_conhecimento: 6 },
-            rightHiddenEffects: { robo_vulnerabilidade: 5, robo_felicidade: -3, player_conhecimento: -2 }
+            id: "atributos_vitais",
+            character: "💎",
+            title: "Atributos Vitais",
+            text: "\"EXCELENTE!\" troveja o Compilador, e as paredes tremem com seu entusiasmo. \"Mas uma classe vazia é como um corpo sem alma! Observe...\" Ele gesticula e cristais de dados materializam no ar - rubis representando força, safiras pulsando com energia. \"Todo golem precisa de ATRIBUTOS... Mas CUIDADO!\" seus olhos flamejam, \"escolha os TIPOS corretos, ou seu golem será tão útil quanto um bardo pianista\"",
+            leftChoice: "\"int energia; int força;\" *números fazem sentido para valores*",
+            rightChoice: "\"String energia;\" *texto deve ser mais flexível, certo?*",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
         },
         {
-            id: "encapsulamento",
+            id: "comportamento_magico",
+            character: "🎭",
+            title: "Comportamento Mágico",
+            text: "Uma brisa sopra pela torre, trazendo o perfume digital de Siren. Ela materializa ao seu lado como um processo em segundo plano. \"Impressionante progresso ... Mas escute... atributos dizem o que seu golem É - um inventário de características. Porém...\" ela toca seu grimório e as páginas brilham, \"MÉTODOS dizem o que ele FAZ! Sem ações, seu golem será apenas uma estátua bonita de dados. Dê-lhe o poder de atacar() - transforme potencial em realidade!\"",
+            leftChoice: "\"void atacar() { ... }\" *sim! ações, comportamentos!*",
+            rightChoice: "\"Acho que só atributos já bastam por ora...\"",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "Construa",
+            character: "✨",
+            title: "O Nascimento",
+            text: "O ar se eletrifica. Raios de código puro dançam entre os dedos do Compilador enquanto Siren observa com expectativa. \"Chegou o momento crucial\", ela proclama, e sua voz ecoa. \"Você criou o molde, definiu características, programou comportamentos... Mas como dar o sopro de vida? Como transformar essa CLASSE em um OBJETO vivo?\" O Compilador se inclina, seus olhos brilhando intensamente: \"Você precisa do CONSTRUTOR - o ritual de nascimento!\"",
+            leftChoice: "\"Construtor? Como... como funciona essa magia?\"",
+            rightChoice: "\"Espera, a classe sozinha não cria o golem?\"",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+    ],
+
+    2: [ // CAPÍTULO 2: O Guardião dos Construtores
+        {
+            id: "portao_codigo",
+            character: "🚪",
+            title: "O Portão do Código",
+            text: "Diante de uma porta mágica, surge a inscrição luminosa: 'Robo();'. O Guardião dos Construtores aguarda sua resposta.",
+            leftChoice: "É um construtor! Cria novos robôs!",
+            rightChoice: "Função mágica de invocação?",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "personalizacao_inicial",
+            character: "⚡",
+            title: "Personalização Inicial",
+            text: "O Guardião pergunta: 'Deseja criar um construtor que receba energia inicial para seus robôs?'",
+            leftChoice: "Robo(int energia) - Construtor parametrizado",
+            rightChoice: "Um construtor padrão já tá bom",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "novo_nivel_controle",
+            character: "🔧",
+            title: "Novo Nível de Controle",
+            text: "Você precisa criar vários tipos de robôs: guerreiros, exploradores, construtores. Como proceder?",
+            leftChoice: "Múltiplos construtores com diferentes parâmetros",
+            rightChoice: "Um construtor genérico para todos",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "visao_privada",
             character: "🔒",
-            title: "Encapsulamento",
-            text: "É importante proteger sua classe de acessos externos. Você pode usar 'public' que fica acessível para todos ou 'private' que só pode ser alterado dentro da própria classe.",
-            leftChoice: "Private",
-            rightChoice: "Public",
-            leftEffect: { robots: 5, knowledge: 15, resources: -5 },
-            rightEffect: { robots: -5, knowledge: 5, resources: 10 },
-            leftHiddenEffects: { robo_defesa: 10, robo_vulnerabilidade: -5, player_conhecimento: 8 },
-            rightHiddenEffects: { robo_vulnerabilidade: 8, robo_ataque: 3, player_conhecimento: 3 }
+            title: "Visão Privada",
+            text: "Hackers do Reino Sombrio tentam modificar a energia dos seus robôs! Como proteger os atributos?",
+            leftChoice: "private int energia; - Ocultar atributos",
+            rightChoice: "Deixar público, confio na segurança",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
         },
         {
-            id: "construtor",
-            character: "🏭",
-            title: "Construtor",
-            text: "O construtor define quais os atributos necessários para instanciar um objeto. Deseja instanciar seu Companheiro?",
-            leftChoice: "Não instanciar",
-            rightChoice: "Sim",
-            leftEffect: { robots: -15, energy: 10, knowledge: -10 },
-            rightEffect: { robots: 25, energy: -20, knowledge: 20 },
-            leftHiddenEffects: { robo_felicidade: -8, player_conhecimento: -3 },
-            rightHiddenEffects: { robo_felicidade: 10, robo_ataque: 5, robo_defesa: 5, player_conhecimento: 10, player_felicidade: 8 }
+            id: "metodo_secreto",
+            character: "🗝️",
+            title: "Método Secreto",
+            text: "Com atributos privados, como outros objetos poderão ler a energia do robô? O Guardião aguarda sua solução.",
+            leftChoice: "getEnergia() - Criar método de acesso",
+            rightChoice: "Ler direto o atributo público",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        }
+    ],
+
+    3: [ // CAPÍTULO 3: As Alianças de Código
+        {
+            id: "dois_mundos_encontram",
+            character: "🤝",
+            title: "Dois Mundos se Encontram",
+            text: "Seu Robo precisa trabalhar com a classe Comando para executar estratégias complexas. Como conectá-los?",
+            leftChoice: "comando.executar(robo) - Passar como parâmetro",
+            rightChoice: "Tentar acessar atributos diretamente",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "ligacao_mistica",
+            character: "🔗",
+            title: "Ligação Mística",
+            text: "Você cria a classe Comando que precisa controlar múltiplos robôs. Qual abordagem usar?",
+            leftChoice: "comando.atacarEmGrupo(listaRobos)",
+            rightChoice: "Cada robô se vira sozinho",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "mensagem_objetos",
+            character: "📨",
+            title: "A Mensagem Entre Objetos",
+            text: "Como fazer um robô executar ações comandadas por outra classe? Siren observa atentamente.",
+            leftChoice: "robo.executarAcao() dentro de Comando",
+            rightChoice: "Copiar o código do método",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "retorno_heroi",
+            character: "🎁",
+            title: "O Retorno do Herói",
+            text: "Você precisa de um método que crie e retorne um novo robô configurado. Como implementar?",
+            leftChoice: "public Robo criarRoboElite() { return new Robo(100); }",
+            rightChoice: "Retornar apenas valores int",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "alianca_final",
+            character: "⚔️",
+            title: "A Aliança Final",
+            text: "Para derrotar os lacaios do Grande Programador, seus robôs devem atacar em perfeita sincronia!",
+            leftChoice: "for(Robo r : robos) { r.atacar(); }",
+            rightChoice: "robo1.atacar(); robo2.atacar(); ...",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        }
+    ],
+
+    4: [ // CAPÍTULO 4: O Polimorfo das Coleções
+        {
+            id: "chegada_polimorfo",
+            character: "🎭",
+            title: "A Chegada do Polimorfo",
+            text: "Um ser que muda de forma surge! 'Eu posso ser qualquer coisa que implemente Combatente', ele proclama.",
+            leftChoice: "interface Combatente { void atacar(); }",
+            rightChoice: "Verificar tipo com instanceof sempre",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "mapa_estrategico",
+            character: "🗺️",
+            title: "Mapa Estratégico",
+            text: "Você precisa mapear cada tipo de arma para robôs específicos. Qual estrutura usar?",
+            leftChoice: "Map<String, Robo> arsenalRobos",
+            rightChoice: "Lista simples e buscar manualmente",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "exercito_unico",
+            character: "🛡️",
+            title: "Exército Sem Duplicatas",
+            text: "O Grande Programador enviou clones! Como garantir que seu exército tenha apenas robôs únicos?",
+            leftChoice: "HashSet<Robo> exercitoUnico",
+            rightChoice: "ArrayList<Robo> e verificar manualmente",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "formacao_batalha",
+            character: "📋",
+            title: "Formação de Batalha",
+            text: "A ordem de ataque é crucial! Qual estrutura preserva a sequência dos robôs?",
+            leftChoice: "ArrayList<Robo> formacaoBatalha",
+            rightChoice: "HashSet<Robo> conjunto",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
+        },
+        {
+            id: "transformacao_final",
+            character: "🌟",
+            title: "A Transformação Final",
+            text: "Para vencer o Grande Programador, seus robôs devem adaptar comportamento em tempo real!",
+            leftChoice: "Usar polimorfismo e interfaces",
+            rightChoice: "Gigantesco switch-case",
+            leftEffect: {},
+            rightEffect: {},
+            leftHiddenEffects: {},
+            rightHiddenEffects: {}
         }
     ]
 };
 
-// ========================================
-// CARTAS DE CONSEQUÊNCIA (Baseadas em status ocultos)
-// ========================================
 
 const CONSEQUENCE_CARDS = [
     // CONSEQUÊNCIAS DE FELICIDADE DO PLAYER
