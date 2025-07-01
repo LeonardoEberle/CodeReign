@@ -88,8 +88,8 @@ const CHAPTER_KEY_CARDS = {
             text: "A Torre de Babel++ se ergue diante de você como um monumento. Cavaleiros com armaduras gravadas em pseudocódigo patrulham a entrada. Ao adentrar, você testemunha um espetáculo hipnotizante: um velho mago faz dançar no ar símbolos que você reconhece - variáveis flutuam como vaga-lumes, operadores matemáticos giram em órbitas, e fragmentos de código se entrelaçam formando constelações de lógica pura. O ar vibra com o zumbido.",
             leftChoice: "\"Por todos os bugs... Onde estou? O que são esses símbolos?\"",
             rightChoice: "\"Você deve ser o lendário Mago Compilador!\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: -2},
+            rightEffect: {knowledge: 2},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -100,8 +100,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O Compilador se aproxima com passos que ecoam como teclas sendo pressionadas. Seus olhos - verde fosforescente - escaneiam você de cima a baixo, processando sua essência. \"Hmm... Latência aceitável, memória adequada, potencial de processamento... promissor\", ele murmura. Então, com voz estridente, ordena: \"INICIANTE! Se quer dar vida aos golems, comece pelo princípio de tudo - a CLASSE! Escreva em seu grimório: class Golem { }. Este é o molde primordial\"",
             leftChoice: "\"class Golem { }\" *escrever com mãos trêmulas no grimório*",
             rightChoice: "\"Err... parece complicado. Posso tentar depois?\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens: 2, resources: 2},
+            rightEffect: {golens: -2},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -112,8 +112,8 @@ const CHAPTER_KEY_CARDS = {
             text: "\"EXCELENTE!\" troveja o Compilador, e as paredes tremem com seu entusiasmo. \"Mas uma classe vazia é como um corpo sem alma! Observe...\" Ele gesticula e cristais de dados materializam no ar - rubis representando força, safiras pulsando com energia. \"Todo golem precisa de ATRIBUTOS... Mas CUIDADO!\" seus olhos flamejam, \"escolha os TIPOS corretos, ou seu golem será tão útil quanto um bardo pianista\"",
             leftChoice: "\"int energia; int força;\" *números fazem sentido para valores*",
             rightChoice: "\"String energia;\" *texto deve ser mais flexível, certo?*",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: 2, golens: 5},
+            rightEffect: {golens: -3, knowledge: -5},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -124,8 +124,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Uma brisa sopra pela torre, trazendo o perfume digital de Siren. Ela materializa ao seu lado como um processo em segundo plano. \"Impressionante progresso ... Mas escute... atributos dizem o que seu golem É - um inventário de características. Porém...\" ela toca seu grimório e as páginas brilham, \"MÉTODOS dizem o que ele FAZ! Sem ações, seu golem será apenas uma estátua bonita de dados. Dê-lhe o poder de atacar() - transforme potencial em realidade!\"",
             leftChoice: "\"void atacar() { ... }\" *sim! ações, comportamentos!*",
             rightChoice: "\"Acho que só atributos já bastam por ora...\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens: 3},
+            rightEffect: {resources: -2, knowledge: -2},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -136,8 +136,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O ar se eletrifica. Raios de código puro dançam entre os dedos do Compilador enquanto Siren observa com expectativa. \"Chegou o momento crucial\", ela proclama, e sua voz ecoa. \"Você criou o molde, definiu características, programou comportamentos... Mas como dar o sopro de vida? Como transformar essa CLASSE em um OBJETO vivo?\" O Compilador se inclina, seus olhos brilhando intensamente: \"Você precisa do CONSTRUTOR - o ritual de nascimento!\"",
             leftChoice: "\"Construtor? Como... como funciona essa magia?\"",
             rightChoice: "\"Espera, a classe sozinha não cria o golem?\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: 1},
+            rightEffect: {knowledge: -2, golens: -2},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -151,8 +151,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O Compilador da uma risada e então bate seu cajado no chao. À sua frente, um portão colossal feito de código cintilante aparece. Um ser espectral, o Guardião, se ergue, seus olhos de cristal fixos em você. Uma inscrição queima no ar: 'new Gólem();'. A voz do Guardião ecoa em sua mente: 'Decifre o encantamento.'",
             leftChoice: "\"É um construtor! O ritual para criar um novo Gólem!\"",
             rightChoice: "\"É uma função para invocar um Gólem já existente.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens: 5, knowledge: 2},
+            rightEffect: {knowledge: -10, golens: -10},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -163,8 +163,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O Guardião gesticula. Duas projeções de gólens aparecem: um simples e outro crepitando com poder. 'Um nasce como uma tela em branco. O outro, forjado com energia primordial desde o início. Como você imbui essa força no momento da criação?'",
             leftChoice: "\"Definindo um construtor com parâmetros. new Gólem(int energia);\"",
             rightChoice: "\"Dando energia a ele depois de instanciado.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens: 5, resources: -2},
+            rightEffect: {golens: -7, resources: 5},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -175,8 +175,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Siren aparece, um brilho de urgência em seus olhos. 'Ameaças diferentes exigem gólens diferentes: tanques, batedores, suportes. Uma única forma de criação é ineficiente. Como você pode criar múltiplos 'diagramas' de construção para forjar gólens especializados?'",
             leftChoice: "\"Criando múltiplos construtores com diferentes parâmetros!\"",
             rightChoice: "\"Usando um único construtor com diversas condicionais para definir seu tipo.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens: 5, knowledge: 5},
+            rightEffect: {resources: 15, knowledge: -10},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -187,8 +187,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Espectros sombrios, feitos de código corrompido, atravessam seus gólens, tentando alterar seus atributos vitais diretamente! 'Eles estão atacando a essência dos seus gólens!' grita Siren. 'Você precisa de um escudo interno! Como protegê-los?'",
             leftChoice: "\"Tornando os atributos 'private'! Criar uma barreira interna!\"",
             rightChoice: "\"Aumentando o poder dos atributos de defesa!\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: 5, golens: 5},
+            rightEffect: {golens: -10, knowledge: -15},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -199,8 +199,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O Guardião aprova sua defesa. 'O núcleo está seguro, mas agora é uma caixa-preta. Seus outros objetos estão cegos para o estado do seu gólem. Como você permite que eles VEJAM a energia, sem lhes dar a chave para ALTERÁ-LA?'",
             leftChoice: "\"Criando um método de acesso público: um 'getter'!\"",
             rightChoice: "\"Não tem jeito. Vou ter que remover a proteção 'private'.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {resources: -2, golens: 5, knowledge: 5},
+            rightEffect: {golens: -10, knowledge: -5},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         }
@@ -214,8 +214,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Siren projeta um orbe de pura lógica. 'Isto é um 'Comando', a estratégia. Aquilo,' ela aponta para seu Gólem, 'é a força. A mente precisa guiar o músculo, mas eles nem se conhecem. Como você os apresenta?'",
             leftChoice: "\"Passando o Gólem como um argumento para o 'Comando'.\"",
             rightChoice: "\"Fazendo o 'Comando' procurar pelo Gólem diretamente.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: 10},
+            rightEffect: {knowledge: -15},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -226,8 +226,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Uma projeção de um inimigo colossal surge. Um único gólem não será suficiente. 'Seu 'Comando' deve se tornar um general,' diz Siren, 'e dar ordens a uma legião inteira de uma só vez. Como ele fará sua voz ser ouvida por todos?'",
             leftChoice: "\"Passando uma lista de gólens para o método do comando.\"",
             rightChoice: "\"Criando um método de comando para cada gólem.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens:5, knowledge:5, resources: 5},
+            rightEffect: {resources:20, knowledge:-5},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -238,8 +238,8 @@ const CHAPTER_KEY_CARDS = {
             text: "'Observe a beleza disto,' sussurra Siren. 'O 'Comando' não precisa saber OS DETALHES do ataque, apenas ORDENÁ-LO. Ele envia uma mensagem, e o gólem a executa. Qual o nome dessa conversa elegante entre objetos?'",
             leftChoice: "\"É uma 'chamada de método'. gólem.atacar().\"",
             rightChoice: "\"É 'cópia de código'. colar o método do golém para o comando.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens:5, resources:-5},
+            rightEffect: {golens: -15, knowledge: -5},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -250,8 +250,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O Mago Compilador aparece, satisfeito. 'Você não precisa mais forjar cada gólem manualmente. Crie uma 'Forja Mestra' — um método que, ao ser chamado, produz e entrega um Gólem de Elite, pronto para a batalha. Mostre-me este feitiço!'",
             leftChoice: "\"public Gólem criarElite() { return new Gólem(...); }\"",
             rightChoice: "\"Um método que retorna 'true' se o gólem foi criado.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens: 5, knowledge:5},
+            rightEffect: {knowledge: -15},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -262,8 +262,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Uma horda de 'Lacaios do Código Espaguete' avança! 'São muitos!' grita Siren. 'Comandá-los um a um será a nossa ruína! Você precisa percorrer suas legiões e ordenar um ataque em uníssono, numa onda de lógica implacável!'",
             leftChoice: "\"Usar um loop 'for' para percorrer a lista e atacar!\"",
             rightChoice: "\"Chamar 'atacar()' para gólem1, gólem2, gólem3...\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {resources: 5},
+            rightEffect: {resources:15, golens:-15},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         }
@@ -277,8 +277,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Uma entidade fluida surge, mudando de um gólem-tanque pesado para um drone ágil. 'Minha forma é irrelevante,' sua voz ecoa. 'Meu propósito, lutar, é absoluto. Defina este 'contrato' de combate, esta 'Interface', e qualquer um que a honre pode se juntar a mim.'",
             leftChoice: "\"Criar uma 'interface Combatente' com o método 'atacar()'\"",
             rightChoice: "\"Verificar o tipo de cada um com 'instanceof' e agir.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {golens:10, resources:-10},
+            rightEffect: {resources:15, knowledge: -10},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -289,8 +289,8 @@ const CHAPTER_KEY_CARDS = {
             text: "Siren exibe armas lendárias: 'Canhão de Singularidade', 'Lâminas Quânticas'. 'Apenas gólens específicos podem usá-las. Em batalha, você precisa do gólem certo instantaneamente pelo nome da arma. Uma lista seria lenta. Qual estrutura de dados oferece essa chave-valor?'",
             leftChoice: "\"Um 'Map'! Para mapear a arma ao gólem.\"",
             rightChoice: "\"Uma 'List' e um loop para buscar o gólem certo.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: 10},
+            rightEffect: {resources:25, golens:-10},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -301,9 +301,8 @@ const CHAPTER_KEY_CARDS = {
             text: "'Uma armadilha!' brada o Compilador. 'O inimigo injetou instâncias de Gólens duplicadas em seu exército para semear o caos! Você precisa de uma coleção que, por sua própria natureza mágica, rejeita duplicatas. Qual 'Conjunto' sagrado irá purificar suas fileiras?'",
             leftChoice: "\"Um 'HashSet'! Ele garantirá gólens únicos.\"",
             rightChoice: "\"Um 'ArrayList', e eu verifico as duplicatas manualmente.\"",
-            leftEffect: {},
-
-            rightEffect: {},
+            leftEffect: {resources: -5},
+            rightEffect: {golens: -15, resources: 10},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -314,8 +313,8 @@ const CHAPTER_KEY_CARDS = {
             text: "'O próximo campeão inimigo tem uma fraqueza sequencial,' diz Siren. 'Primeiro, o 'Quebra-Escudo'. Depois, o 'Perfurador'. A ordem é crucial e não pode ser alterada. Qual coleção manterá sua linha de batalha na formação exata que você ditar?'",
             leftChoice: "\"Um 'ArrayList', que preserva a ordem de inserção.\"",
             rightChoice: "\"Um 'HashSet', pois a ordem não deve importar tanto.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {knowledge: 10, golens: 10},
+            rightEffect: {knowledge: -25, golens: -15},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         },
@@ -326,8 +325,8 @@ const CHAPTER_KEY_CARDS = {
             text: "O campeão do Grande Programador muda de tática a cada segundo. 'Sua lógica estática é inútil!' ele zomba. 'Você precisa de gólens que possam mudar sua estratégia em tempo real, sem 'if's ou 'switch'es. Abrace o poder do polimorfismo!'",
             leftChoice: "\"Usar a interface 'Combatente' e trocar as implementações!\"",
             rightChoice: "\"Prever todos os comportamentos com um switch.\"",
-            leftEffect: {},
-            rightEffect: {},
+            leftEffect: {resources: -5, golens: 5},
+            rightEffect: {resources: 50, knowledge:-20},
             leftHiddenEffects: {},
             rightHiddenEffects: {}
         }

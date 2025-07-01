@@ -2,8 +2,8 @@ class ProgrammingGame {
     constructor() {
         //status/indicadores do jogo (acima da tela)
         this.stats = {
-            golens: 50,       // Qualidade dos robôs
-            knowledge: 50,    // Conhecimento do jogador
+            golens: 20,       // Qualidade dos robôs
+            knowledge: 20,    // Conhecimento do jogador
             resources: 50     // Recursos computacionais disponiveis
         };
 
