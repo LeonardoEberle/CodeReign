@@ -7,7 +7,7 @@ class UIManager {
     cacheElements() {
         return {
             stats: {
-                golens: document.getElementById('golensBar'),
+                robots: document.getElementById('robotsBar'),
                 knowledge: document.getElementById('intelligenceBar'), // Mantém o ID antigo por compatibilidade
                 resources: document.getElementById('resourcesBar')
             },
@@ -121,7 +121,10 @@ class UIManager {
     showEffectCard(choiceText, effects, hiddenEffects = {}) {
         const { card, title, list } = this.elements.effect;
         if (!card || !title || !list) return;
-        title.textContent = `"${choiceText}"`;
+        
+        // Remove todas as aspas do texto
+        title.textContent = choiceText.replace(/['"]/g, '');
+        
         list.innerHTML = '';
         this.addVisibleEffects(list, effects);
         this.addHiddenEffects(list, hiddenEffects);
@@ -133,7 +136,8 @@ class UIManager {
 
     addVisibleEffects(list, effects) {
         const statNames = {
-            golens: { icon: '🤖', name: 'Gólens' },
+            robots: { icon: '🤖', name: 'Gólens' },
+            Golemts: { icon: '🤖', name: 'Gólens' }, // Correção do typo
             knowledge: { icon: '🧠', name: 'Conhecimento' },
             intelligence: { icon: '🧠', name: 'Conhecimento' }, // Fallback
             resources: { icon: '💾', name: 'Recursos' }
@@ -148,6 +152,7 @@ class UIManager {
                 // Converter nomes inconsistentes
                 let displayStat = stat;
                 if (stat === 'intelligence') displayStat = 'knowledge';
+                if (stat === 'Golemts') displayStat = 'robots';
                 
                 const statInfo = statNames[displayStat] || statNames[stat];
                 const effectItem = this.createEffectItem(statInfo.icon, statInfo.name, value);

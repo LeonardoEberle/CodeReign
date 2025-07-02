@@ -113,7 +113,7 @@ class MenuSystem {
             turns: document.getElementById('finalTurns'),
             golens: document.getElementById('finalGolens'),
             knowledge: document.getElementById('finalKnowledge'),
-            resources: document.getElementById('finalTResources'),
+            resources: document.getElementById('finalResources'),
             overlay: document.getElementById(this.overlays.storyComplete)
         };
 

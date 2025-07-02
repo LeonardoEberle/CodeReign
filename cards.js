@@ -342,7 +342,7 @@ const CONSEQUENCE_CARDS = [
         leftChoice: "Focar nos estudos",
         rightChoice: "Relaxar um pouco",
         leftEffect: { knowledge: 15},
-        rightEffect: { Golens: 5 },
+        rightEffect: { golens: 5 },
         triggerConditions: { player_conhecimento: { min: 8, max: Infinity } },
         weight: 2
     }
